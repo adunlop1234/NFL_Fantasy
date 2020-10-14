@@ -102,7 +102,7 @@ def scrape_data(week, player_type):
                    "FG 50+", "Points Total"]
     
     elif data_in['position'] == 8:
-        columns = ["Team", "Position", 'Sacks', "Def INT", "Fum Rec", "Saf", "Def TD", "Def 2pt Ret", "Def Ret TD",
+        columns = ["Name", "Position", 'Sacks', "Def INT", "Fum Rec", "Saf", "Def TD", "Def 2pt Ret", "Def Ret TD",
                    "Pts Allowed", "Points Total"]
 
     # Create data frame with the columns define and data for the specified week and player type
@@ -239,7 +239,7 @@ def main():
     week_end = 5
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
-    player_types = ["D", "O", "K"]
+    player_types = ['O', 'K', 'D']
 
     # Scrape data
     for position in player_types:
