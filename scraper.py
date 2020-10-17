@@ -7,9 +7,11 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
+import sys
+import datetime
 
 
-def scrape_data(week, player_type):
+def scrape_player_data(week, player_type):
 
     # Initialise the input data array with week and offset
     data_in = dict()
@@ -232,19 +234,74 @@ def return_stats(data_in, data_out, row):
     # Return the output data array now filled
     return data_out
 
+# Function to return the schedule for a given week in the future. 
+# Previous weeks don't work or weeks with undefined times.
+def scrape_schedule(week):
+
+    # Define the URL for the week in question
+    URL = 'https://www.espn.co.uk/nfl/fixtures/_/week/1'.replace('week/1', 'week/' + str(week))
+
+    # Get page
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Define the headings
+    columns = ['Home', 'Away', 'Day', 'Time']
+
+    # Initialise the dataframe
+    df = pd.DataFrame(columns = columns)
+
+    # Find the rows
+    rows = soup.find_all('tr', class_=re.compile('^(even|odd)$'))
+
+    # Scrape home, away, day, time, early, mid, late, mnf, tnf
+    for row in rows[:-1]:
+        
+        # Find the home and away team abbreviation
+        teams = [team.getText() for team in row.find_all('abbr')]
+        home, away = teams
+        
+        # Identify the datatime and split into day and time - all in GMT
+        date, time = row.find('td', {'data-behavior' : 'date_time'})['data-date'].split('T')
+        year, month, day = date.split('-')
+        day = datetime.date(int(year), int(month), int(day)).strftime("%a")
+        time = time.split('Z')[0]
+
+        # Pandas dict for entry
+        new_dict = {'Home' : home,
+                    'Away' : away,
+                    'Day' : day,
+                    'Time' : time}
+
+        # Add to the pandas dataframe
+        df = df.append(new_dict, ignore_index = True)
+
+    # Write csv output file
+    df.to_csv('Schedule/Schedule_Week_' + str(week) + '.csv')
+
+    return df
+
 def main():
     
     # Set weeks to scrape
     week_start = 1
     week_end = 5
+    schedule_week = 7
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
     player_types = ['O', 'K', 'D']
 
+    # Scrape schedule
+    schedule = scrape_schedule(schedule_week)
+    print(schedule)
+    sys.exit()
+
     # Scrape data
     for position in player_types:
         for week in range(week_start, week_end+1):
-            scrape_data(week, position)
+            scrape_player_data(week, position)
             print(str(position) + ' Data exported for week ' + str(week))
     
 
