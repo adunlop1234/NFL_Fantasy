@@ -55,7 +55,7 @@ def paddy_points(week):
     # OFFENCE
     offence = offence.assign(Paddy=0.04*offence["Pass Yds"] + 4*offence["Pass TD"] -
                              offence["Pass INT"] + 0.1*offence["Rush Yds"] + 6*offence["Rush TD"] + 0.5*offence["Receptions"] 
-                             + 0.1*offence["Rec Yds"] + 6*offence["Rec TD"] + 6*offence["Fumb TD"] - 2*offence["Fumb Lost"] + 2*offence["2PT"])
+                             + 0.1*offence["Rec Yds"] + 6*offence["Rec TD"] + 6*offence["Fumb TD"] + 6*offence["Ret TD"] - 2*offence["Fumb Lost"] + 2*offence["2PT"])
 
 
 
