@@ -110,10 +110,12 @@ def main():
     # Siphon off the overall dataframe into the number of dataframes per week
 
     # Return all of the names to search through
-    all_names = acquire_names()
+    #all_names = acquire_names()
 
     # Scrape data
     df = scrape_data(URL, player_type='O')
+
+    df.to_csv('Lamar_Data.csv')
 
 if __name__ == "__main__":
     main()
