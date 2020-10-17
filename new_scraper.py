@@ -22,7 +22,6 @@ def scrape_data(URL, player_type):
 
     # Create the columns header names
     columns = [header.getText() for header in headers]
-    print(columns)
 
     # Initialise dataframe with the column names
     df = pd.DataFrame(columns = columns)
@@ -41,230 +40,56 @@ def scrape_data(URL, player_type):
     # Return the data frame
     return df
 
-'''
 
-    # Initialise the input data array with week and offset
-    data_in = dict()
-    data_in['week'] = week
-    data_in['offset'] = 1
+def acquire_names():
 
-    # Define the input data for the URL for the position
-    if player_type == 'O':
-        data_in['position'] = 0
-    elif player_type == 'K':
-        data_in['position'] = 7
-    elif player_type == 'D':
-        data_in['position'] = 8
+    # Create a list of letters in alphabet
+    alphabet = [chr(i) for i in range(97, 123)]
 
+    # Define the base URL
+    URL_base = 'https://www.nfl.com/players/active/a?query=a'
 
-    # Initialise output variable
-    list_out = list()
+    # Initialise the output
+    all_names = list()
 
-    # Loop over each page
-    while True:
+    # Define dict of the page number extensions to add on the end of the URL
+    #page_no = {
+    #'2': '&after=c2ltcGxlLWN1cnNvcjk5',
+    #'3': '&after=c2ltcGxlLWN1cnNvcjE5OQ=='
+    #}
 
-        # Create the request
-        URL = 'https://fantasy.nfl.com/research/players?offset=' + str(data_in['offset']) + '&position=' + str(
-            data_in['position']) + '&sort=pts&statCategory=stats&statSeason=2020&statType=weekStats&statWeek=' + str(data_in['week'])
-        page = requests.get(URL, allow_redirects=True)
+    # Loop over each letter in alphabet to get all players
+    for letter in alphabet:
 
-        # Parse the html using soup
-        soup = BeautifulSoup(page.content, 'html.parser')
+        URL_current = URL_base.replace('a?query=a', 'a?query=a'.replace('a', letter))
 
-        # Find the relevant section and rows
-        results = soup.find(id='researchPlayers')
-        rows = results.find_all('tr', class_=re.compile('player-'))
+        # Loop until 
+        while True:
 
-        # Find the number of table rows in total
-        total_rows = int(results.find(
-            'div', class_='paginationWrap').getText().split('of')[1].split(' ')[1])
+            # Create the request
+            page = requests.get(URL_current)
+        
+            # Parse the html using soup
+            soup = BeautifulSoup(page.content, 'html.parser')
+        
+            # Get names of all players for the url
+            names = [name['href'].split('/')[-2] for name in soup.find_all('a', {'href' : re.compile(r'^/players/.*/$')})]
+        
+            # Append names to master list
+            all_names += names
 
-        # If total players % 25 = 0 (i.e. final page had exactly 25 players)
-        if len(rows) == 0:
-            break
+            # Check if the page has a hyperlink for next page
+            extension = soup.find('a', title='Next')
 
-        # Iterate against each player listed in the table
-        for row in rows:
-
-            # Store all player data in dictionary
-            data_out = dict()
-
-            # Name
-            data_out['Name'] = row.find('a').getText()
-
-            # Position and Team
-            positionTeam = row.find('em').getText().split(' - ')
-            if len(positionTeam) > 1:
-                data_out['Position'] = positionTeam[0]
-                data_out['Team'] = positionTeam[1]
+            # Break if there isn't a next page otherwise go to next page
+            if extension:
+                URL_current = 'https://www.nfl.com' + soup.find('a', title='Next')['href']
             else:
-                data_out['Position'] = positionTeam[0]
-                data_out['Team'] = None 
+                break
 
-            # Opponent
-            data_out['Opponent'] = row.find(
-                class_='playerOpponent').getText()
+        print(str(letter) + " completed.")
 
-            # Find stats that are specific to the player position
-            data_out = return_stats(data_in, data_out, row)
-
-            # Points Total
-            data_out['Points Total'] = row.find(
-                class_=re.compile('last')).getText()
-
-            # Add the information to the dataframe
-            list_out.append(data_out)
-
-        # Break if there are less than 25 table rows
-        if len(rows) < 25:
-            break
-        else:
-            data_in['offset'] += 25
-
-        # Print progress
-        print('Completed ' + str(round(data_in['offset']*100/total_rows, 1)) + '%')
-
-    # Define the columns for the appropriate player type
-    if data_in['position'] == 0:
-        columns = ["Name", "Position", "Team", "Pass Yds", "Pass TD", "Pass INT", "Rush Yds", "Rush TD",
-                   "Receptions", "Rec Yds", "Rec TD", "Ret TD", "Fumb TD", "2PT", "Fumb Lost", "Points Total"]
-    
-    elif data_in['position'] == 7:
-        columns = ["Name", "Position", "Team", "PAT Made", "FG 0-19", "FG 20-29", "FG 30-39", "FG 40-49",
-                   "FG 50+", "Points Total"]
-    
-    elif data_in['position'] == 8:
-        columns = ["Name", "Position", 'Sacks', "Def INT", "Fum Rec", "Saf", "Def TD", "Def 2pt Ret", "Def Ret TD",
-                   "Pts Allowed", "Points Total"]
-
-    # Create data frame with the columns define and data for the specified week and player type
-    df = pd.DataFrame(list_out, columns=columns)
-    df.to_csv(str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
-
-# Function dedicated to returning the specific stats for each position
-def return_stats(data_in, data_out, row):
-
-    # Stats specific to all offence
-    if data_in['position'] == 0:
-
-        # Pass Yds
-        data_out['Pass Yds'] = row.find(
-            class_='stat stat_5 numeric').getText()
-
-        # Pass TD
-        data_out['Pass TD'] = row.find(
-            class_='stat stat_6 numeric').getText()
-
-        # Pass INT
-        data_out['Pass INT'] = row.find(
-            class_='stat stat_7 numeric').getText()
-
-        # Rush Yds
-        data_out['Rush Yds'] = row.find(
-            class_='stat stat_14 numeric').getText()
-
-        # Rush TD
-        data_out['Rush TD'] = row.find(
-            class_='stat stat_15 numeric').getText()
-
-        # Rec Receptions
-        data_out['Receptions'] = row.find(
-            class_='stat stat_20 numeric').getText()
-
-        # Rec Yds
-        data_out['Rec Yds'] = row.find(
-            class_='stat stat_21 numeric').getText()
-
-        # Rec TD
-        data_out['Rec TD'] = row.find(
-            class_='stat stat_22 numeric').getText()
-
-        # Ret TD
-        data_out['Ret TD'] = row.find(
-            class_='stat stat_28 numeric').getText()
-
-        # Misc FumbTD
-        data_out['Fumb TD'] = row.find(
-            class_='stat stat_29 numeric').getText()
-
-        # Misc 2PT
-        data_out['2PT'] = row.find(
-            class_='stat stat_32 numeric').getText()
-
-        # Fum Lost
-        data_out['Fum Lost'] = row.find(
-            class_='stat stat_30 numeric').getText()
-
-        # Points
-        data_out['Points Total'] = row.find(
-            class_=re.compile('last')).getText()
-
-    # Stats specific to kickers
-    elif data_in['position'] == 7:
-
-        # PAT Made
-        data_out['PAT Made'] = row.find(
-            class_='stat stat_33 numeric').getText()
-
-        # FG 0-19
-        data_out['FG 0-19'] = row.find(
-            class_='stat stat_35 numeric').getText()
-
-        # FG 20-29
-        data_out['FG 20-29'] = row.find(
-            class_='stat stat_36 numeric').getText()
-
-        # FG 30-39
-        data_out['FG 30-39'] = row.find(
-            class_='stat stat_37 numeric').getText()
-
-        # FG 40-49
-        data_out['FG 40-49'] = row.find(
-            class_='stat stat_38 numeric').getText()
-
-        # FG 50-59
-        data_out['FG 50+'] = row.find(
-            class_='stat stat_39 numeric').getText()
-
-    # Stats specific to defence
-    elif data_in['position'] == 8:
-
-        # Sacks
-        data_out['Sacks'] = row.find(
-            class_='stat stat_45 numeric').getText()
-
-        # INT
-        data_out['Def INT'] = row.find(
-            class_='stat stat_46 numeric').getText()
-
-        # Fumble Recoveries
-        data_out['Fum Rec'] = row.find(
-            class_='stat stat_47 numeric').getText()
-
-        # Safeties
-        data_out['Saf'] = row.find(
-            class_='stat stat_49 numeric').getText()
-
-        # TD
-        data_out['Def TD'] = row.find(
-            class_='stat stat_50 numeric').getText()
-
-        # Def 2pt Ret
-        data_out['Def 2pt Ret'] = row.find(
-            class_='stat stat_93 numeric').getText()
-
-        # Ret TD
-        data_out['Def Ret TD'] = row.find(
-            class_='stat stat_53 numeric').getText()
-
-        # Pts Allowed
-        data_out['Pts Allowed'] = row.find(
-            class_='stat stat_54 numeric').getText()
-
-    # Return the output data array now filled
-    return data_out
-
-'''
+    return all_names
 
 def main():
 
@@ -275,7 +100,7 @@ def main():
     'offence': ['WK', 'Game Date', 'OPP', 'RESULT', 'COMP', 'ATT', 'YDS', 'AVG', 
                 'TD', 'INT', 'SCK', 'SCKY', 'RATE', 'ATT', 'YDS', 'AVG', 'TD', 
                 'FUM', 'LOST'],
-    'defence': ['']
+    'defence': [''],
     'kicker': ['']
     }
 
@@ -284,8 +109,11 @@ def main():
     # Add the dataframe to a master dataframe storing all players with name and position and team
     # Siphon off the overall dataframe into the number of dataframes per week
 
+    # Return all of the names to search through
+    all_names = acquire_names()
+
     # Scrape data
-    scrape_data(URL, player_type='O')
+    df = scrape_data(URL, player_type='O')
 
 if __name__ == "__main__":
     main()
