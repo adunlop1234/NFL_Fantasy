@@ -11,15 +11,9 @@ defence = pd.read_csv('D_Week_1.csv')
 defence = defence.replace('-', 0)
 
 # Convert numbers to numeric data types
-defence["Sacks"] = pd.to_numeric(defence["Sacks"], errors='ignore')
-defence["Def INT"] = pd.to_numeric(defence["Def INT"], errors='ignore')
-defence["Fum Rec"] = pd.to_numeric(defence["Fum Rec"], errors='ignore')
-defence["Saf"] = pd.to_numeric(defence["Saf"], errors='ignore')
-defence["Def TD"] = pd.to_numeric(defence["Def TD"], errors='ignore')
-defence["Def 2pt Ret"] = pd.to_numeric(defence["Def 2pt Ret"], errors='ignore')
-defence["Def Ret TD"] = pd.to_numeric(defence["Def Ret TD"], errors='ignore')
-defence["Pts Allowed"] = pd.to_numeric(defence["Pts Allowed"], errors='ignore')
-defence["Points Total"] = pd.to_numeric(defence["Points Total"], errors='ignore')
+stats = ["Sacks", "Def INT", "Fum Rec", "Saf", "Def TD", "Def 2pt Ret", "Def Ret TD", "Pts Allowed", "Points Total"]
+for stat in stats:
+    defence[stat] = pd.to_numeric(defence[stat], errors='ignore')
 
 # Calculate Paddy Power points and add column
 print("WARNING: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
