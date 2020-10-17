@@ -4,39 +4,72 @@ Appends Paddy Power Points column to scraped data
 
 import pandas as pd
 
-# Read csv into a dataframe
-defence = pd.read_csv('D_Week_1.csv')
 
-# Replace '-' with 0
-defence = defence.replace('-', 0)
+def paddy_points(week):
 
-# Convert numbers to numeric data types
-stats = ["Sacks", "Def INT", "Fum Rec", "Saf", "Def TD", "Def 2pt Ret", "Def Ret TD", "Pts Allowed", "Points Total"]
-for stat in stats:
-    defence[stat] = pd.to_numeric(defence[stat], errors='ignore')
+    # Read csv into a dataframe
+    defence = pd.read_csv('D_Week_' + str(week) + '.csv')
+    offence = pd.read_csv('O_Week_' + str(week) + '.csv')
 
-# Calculate Paddy Power points and add column
-print("WARNING: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
-# Add Paddy Points column (all but Points Allowed points)
-defence = defence.assign(Paddy = defence["Sacks"] + 2*defence["Saf"] + 2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"])
-#  Now add Points Allowed points
-for i in range(0,len(defence.index)):
-    if defence["Pts Allowed"][i] == 0:
-        defence["Paddy"][i] = defence["Paddy"][i] + 10
-    elif defence["Pts Allowed"][i] <= 6:
-        defence["Paddy"][i] = defence["Paddy"][i] + 7
-    elif defence["Pts Allowed"][i] <= 13:
-        defence["Paddy"][i] = defence["Paddy"][i] + 4
-    elif defence["Pts Allowed"][i] <= 20:
-        defence["Paddy"][i] = defence["Paddy"][i] + 1
-    elif defence["Pts Allowed"][i] <= 27:
-        defence["Paddy"][i] = defence["Paddy"][i] + 0
-    elif defence["Pts Allowed"][i] <= 34:
-        defence["Paddy"][i] = defence["Paddy"][i] - 1
-    else:
-        defence["Paddy"][i] = defence["Paddy"][i] - 4
+    # Replace '-' with 0
+    defence = defence.replace('-', 0)
+    offence = offence.replace('-', 0)
+    # Fill empty values with 0
+    offence = offence.fillna(0)
+
+    # Convert numbers to numeric data types
+    d_stats = ["Sacks", "Def INT", "Fum Rec", "Saf", "Def TD",
+               "Def 2pt Ret", "Def Ret TD", "Pts Allowed", "Points Total"]
+    o_stats = ["Pass Yds", "Pass TD", "Pass INT", "Rush Yds", "Rush TD",
+               "Receptions", "Rec Yds", "Rec TD", "Ret TD", "Fumb TD", "2PT", "Fumb Lost"]
+    for stat in d_stats:
+        defence[stat] = pd.to_numeric(defence[stat], errors='ignore')
+    for stat in o_stats:
+        offence[stat] = pd.to_numeric(offence[stat], errors='ignore')
+
+    # Calculate Paddy Power points and add column
+        print("WARNING: DEFENCE: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
+    print("WARNING: OFFENCE: Incomplete data so '2pt Conversion Passes', 'Kickoff Return TDs' and 'Punt Return TDs' cannot be included")
+    
+    # DEFENCE
+    # Add Paddy Points column (all but Points Allowed points)
+    defence = defence.assign(Paddy=defence["Sacks"] + 2*defence["Saf"] +
+                             2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"])
+    #  Now add Points Allowed points
+    for i in range(0, len(defence.index)):
+        if defence["Pts Allowed"][i] == 0:
+            defence["Paddy"][i] = defence["Paddy"][i] + 10
+        elif defence["Pts Allowed"][i] <= 6:
+            defence["Paddy"][i] = defence["Paddy"][i] + 7
+        elif defence["Pts Allowed"][i] <= 13:
+            defence["Paddy"][i] = defence["Paddy"][i] + 4
+        elif defence["Pts Allowed"][i] <= 20:
+            defence["Paddy"][i] = defence["Paddy"][i] + 1
+        elif defence["Pts Allowed"][i] <= 27:
+            defence["Paddy"][i] = defence["Paddy"][i] + 0
+        elif defence["Pts Allowed"][i] <= 34:
+            defence["Paddy"][i] = defence["Paddy"][i] - 1
+        else:
+            defence["Paddy"][i] = defence["Paddy"][i] - 4
+
+    # OFFENCE
+    offence = offence.assign(Paddy=0.04*offence["Pass Yds"] + 4*offence["Pass TD"] -
+                             offence["Pass INT"] + 0.1*offence["Rush Yds"] + 6*offence["Rush TD"] + 0.5*offence["Receptions"] 
+                             + 0.1*offence["Rec Yds"] + 6*offence["Rec TD"] + 6*offence["Fumb TD"] - 2*offence["Fumb Lost"] + 2*offence["2PT"])
 
 
-print(defence)
+
+def main():
+
+    # Set weeks to add Paddy Points
+    week_start = 1
+    week_end = 1
+
+    # Add Paddy Points
+    for week in range(week_start, week_end+1):
+        paddy_points(week)
+        print('Paddy Points added for week ' + str(week))
 
 
+if __name__ == "__main__":
+    main()
