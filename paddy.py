@@ -28,7 +28,7 @@ def paddy_points(week):
         offence[stat] = pd.to_numeric(offence[stat], errors='ignore')
 
     # Calculate Paddy Power points and add column
-        print("WARNING: DEFENCE: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
+    print("WARNING: DEFENCE: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
     print("WARNING: OFFENCE: Incomplete data so '2pt Conversion Passes', 'Kickoff Return TDs' and 'Punt Return TDs' cannot be included")
     
     # DEFENCE
