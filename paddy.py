@@ -3,7 +3,7 @@ Appends Paddy Power Points column to scraped data
 '''
 
 import pandas as pd
-
+import sys
 
 def paddy_points(week):
 
@@ -57,13 +57,16 @@ def paddy_points(week):
                              offence["Pass INT"] + 0.1*offence["Rush Yds"] + 6*offence["Rush TD"] + 0.5*offence["Receptions"] 
                              + 0.1*offence["Rec Yds"] + 6*offence["Rec TD"] + 6*offence["Fumb TD"] + 6*offence["Ret TD"] - 2*offence["Fumb Lost"] + 2*offence["2PT"])
 
+    # Save offence and defence data
+    defence.to_csv('PaddyPoints/D_Week_' + str(week) + '.csv')
+    offence.to_csv('PaddyPoints/O_Week_' + str(week) + '.csv')
 
 
 def main():
 
     # Set weeks to add Paddy Points
-    week_start = 1
-    week_end = 1
+    week_start = 2
+    week_end = 5
 
     # Add Paddy Points
     for week in range(week_start, week_end+1):
