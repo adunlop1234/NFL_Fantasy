@@ -52,8 +52,6 @@ def paddy_points(week):
         else:
             defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 4
 
-    print(defence)
-
     # OFFENCE
     offence = offence.assign(Paddy=0.04*offence["Pass Yds"] + 4*offence["Pass TD"] -
                              offence["Pass INT"] + 0.1*offence["Rush Yds"] + 6*offence["Rush TD"] + 0.5*offence["Receptions"] 
