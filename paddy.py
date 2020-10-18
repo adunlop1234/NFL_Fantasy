@@ -8,8 +8,8 @@ import pandas as pd
 def paddy_points(week):
 
     # Read csv into a dataframe
-    defence = pd.read_csv('D_Week_' + str(week) + '.csv')
-    offence = pd.read_csv('O_Week_' + str(week) + '.csv')
+    defence = pd.read_csv('Statistics/D_Week_' + str(week) + '.csv')
+    offence = pd.read_csv('Statistics/O_Week_' + str(week) + '.csv')
 
     # Replace '-' with 0
     defence = defence.replace('-', 0)
@@ -38,19 +38,21 @@ def paddy_points(week):
     #  Now add Points Allowed points
     for i in range(0, len(defence.index)):
         if defence["Pts Allowed"][i] == 0:
-            defence["Paddy"][i] = defence["Paddy"][i] + 10
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 10
         elif defence["Pts Allowed"][i] <= 6:
-            defence["Paddy"][i] = defence["Paddy"][i] + 7
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 7
         elif defence["Pts Allowed"][i] <= 13:
-            defence["Paddy"][i] = defence["Paddy"][i] + 4
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 4
         elif defence["Pts Allowed"][i] <= 20:
-            defence["Paddy"][i] = defence["Paddy"][i] + 1
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 1
         elif defence["Pts Allowed"][i] <= 27:
-            defence["Paddy"][i] = defence["Paddy"][i] + 0
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 0
         elif defence["Pts Allowed"][i] <= 34:
-            defence["Paddy"][i] = defence["Paddy"][i] - 1
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 1
         else:
-            defence["Paddy"][i] = defence["Paddy"][i] - 4
+            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 4
+
+    print(defence)
 
     # OFFENCE
     offence = offence.assign(Paddy=0.04*offence["Pass Yds"] + 4*offence["Pass TD"] -

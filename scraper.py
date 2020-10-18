@@ -109,7 +109,7 @@ def scrape_player_data(week, player_type):
 
     # Create data frame with the columns define and data for the specified week and player type
     df = pd.DataFrame(list_out, columns=columns)
-    df.to_csv(str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
+    df.to_csv('Statistics/' + str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
 
 # Function dedicated to returning the specific stats for each position
 def return_stats(data_in, data_out, row):
@@ -287,16 +287,14 @@ def main():
     
     # Set weeks to scrape
     week_start = 1
-    week_end = 5
+    week_end = 1
     schedule_week = 7
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
     player_types = ['O', 'K', 'D']
 
     # Scrape schedule
-    schedule = scrape_schedule(schedule_week)
-    print(schedule)
-    sys.exit()
+    scrape_schedule(schedule_week)
 
     # Scrape data
     for position in player_types:
