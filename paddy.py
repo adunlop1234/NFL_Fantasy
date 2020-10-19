@@ -29,7 +29,6 @@ def paddy_points(week):
 
     # Calculate Paddy Power points and add column
     print("WARNING: DEFENCE: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
-    print("WARNING: OFFENCE: Incomplete data so '2pt Conversion Passes', 'Kickoff Return TDs' and 'Punt Return TDs' cannot be included")
     
     # DEFENCE
     # Add Paddy Points column (all but Points Allowed points)
@@ -38,19 +37,21 @@ def paddy_points(week):
     #  Now add Points Allowed points
     for i in range(0, len(defence.index)):
         if defence["Pts Allowed"][i] == 0:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 10
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 10
         elif defence["Pts Allowed"][i] <= 6:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 7
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 7
         elif defence["Pts Allowed"][i] <= 13:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 4
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 4
         elif defence["Pts Allowed"][i] <= 20:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 1
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 1
         elif defence["Pts Allowed"][i] <= 27:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 0
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 0
         elif defence["Pts Allowed"][i] <= 34:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 1
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 1
         else:
-            defence["Paddy"][i] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 4
+            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 4
+
+    print(defence)
 
     # OFFENCE
     offence = offence.assign(Paddy=0.04*offence["Pass Yds"] + 4*offence["Pass TD"] -
