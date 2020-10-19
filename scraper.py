@@ -283,6 +283,52 @@ def scrape_schedule(week):
 
     return df
 
+def scrape_injuries():
+
+    # Initialise the dataframe
+    columns = ['Name', 'Team', 'Position', 'Status']
+    df = pd.DataFrame(columns=columns)
+
+    # Define the URL for the week in question
+    URL = 'https://www.espn.co.uk/nfl/injuries'
+
+    # Get page
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get all table rows
+    rows = soup.find_all('tr')
+    teams = soup.find_all('span', class_=re.compile('injuries'))
+
+    # Loop over each row
+    count = 0
+    for row in rows:
+
+        # If the row is a header then define the team/increment team
+        if row.find('th'):
+            team = teams[count].getText()
+            count += 1
+
+        else:
+
+            # Find the name, position and status
+            name = row.find('td', class_=re.compile('col-name')).getText()
+            position = row.find('td', class_=re.compile('col-pos')).getText()
+            status = row.find('td', class_=re.compile('col-stat')).getText()
+
+            # Set the input to the dataframe
+            input_data = dict(zip(columns, [name, team, position, status]))
+
+            # Add to the pandas dataframe
+            df = df.append(input_data, ignore_index = True)
+
+    # Write csv output file
+    df.to_csv('Injury_Status.csv')
+
+    return df
+
 
 def scrape_salary():
 
@@ -333,6 +379,9 @@ def scrape_salary():
     return df
 
 def main():
+
+    # Scrape the injuries for the current week
+    scrape_injuries()
 
     # Scrape the salary data for the current week    
     scrape_salary()
