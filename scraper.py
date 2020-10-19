@@ -283,8 +283,60 @@ def scrape_schedule(week):
 
     return df
 
-def main():
+
+def scrape_salary():
+
+    # Initialise the dataframe
+    columns = ['Name', 'Team', 'Position', 'Salary']
+    df = pd.DataFrame(columns=columns)
+
+    # Define the URL for the week in question
+    URL = 'https://www.fantasypros.com/daily-fantasy/nfl/fanduel-salary-changes.php'
+
+    # Get page
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get the week
+    week = soup.find('h1').getText().split(' ')[-1]
     
+    # Get all table rows
+    rows = soup.find_all('tr', class_=re.compile(r'RB|QB|TE|WR|DST'))
+    
+    for row in rows:
+
+        # Get all player info (name, team, position) from initial table entry
+        player_info = row.find('td', style=re.compile(r'white-space'))
+        name = player_info.find('a', href=re.compile(r'/nfl/')).getText()
+        team = re.split(' |\)|\(', player_info.find('small').getText())[1]
+        position = re.split(' |\)|\(', player_info.find('small').getText())[-2]
+
+        # Get salary info
+        salary = row.find('td', class_=re.compile('salary'))['data-salary']
+
+        # Set the input to the dataframe
+        input_data = dict(zip(columns, [name, team, position, salary]))
+
+        # Add to the pandas dataframe
+        df = df.append(input_data, ignore_index = True)
+
+
+    # Sort by salary
+    df['Salary'] = pd.to_numeric(df['Salary'], errors='ignore')
+    df = df.sort_values(by='Salary', ascending=False)
+
+    # Write csv output file
+    df.to_csv('Statistics/FD_Salary_Week_' + str(week) + '.csv')
+
+    return df
+
+def main():
+
+    # Scrape the salary data for the current week    
+    scrape_salary()
+
     # Set weeks to scrape
     week_start = 1
     week_end = 1
