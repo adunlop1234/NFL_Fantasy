@@ -4,8 +4,6 @@ Filters the Paddy Points data for eligable games
 
 import pandas as pd
 
-
-
 # Find the teams playing in eligable games
 def eligable_teams(week):
 
@@ -52,54 +50,84 @@ def D_filtered(week, teams):
     
 
 # Filter offence data by eligable teams   
-def O_filtered(week, teams):
+def O_filtered(week, teams, schedule_week):
 
-    # Read Offence data
+    # Read Offence data for week
     offence = pd.read_csv('PaddyPoints/O_Week_' + str(week) + '.csv')
+    # Read Offence data for week prior to schedule week (needed for correct team for filtering)
+    # ASSUMPTION: Player at same team as previous week
+    offence_sched = pd.read_csv('PaddyPoints/O_Week_' + str(schedule_week-1) + '.csv')
 
-    # Filter for eligable teams
-    offence = offence[offence["Team"].isin(list(teams.keys()))]
+    # Find eligable players (based on team)
+    offence_sched = offence_sched[offence_sched["Team"].isin(list(teams.keys()))]
+    players = offence_sched["Name"].tolist()
+
+    # Filter for eligable players
+    offence = offence[offence["Name"].isin(players)]
 
     # Return dictionary of players and their paddy points for this week
     return {row["Name"] : row["Paddy"] for index, row in offence.iterrows()}
 
 
 
-# Collate all week's Paddy Points data into one csv
-def collate(schedule_week):
+# Collate all week's defence Paddy Points data into one csv
+def collate_D(schedule_week, teams):
 
-    # Grab eligable teams
-    teams = eligable_teams(schedule_week)
-
-    # Create DataFrame to store summary
-    summary_D = pd.DataFrame({"Team" : list(teams.keys())})
-    # Set the Team as the index
-    summary_D = summary_D.set_index("Team")
-
-    # Add column for each week
+    # Create dictionary to store list of each week's paddy points for each team
+    D_weeks_pp = {key : [] for key in sorted(list(teams.keys()))}
+    
+    # Append Paddy Points for each week
     for i in range(1, schedule_week):
         week_i = D_filtered(i, teams)
-        
-
-
+        for team, points in week_i.items():
+            D_weeks_pp[team].append(points)
     
-    D_filtered(5, teams)
+    # Create column names
+    columns = [("Week " + str(i)) for i in range(1, schedule_week)]
 
+    # Create DataFrame to store summary
+    summary_D = pd.DataFrame.from_dict(D_weeks_pp, orient='index', columns=columns)
+    
+    # Save summary as output file
+    summary_D.to_csv('Output/Defence_Summary.csv')
+    
+  
 
+# Collate all week's offence Paddy Points data into one csv
+def collate_O(schedule_week, teams):
 
+    # Create dictionary to store list of each week's paddy points for each player
+    O_weeks_pp = {key : [] for key in sorted(list(O_filtered(1, teams, schedule_week).keys()))}
 
+    # Append Paddy Points for each week
+    for i in range(1, schedule_week):
+        week_i = O_filtered(i, teams, schedule_week)
+        for player, points in week_i.items():
+            O_weeks_pp[player].append(points)
+
+    # Create column names
+    columns = [("Week " + str(i)) for i in range(1, schedule_week)]
+
+    # Create DataFrame to store summary
+    summary_O = pd.DataFrame.from_dict(O_weeks_pp, orient='index', columns=columns)
+
+    # Save summary as output file
+    summary_O.to_csv('Output/Offence_Summary.csv')
 
     
   
 
 def main():
     
-    # Choose week's data to filter 
-    week = 5
-    # Choose schedule week
+    # Choose upcoming week
     schedule_week = 6
 
-    collate(schedule_week)
+    # Grab eligable teams
+    teams = eligable_teams(schedule_week)
+
+    # Output collated data
+    collate_D(schedule_week, teams)
+    collate_O(schedule_week, teams)
 
     
 
