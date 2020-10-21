@@ -86,7 +86,7 @@ def collate_D(schedule_week, teams):
     columns = [("Week " + str(i)) for i in range(1, schedule_week)]
 
     # Create DataFrame to store summary
-    summary_D = pd.DataFrame.from_dict(D_weeks_pp, orient='index', columns=columns)
+    summary_D = pd.DataFrame.from_dict(D_weeks_pp, orient='index', columns=columns).round(1)
     
     # Save summary as output file
     summary_D.to_csv('Output/Defence_Summary.csv')
@@ -109,7 +109,7 @@ def collate_O(schedule_week, teams):
     columns = [("Week " + str(i)) for i in range(1, schedule_week)]
 
     # Create DataFrame to store summary
-    summary_O = pd.DataFrame.from_dict(O_weeks_pp, orient='index', columns=columns)
+    summary_O = pd.DataFrame.from_dict(O_weeks_pp, orient='index', columns=columns).round(1)
 
     # Save summary as output file
     summary_O.to_csv('Output/Offence_Summary.csv')
