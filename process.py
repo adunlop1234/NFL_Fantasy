@@ -3,6 +3,7 @@ Adds useful metrics and sorts output data from filter.py
 '''
 
 import pandas as pd
+import numpy as np
 
 # Add columns with average for season and past 3 weeks
 def average_pts():
@@ -24,8 +25,9 @@ def average_pts():
     defence["Avg Points"] = defence.loc[:, columns_D].mean(axis=1).round(1)
     defence["Avg Points (3 weeks)"] = defence.loc[:, columns_D[-3:]].mean(axis=1).round(1)
     # Offence
-    offence["Avg Points"] = offence.loc[:, columns_O].mean(axis=1).round(1)
-    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].mean(axis=1).round(1)
+    print("WARNING: Incorrect assumption that 0 values mean player missed week used in calculating average")
+    offence["Avg Points"] = offence.loc[:, columns_O].replace(0, np.NaN).mean(axis=1).round(1)
+    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].replace(0, np.NaN).mean(axis=1).round(1)
 
     # Save processed output file
     defence.to_csv('Output/Defence_Summary_P.csv')
