@@ -395,7 +395,7 @@ def main():
     player_types = ['O', 'D']
 
     # Scrape schedule
-    #scrape_schedule(schedule_week)
+    scrape_schedule(schedule_week)
 
     # Scrape data
     for position in player_types:

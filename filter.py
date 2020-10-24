@@ -65,8 +65,8 @@ def O_filtered(week, teams, schedule_week):
     # Filter for eligable players
     offence = offence[offence["Name"].isin(players)]
 
-    # Return dictionary of players and their paddy points for this week
-    return {row["Name"] : row["Paddy"] for index, row in offence.iterrows()}
+    # Return dictionary of {players : [paddy points, team] } for this week
+    return {row["Name"] : [row["Paddy"], row["Team"]] for index, row in offence.iterrows()}
 
 
 
@@ -102,14 +102,23 @@ def collate_O(schedule_week, teams):
     # Append Paddy Points for each week
     for i in range(1, schedule_week):
         week_i = O_filtered(i, teams, schedule_week)
-        for player, points in week_i.items():
-            O_weeks_pp[player].append(points)
+        for player, values in week_i.items():
+            # Add Paddy Points
+            O_weeks_pp[player].append(values[0])
 
     # Create column names
     columns = [("Week " + str(i)) for i in range(1, schedule_week)]
 
     # Create DataFrame to store summary
     summary_O = pd.DataFrame.from_dict(O_weeks_pp, orient='index', columns=columns).round(1)
+
+    # Add players' teams
+    # Create dictionary with players' teams
+    play_team = {key : values[1] for key, values in O_filtered(1, teams, schedule_week).items()}
+    summary_O["Team"] = pd.Series(play_team)
+    # Reorder columns
+    columns.insert(0, "Team")
+    summary_O = summary_O[columns]
 
     # Save summary as output file
     summary_O.to_csv('Output/Offence_Summary.csv')
