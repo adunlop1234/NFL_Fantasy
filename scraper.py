@@ -387,15 +387,15 @@ def main():
     scrape_salary()
 
     # Set weeks to scrape
-    week_start = 1
-    week_end = 1
+    week_start = 6
+    week_end = 6
     schedule_week = 7
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
-    player_types = ['O', 'K', 'D']
+    player_types = ['O', 'D']
 
     # Scrape schedule
-    scrape_schedule(schedule_week)
+    #scrape_schedule(schedule_week)
 
     # Scrape data
     for position in player_types:

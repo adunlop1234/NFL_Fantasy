@@ -67,11 +67,50 @@ def salary(defence, offence, week):
     return (defence, offence)
 
 
+# Produce separate outputs by position
+def position(offence, upcoming_week):
+
+    positions = {'QB' : [], 'WR' : [], 'RB' : [], 'TE' : []}
+
+    # Open latest scraped offence data
+    latest_O = pd.read_csv('Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
+
+    for index, row in latest_O.iterrows():
+        positions[row.Position].append(row.Name)
+
+    # Output csv by position
+    pos = pd.DataFrame(columns=offence.columns.values)
+    for position in positions.keys():
+
+        # Get all QBs etc.
+        for player in positions[position]:
+            pos = pos.append(offence.loc[offence['Name'] == player])
+
+        # Sort by descending average fantasy points
+        pos = pos.sort_values(by='Avg Points', ascending=False)
+
+        # Only take head of each table (size varies by position)
+        if position == 'QB':
+            pos = pos.head(25)
+        elif position == 'WR':
+            pos = pos.head(100)
+        elif position == 'RB':
+            pos = pos.head(60)
+        elif position == 'TE':
+            pos = pos.head(50)
+            
+        # Save position data as csv
+        pos.to_csv("Output/" + str(position) + ".csv")
+        
+        # Remove all rows for next position
+        pos = pos[0:0]
+        
+
 
 
 def main():
 
-    week = 6
+    upcoming_week = 7
 
     # Open summary files
     defence, offence = open()
@@ -80,11 +119,12 @@ def main():
     defence, offence = average_pts(defence, offence)
 
     # Add salary column
-    defence, offence = salary(defence, offence, week)
+    defence, offence = salary(defence, offence, upcoming_week)
+
+    position(offence, upcoming_week)
 
     # Save processed version of defence and offence
-    defence.to_csv('Output/Defence_P.csv')
-    offence.to_csv('Output/Offence_P.csv')
+    defence.to_csv('Output/DEF.csv')
 
     
 

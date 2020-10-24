@@ -51,7 +51,6 @@ def paddy_points(week):
         else:
             defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 4
 
-    print(defence)
 
     # OFFENCE
     offence = offence.assign(Paddy=0.04*offence["Pass Yds"] + 4*offence["Pass TD"] -
@@ -66,8 +65,8 @@ def paddy_points(week):
 def main():
 
     # Set weeks to add Paddy Points
-    week_start = 2
-    week_end = 5
+    week_start = 6
+    week_end = 6
 
     # Add Paddy Points
     for week in range(week_start, week_end+1):
