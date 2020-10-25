@@ -264,10 +264,15 @@ def scrape_schedule(week):
         home, away = teams
         
         # Identify the datatime and split into day and time - all in GMT
-        date, time = row.find('td', {'data-behavior' : 'date_time'})['data-date'].split('T')
-        year, month, day = date.split('-')
-        day = datetime.date(int(year), int(month), int(day)).strftime("%a")
-        time = time.split('Z')[0]
+        try:
+            date, time = row.find('td', {'data-behavior' : 'date_time'})['data-date'].split('T')
+            year, month, day = date.split('-')
+            day = datetime.date(int(year), int(month), int(day)).strftime("%a")
+            time = time.split('Z')[0]
+        except TypeError:
+            print('Warning: Scraping schedule after the initial game has been played.')
+            day = 'N/A'
+            time = 'N/A'
 
         # Pandas dict for entry
         new_dict = {'Home' : home,
