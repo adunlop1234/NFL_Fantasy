@@ -10,7 +10,61 @@ import pandas as pd
 import sys, os
 from progress.bar import IncrementalBar 
 
-def scrape_data(URL):
+def scrape_offence():
+
+    # Define the URL to be scraped
+    URL = "https://www.nfl.com/players/lamar-jackson/stats/logs/"
+
+    columns = ['Player Name', 'Team', 'Position', 'WK', 'Game Date', 'OPP', 'RESULT', 
+               'PASS COMP', 'PASS ATT', 'PASS YDS', 'PASS AVG', 'PASS TD', 'PASS INT', 'SCK', 'SCKY', 'PASS RATE', 
+               'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG', 'RUSH TD', 
+               'REC YDS', 'REC AVG', 'REC LONG', 'REC TD',
+               'FUM', 'FUM LOST']
+
+    # Return all of the names to search through
+    [offence_names, kicker_names] = acquire_player_names()
+
+    # Create the list of dataframes to return for all weeks
+    df = pd.DataFrame(columns = columns)
+    week_dfs = dict()
+    for i in range(1, 18):
+        week_dfs[str(i)] = df
+
+    # Create progress bar
+    bar = IncrementalBar('Acquiring Player Data', max = len(offence_names), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
+    for counter, player_name in enumerate(offence_names):
+
+        test_data = scrape_offence_player(URL.replace('lamar-jackson', player_name))
+        name, team, position, test_df = test_data['Player Name'], test_data['Team'], test_data['Position'], test_data['Stats']
+    
+        # Set the index of the dataframe to be each week and add player name/team/position 
+        test_df = test_df.set_index('WK')
+        test_df['Player Name'] = name
+        test_df['Position'] = position
+        test_df['Team'] = team
+    
+        # Loop over all of the weeks this player has played
+        for i, week in enumerate(test_df.index.values):
+    
+            # Add the row of data for the current week
+            week_dfs[week] = week_dfs[week].append(test_df.iloc[[i]], ignore_index = True, sort=True)
+
+        bar.next()
+
+    # End progress bar
+    bar.finish()
+
+    # Write the output files
+    for i, week_df in enumerate(week_dfs.values()):
+        week_df = week_df[columns]
+        week_df = week_df.sort_values('Player Name', ascending=True)
+
+        # Only write file if there is data in it
+        if len(week_df) > 2:
+            week_df.to_csv(os.path.join("Data_NFL", "O_Week_" + str(i+1) + ".csv"))
+
+def scrape_offence_player(URL):
 
     # Create the request
     page = requests.get(URL, allow_redirects=True)
@@ -66,6 +120,78 @@ def scrape_data(URL):
     
     # Return the data frame
     return ret_dict
+
+def scrape_defence():
+
+    # Create master df
+    df = pd.DataFrame()
+
+    # Define base URL
+    URL_base = 'https://www.nfl.com/stats/team-stats/defense/passing/2020/reg/all'
+    
+    # Define the stats to acquire
+    genres = ['passing', 'rushing', 'receiving', 'scoring', 'fumbles', 'interceptions']
+
+    # Create progress bar
+    bar = IncrementalBar('Acquiring Defence Data', max = len(genres), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
+    # Get all stats
+    genre_dfs = dict()
+    for genre in genres:
+        genre_dfs[genre] = scrape_defence_stats(URL_base.replace('passing', genre))
+        bar.next()
+
+    # Close progress bar
+    bar.finish()
+
+    # Strip relevant columns from each data frame
+    cols = {'passing' : {'Att' : 'Pass Att', 'Cmp' : 'Pass Cmp', 'Cmp %' : 'Pass Cmp %', 'Yds/Att' : 'Pass Yds/Att', 'Yds' : 'Pass Yds', 'TD' : 'Pass TD', 'Rate' : 'Pass Rate'},
+            'rushing' : {'Att' : 'Rush Att', 'Rush Yds' : 'Rush Yds', 'YPC' : 'Rush YPC', 'TD' : 'Rush TD'},
+            'receiving' : {'Rec' : 'Rec', 'Yds' : 'Rec Yds', 'Yds/Rec' : 'Rec Yds/Rec', 'TD' : 'Rec TD'},
+            'scoring' : {'FR TD' : 'FR TD', 'SFTY' : 'SFTY'},
+            'fumbles' : {'FF' : 'FF', 'FR' : 'FR', 'Rec FUM' : 'Rec FUM', 'Rush FUM' : 'Rush FUM'},
+            'interceptions' : {'INT' : 'INT', 'INT TD' : 'INT TD'}
+            }
+
+    # Strip relevant data from genres and put into master
+    for genre in genres:
+        for key, value in cols[genre].items():
+            df[value] = genre_dfs[genre][key]
+
+    # Output the data 
+    df.to_csv(os.path.join('Data_NFL', 'Defence_Total.csv'))
+
+
+def scrape_defence_stats(URL):
+
+    # Pass URL
+    URL_pass = 'https://www.nfl.com/stats/team-stats/defense/passing/2020/reg/all'
+
+    # Create the request
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get all table entries and headers
+    rows = soup.find_all('tr')
+    headers_entries = soup.find_all('th')
+
+    # Collate headers
+    headers = [header.getText() for header in headers_entries]
+    df = pd.DataFrame(columns = headers)
+
+    # Loop over each row and store data
+    for row in rows[1:]:
+        entries = [item.getText().replace('\n', ' ').replace(' ', '') for item in row.find_all('td')]
+        entries[0] = entries[0][:int(len(entries[0])/2)]
+        df = df.append(dict(zip(headers, entries)), ignore_index=True)
+
+    # Set the index and sort
+    df = df.set_index('Team')
+    df = df.sort_values('Team', ascending=True)
+
+    return df
 
 
 def acquire_player_names():
@@ -125,54 +251,12 @@ def acquire_player_names():
 
 def main():
 
-    # Define the URL to be scraped
-    URL = "https://www.nfl.com/players/lamar-jackson/stats/logs/"
+    ## Scrape all of defence
+    scrape_defence()
 
-    columns = ['Player Name', 'Team', 'Position', 'WK', 'Game Date', 'OPP', 'RESULT', 
-               'PASS COMP', 'PASS ATT', 'PASS YDS', 'PASS AVG', 'PASS TD', 'PASS INT', 'SCK', 'SCKY', 'PASS RATE', 
-               'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG', 'RUSH TD', 
-               'REC YDS', 'REC AVG', 'REC LONG', 'REC TD',
-               'FUM', 'FUM LOST']
-
-    # Return all of the names to search through
-    [offence_names, kicker_names] = acquire_player_names()
-
-    # Create the list of dataframes to return for all weeks
-    df = pd.DataFrame(columns = columns)
-    week_dfs = dict()
-    for i in range(1, 18):
-        week_dfs[str(i)] = df
-
-    # Create progress bar
-    bar = IncrementalBar('Acquiring Player Data', max = len(offence_names), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
-
-    for counter, player_name in enumerate(offence_names):
-
-        test_data = scrape_data(URL.replace('lamar-jackson', player_name))
-        name, team, position, test_df = test_data['Player Name'], test_data['Team'], test_data['Position'], test_data['Stats']
+    ## Scrape all of the offence
+    scrape_offence()
     
-        # Set the index of the dataframe to be each week and add player name/team/position 
-        test_df = test_df.set_index('WK')
-        test_df['Player Name'] = name
-        test_df['Position'] = position
-        test_df['Team'] = team
-    
-        # Loop over all of the weeks this player has played
-        for i, week in enumerate(test_df.index.values):
-    
-            # Add the row of data for the current week
-            week_dfs[week] = week_dfs[week].append(test_df.iloc[[i]], ignore_index = True, sort=True)
-
-        bar.next()
-
-    # End progress bar
-    bar.finish()
-
-    # Write the output files
-    for i, week_df in enumerate(week_dfs.values()):
-        week_df = week_df[columns]
-        week_df = week_df.sort_values('Player Name', ascending=True)
-        week_df.to_csv(os.path.join("Data_NFL", "O_Week_" + str(i+1) + ".csv"))
 
 if __name__ == "__main__":
     main()
