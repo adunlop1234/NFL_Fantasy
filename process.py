@@ -4,6 +4,8 @@ Adds useful metrics and sorts output data from filter.py
 
 import pandas as pd
 import numpy as np
+from fuzzywuzzy import fuzz
+import itertools
 
 # Open summaries
 def open():
@@ -61,10 +63,30 @@ def salary(defence, offence, week):
             defence.at[defence.index[defence['Team'] == key], "Salary"] = round(value)
 
         # Offence
-        if not offence.loc[offence['Name'] == key].empty:
-            offence.at[offence.index[offence['Name'] == key], "Salary"] = round(value)
+        for name in offence['Name'].to_list():
+            # Due to differences in names of datasets need to use fuzzywuzzy. 88 value found by trial and error
+            if fuzz.ratio(key, name) > 88:
+                offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(value)
     
     return (defence, offence)
+
+# Add injury status column
+def injury(offence):
+
+    # Open injury status data
+    status = pd.read_csv("Injury_Status.csv")
+
+    # Add injury column to offence
+    offence["Injury"] = ""
+
+    # Populate injury column
+    for name_inj in status.Name.to_list():
+        for name_o in offence.Name.to_list():
+            # Due to differences in names of datasets need to use fuzzywuzzy. 88 value found by trial and error
+            if fuzz.ratio(name_inj, name_o) > 88:
+                # Used this clunky process (.tolist()[0]) because kept getting error message 
+                offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
+
 
 
 # Produce separate outputs by position
@@ -121,6 +143,10 @@ def main():
     # Add salary column
     defence, offence = salary(defence, offence, upcoming_week)
 
+    # Add injury column
+    injury(offence)
+
+    # Save seperate outputs for each position
     position(offence, upcoming_week)
 
     # Save processed version of defence and offence
