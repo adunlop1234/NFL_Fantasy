@@ -18,7 +18,7 @@ def scrape_offence():
     columns = ['Player Name', 'Team', 'Position', 'WK', 'Game Date', 'OPP', 'RESULT', 
                'PASS COMP', 'PASS ATT', 'PASS YDS', 'PASS AVG', 'PASS TD', 'PASS INT', 'SCK', 'SCKY', 'PASS RATE', 
                'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG', 'RUSH TD', 
-               'REC YDS', 'REC AVG', 'REC LONG', 'REC TD',
+               'REC', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD',
                'FUM', 'FUM LOST']
 
     # Return all of the names to search through
@@ -87,10 +87,10 @@ def scrape_offence_player(URL):
                    'RUSH TD', 'FUM', 'FUM LOST']
     elif position in 'RB':
         columns = ['WK', 'Game Date', 'OPP', 'RESULT', 'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG',
-                   'RUSH TD', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD' 'FUM', 'FUM LOST']
+                   'RUSH TD', 'REC', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD' 'FUM', 'FUM LOST']
     elif position in ['WR', 'TE']:
-        columns = ['WK', 'Game Date', 'OPP', 'RESULT', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD', 
-                   'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG','RUSH TD',  'FUM', 'FUM LOST']
+        columns = ['WK', 'Game Date', 'OPP', 'RESULT', 'REC', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD', 
+                   'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG', 'RUSH TD', 'FUM', 'FUM LOST']
     else:
         print("Ineligible player asked to be scraped of position " + str(position))
         sys.exit()
