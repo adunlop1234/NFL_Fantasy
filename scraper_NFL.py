@@ -87,7 +87,7 @@ def scrape_offence_player(URL):
                    'RUSH TD', 'FUM', 'FUM LOST']
     elif position in 'RB':
         columns = ['WK', 'Game Date', 'OPP', 'RESULT', 'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG',
-                   'RUSH TD', 'REC', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD' 'FUM', 'FUM LOST']
+                   'RUSH TD', 'REC', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD', 'FUM', 'FUM LOST']
     elif position in ['WR', 'TE']:
         columns = ['WK', 'Game Date', 'OPP', 'RESULT', 'REC', 'REC YDS', 'REC AVG', 'REC LONG', 'REC TD', 
                    'RUSH ATT', 'RUSH YDS', 'RUSH AVG', 'RUSH LONG', 'RUSH TD', 'FUM', 'FUM LOST']
