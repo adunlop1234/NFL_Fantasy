@@ -45,12 +45,3 @@ def games_played():
         
     return games_played    
 
-
-def main():
-
-    ## Scrape W L and T for games played
-    games_played()
-    
-
-if __name__ == "__main__":
-    main()
