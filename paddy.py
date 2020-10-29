@@ -66,7 +66,11 @@ def main():
 
     # Set weeks to add Paddy Points
     week_start = 6
+<<<<<<< HEAD
     week_end = 6
+=======
+    week_end = 7
+>>>>>>> main
 
     # Add Paddy Points
     for week in range(week_start, week_end+1):
