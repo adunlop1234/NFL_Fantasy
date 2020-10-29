@@ -276,7 +276,7 @@ def games_played():
         # Check a 'team row' (e.g. not header row)
         try:
             team = items[0].find("div", class_="d3-o-club-fullname").getText().strip()
-        except:
+        except IndexError:
             continue
         
         # Calculate number games played (sum W, L and T)
@@ -297,10 +297,10 @@ def games_played():
 def main():
 
     ## Scrape all of defence
-    #scrape_defence()
+    scrape_defence()
 
     ## Scrape all of the offence
-    #scrape_offence()
+    scrape_offence()
 
     ## Scrape games played
     games_played()
