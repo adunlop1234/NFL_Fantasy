@@ -129,11 +129,7 @@ def collate_O(schedule_week, teams):
 def main():
     
     # Choose upcoming week
-<<<<<<< HEAD
-    schedule_week = 7
-=======
     schedule_week = 8
->>>>>>> main
 
     # Grab eligable teams
     teams = eligable_teams(schedule_week)

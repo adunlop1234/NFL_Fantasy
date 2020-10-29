@@ -132,7 +132,7 @@ def position(offence, upcoming_week):
 
 def main():
 
-    upcoming_week = 7
+    upcoming_week = 8
 
     # Open summary files
     defence, offence = open()
