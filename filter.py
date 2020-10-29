@@ -15,8 +15,8 @@ def eligable_teams(week):
     # Read in schedule for week
     sched = pd.read_csv('Schedule/Schedule_Week_' + str(week) + '.csv')
 
-    # Eligable games are scheduled for Sunday (late games are played early monday morning)
-    sched = sched.loc[sched['Day'] == "Sun"]
+    # Eligable games are scheduled for Sunday or Monday (i.e. Sunday late game)
+    sched = sched[(sched['Day'] == "Sun") | (sched['Day'] == "Mon")]
     
     # Return list of eligable teams
     teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
@@ -97,7 +97,7 @@ def collate_D(schedule_week, teams):
 def collate_O(schedule_week, teams):
 
     # Create dictionary to store list of each week's paddy points for each player
-    O_weeks_pp = {key : [] for key in sorted(list(O_filtered(1, teams, schedule_week).keys()))}
+    O_weeks_pp = {key : [] for key in sorted(list(O_filtered(schedule_week-1, teams, schedule_week).keys()))}
 
     # Append Paddy Points for each week
     for i in range(1, schedule_week):
@@ -120,7 +120,7 @@ def collate_O(schedule_week, teams):
 def main():
     
     # Choose upcoming week
-    schedule_week = 6
+    schedule_week = 8
 
     # Grab eligable teams
     teams = eligable_teams(schedule_week)
