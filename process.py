@@ -20,6 +20,33 @@ def open():
 
     return (defence, offence)
 
+# Add opponent column
+def opponent(offence, defence, upcoming_week):
+
+    # Open upcoming week schedule
+    sched = pd.read_csv("Schedule/Schedule_Week_" + str(upcoming_week) + ".csv")
+
+    # Create dictionary {home : away} and {away : home}
+    temp_1 = pd.Series(sched.Home.values,index=sched.Away).to_dict()
+    temp_2 = pd.Series(sched.Away.values,index=sched.Home).to_dict()
+    games = {**temp_1, **temp_2}
+    
+    # Add opponent columns
+    defence.insert(loc=1, column="Opp", value="")
+    offence.insert(loc=1, column="Opp", value="")
+
+    for team, opp in games.items():
+        # Only eligable teams are in offence/defence
+        try:
+            defence.at[defence.index[defence["Team"] == team][0], "Opp"] = opp
+            offence.at[offence.index[offence["Team"] == team][0], "Opp"] = opp
+        except IndexError:
+            continue
+
+    print(offence)
+    print(defence)
+
+
 # Add columns with average for season and past 3 weeks
 def average_pts(defence, offence):
 
@@ -87,6 +114,10 @@ def injury(offence):
                 # Used this clunky process (.tolist()[0]) because kept getting error message 
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
 
+# Adds predicted fantasy points column
+def predict(offence):
+
+    a = 0
 
 
 # Produce separate outputs by position
@@ -137,6 +168,9 @@ def main():
     # Open summary files
     defence, offence = open()
 
+    opponent(offence, defence, upcoming_week)
+
+'''
     # Add average columns
     defence, offence = average_pts(defence, offence)
 
@@ -152,7 +186,7 @@ def main():
     # Save processed version of defence and offence
     defence.to_csv('Output/DEF.csv')
 
-    
+  '''  
 
 if __name__ == "__main__":
     main()
