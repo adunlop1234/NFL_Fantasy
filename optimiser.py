@@ -123,13 +123,19 @@ def points(team, data_in):
 
     return total
 
-def read_data():
+# Read in the desired data - either predicted or previous week (specify the integer week in the argument)
+def read_data(week = 'Predicted'):
 
     # Positions
     positions = ['QB', 'RB', 'WR', 'TE', 'DEF']
 
     # Define the column names
     cols = ['Name', 'Salary', 'Predicted']
+
+    # Replace the points with the week points to be used
+    if type(week) == int:
+        week = "Week " + str(week)
+        cols[cols.index('Predicted')] = week
 
     # Create dict
     data_in = dict()
@@ -142,29 +148,34 @@ def read_data():
         # Read the predicted points for position
         df = pd.read_csv(os.path.join('Output', position + '.csv'))
 
-        # Adjust the data
+        # Limit the data to just salary, name and the points (either predicted or week).
         if position == 'DEF':
             df = df[['Team', 'Salary', 'Avg Points (3 weeks)']]
             print('WARNING: Defence predicted points is based on Avg from last 3 weeks.')
         else:
             df = df[cols]
 
-        # Remove all players that dont have salary data
+        # Remove all players/teams that dont have salary data
         df = df.dropna()
 
-        # Read each column
+        # Read through each column and enter into data array
         for col in cols:
 
             # To be removed when defence is correctly predicted
             if position == 'DEF':
                 if col == 'Name':
                     data_in[position][col] = df['Team']
-                elif col == 'Predicted':
+                elif col == week:
                     data_in[position][col] = df['Avg Points (3 weeks)']
-                elif col == 'Salary':
+                else:
                     data_in[position][col] = df[col]
             else:
                 data_in[position][col] = df[col]
+
+        # Change the points entry to be detailed 'Predicted' so the optimiser works the same
+        data_in[position]['Predicted'] = data_in[position][week]
+        if not week == 'Predicted':
+            del data_in[position][week]
 
     return data_in
 
