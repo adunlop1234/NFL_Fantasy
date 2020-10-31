@@ -6,16 +6,17 @@ import cvxpy
 import sys
 import numpy as np
 import pandas as pd
+import os
 
 # Define salary cap
-SALARY_CAP = 50000
+SALARY_CAP = 60000
 
 # Define selection limits
 QB_min = 1
 RB_min = 2
 WR_min = 3
 TE_min = 1
-D_min = 1
+DEF_min = 1
 RB_max = RB_min + 1
 WR_max = WR_min + 1
 TE_max = TE_min + 1
@@ -27,7 +28,7 @@ def optimiser(data_in):
     selection_RB = cvxpy.Variable(len(data_in['RB']['Salary']), boolean=True)
     selection_WR = cvxpy.Variable(len(data_in['WR']['Salary']), boolean=True)
     selection_TE = cvxpy.Variable(len(data_in['TE']['Salary']), boolean=True)
-    selection_D = cvxpy.Variable(len(data_in['D']['Salary']), boolean=True)
+    selection_DEF = cvxpy.Variable(len(data_in['DEF']['Salary']), boolean=True)
     
     # The sum of the salaries should be less than or equal to the salary cap
     constraints = [
@@ -37,11 +38,11 @@ def optimiser(data_in):
     sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['RB']['Salary'], selection_RB)),
     sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['WR']['Salary'], selection_WR)),
     sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['TE']['Salary'], selection_TE)),
-    sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['D']['Salary'], selection_D))]) <= SALARY_CAP,
+    sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['DEF']['Salary'], selection_DEF))]) <= SALARY_CAP,
     
     # Define the number of QB and D
     sum(selection_QB) == QB_min,
-    sum(selection_D) == D_min,
+    sum(selection_DEF) == DEF_min,
 
     # Define the upper and lower bounds of number of FLEX eligibles.
     sum(selection_RB) >= RB_min,
@@ -57,11 +58,11 @@ def optimiser(data_in):
     ]
 
     # Parameter we want to maximise
-    total_points = sum([sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['QB']['FPPG'], selection_QB)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['RB']['FPPG'], selection_RB)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['WR']['FPPG'], selection_WR)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['TE']['FPPG'], selection_TE)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['D']['FPPG'] , selection_D))])
+    total_points = sum([sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['QB']['Predicted'], selection_QB)), 
+                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['RB']['Predicted'], selection_RB)), 
+                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['WR']['Predicted'], selection_WR)), 
+                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['TE']['Predicted'], selection_TE)), 
+                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['DEF']['Predicted'] , selection_DEF))])
     
     # Set up the problem
     fantasy_team = cvxpy.Problem(cvxpy.Maximize(total_points), constraints)
@@ -70,18 +71,18 @@ def optimiser(data_in):
     fantasy_team.solve(solver=cvxpy.GLPK_MI)
 
     # Assign the output selections
-    QB = np.array(data_in['QB']['Nickname'])[np.where(selection_QB.value.astype(int)==1)]
-    RB = np.array(data_in['RB']['Nickname'])[np.where(selection_RB.value.astype(int)==1)]
-    WR = np.array(data_in['WR']['Nickname'])[np.where(selection_WR.value.astype(int)==1)]
-    TE = np.array(data_in['TE']['Nickname'])[np.where(selection_TE.value.astype(int)==1)]
-    D = np.array(data_in['D']['Nickname'])[np.where(selection_D.value.astype(int)==1)]
+    QB = np.array(data_in['QB']['Name'])[np.where(selection_QB.value.astype(int)==1)]
+    RB = np.array(data_in['RB']['Name'])[np.where(selection_RB.value.astype(int)==1)]
+    WR = np.array(data_in['WR']['Name'])[np.where(selection_WR.value.astype(int)==1)]
+    TE = np.array(data_in['TE']['Name'])[np.where(selection_TE.value.astype(int)==1)]
+    DEF = np.array(data_in['DEF']['Name'])[np.where(selection_DEF.value.astype(int)==1)]
 
     # Define the total salary for the selections
     salary_out = (sum(np.multiply(np.array(data_in['QB']['Salary']),selection_QB.value))+
     sum(np.multiply(np.array(data_in['RB']['Salary']),selection_RB.value))+
     sum(np.multiply(np.array(data_in['WR']['Salary']),selection_WR.value))+
     sum(np.multiply(np.array(data_in['TE']['Salary']),selection_TE.value))+
-    sum(np.multiply(np.array(data_in['D']['Salary']),selection_D.value)))
+    sum(np.multiply(np.array(data_in['DEF']['Salary']),selection_DEF.value)))
 
     # Assign output data structure
     data_out = {
@@ -89,9 +90,9 @@ def optimiser(data_in):
         'RB' : RB,
         'WR' : WR,
         'TE' : TE,
-        'D' : D,
+        'DEF' : DEF,
         'Salary' : salary_out,
-        'Points' : fantasy_team.value 
+        'Predicted' : fantasy_team.value 
     }
 
     return data_out
@@ -101,7 +102,7 @@ def points(team, data_in):
 
     # Initialise total and define positions
     total = 0
-    positions = ['QB', 'RB', 'WR', 'TE', 'D']
+    positions = ['QB', 'RB', 'WR', 'TE', 'DEF']
 
     # Loop over each position
     for position in positions:
@@ -112,51 +113,89 @@ def points(team, data_in):
 
             # Check if the player is in the list
             try: 
-                player_index = data_in[position]['Nickname'].index(player)
+                player_index = data_in[position]['Name'].index(player)
             except ValueError:
                 print(player + ' is not in the list. Available players at ' + position + ' are:')
-                print(data_in[position]['Nickname'])
+                print(data_in[position]['Name'])
                 raise
 
-            total += data_in[position]['FPPG'][player_index]
+            total += data_in[position]['Predicted'][player_index]
 
     return total
 
-def main():
-
-    # Read the data
-    df = pd.read_csv('Fan_Duel_Data.csv').sort_values(by='FPPG', ascending=False)
+def read_data():
 
     # Positions
-    positions = ['QB', 'RB', 'WR', 'TE', 'D']
+    positions = ['QB', 'RB', 'WR', 'TE', 'DEF']
+
+    # Define the column names
+    cols = ['Name', 'Salary', 'Predicted']
 
     # Create dict
     data_in = dict()
     for position in positions:
         data_in[position] = {}
-    
-    # Define the column names
-    cols = ['Nickname', 'Salary', 'FPPG']
 
-    # Strip data
+    # Load each position data into input dictionary
     for position in positions:
-        data_in[position][cols[0]] = df[cols[0]][df['Position'].str.match(position)].head(30).values.tolist()
-        for col in cols[1:]:
-            data_in[position][col] = df[col][df['Position'].str.match(position)].head(30).values
+        
+        # Read the predicted points for position
+        df = pd.read_csv(os.path.join('Output', position + '.csv'))
+
+        # Adjust the data
+        if position == 'DEF':
+            df = df[['Team', 'Salary', 'Avg Points (3 weeks)']]
+            print('WARNING: Defence predicted points is based on Avg from last 3 weeks.')
+        else:
+            df = df[cols]
+
+        # Remove all players that dont have salary data
+        df = df.dropna()
+
+        # Read each column
+        for col in cols:
+
+            # To be removed when defence is correctly predicted
+            if position == 'DEF':
+                if col == 'Name':
+                    data_in[position][col] = df['Team']
+                elif col == 'Predicted':
+                    data_in[position][col] = df['Avg Points (3 weeks)']
+                elif col == 'Salary':
+                    data_in[position][col] = df[col]
+            else:
+                data_in[position][col] = df[col]
+
+    return data_in
+
+
+def main():
+
+    # Read in the data array
+    data_in = read_data()
 
     # Find the optimal team
     optimal_team = optimiser(data_in)
 
-    # Find the points from the team used
-    team_used = {
-    'QB' : ["Nick Foles"],
-    'RB' : ["Derrick Henry", "Jonathan Taylor", "David Montgomery"],
-    'WR' : ["Adam Thielen", "Chase Claypool", "Calvin Ridley"],
-    'TE' : ["Trey Burton"],
-    'D' : ["Chicago Bears"]
-    }
+    # Print the optimal team to the command line
+    print("QB: " + optimal_team['QB'])
+    print("RB: " + optimal_team['RB'])
+    print("WR: " + optimal_team['WR'])
+    print("TE: " + optimal_team['TE'])
+    print("DEF: " + optimal_team['DEF'])
+    print("Total points predicted: " + str(optimal_team['Predicted']))
+    print("Total salary: " + str(optimal_team['Salary']))
 
-    points_for_team = points(team_used, data_in)
+    # Find the points from the team used
+    #team_used = {
+    #'QB' : ["Nick Foles"],
+    #'RB' : ["Derrick Henry", "Jonathan Taylor", "David Montgomery"],
+    #'WR' : ["Adam Thielen", "Chase Claypool", "Calvin Ridley"],
+    #'TE' : ["Trey Burton"],
+    #'DEF' : ["Chicago Bears"]
+    #}
+#
+    #points_for_team = points(team_used, data_in)
 
 if __name__ == "__main__":
     main()
