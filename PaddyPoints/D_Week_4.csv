@@ -1,0 +1,33 @@
+,Unnamed: 0,Name,Position,Sacks,Def INT,Fum Rec,Saf,Def TD,Def 2pt Ret,Def Ret TD,Pts Allowed,Points Total,Paddy
+0,0,Kansas City Chiefs,DEF,2,3,1,0,1,0,0,10,20.0,20
+1,1,Philadelphia Eagles,DEF,5,2,1,0,1,0,0,20,18.0,18
+2,2,Los Angeles Rams,DEF,5,1,0,0,0,0,0,9,11.0,11
+3,3,New York Jets,DEF,0,3,0,0,1,0,0,37,8.0,8
+4,4,Indianapolis Colts,DEF,1,1,0,0,0,0,0,11,7.0,7
+5,5,San Francisco 49ers,DEF,3,1,0,0,0,0,0,19,6.0,6
+6,6,Buffalo Bills,DEF,2,0,2,0,0,0,0,23,6.0,6
+7,7,Denver Broncos,DEF,6,0,0,0,0,0,0,22,6.0,6
+8,8,Tampa Bay Buccaneers,DEF,2,1,1,0,0,0,0,25,6.0,6
+9,9,Baltimore Ravens,DEF,3,0,1,0,0,0,0,17,6.0,6
+10,10,Cincinnati Bengals,DEF,3,1,0,0,0,0,0,25,5.0,5
+11,11,Cleveland Browns,DEF,3,1,2,0,0,0,0,38,5.0,5
+12,12,New York Giants,DEF,2,0,1,0,0,0,0,17,5.0,5
+13,13,Green Bay Packers,DEF,4,0,0,0,0,0,0,16,5.0,5
+14,14,Seattle Seahawks,DEF,1,2,0,0,0,0,0,23,5.0,5
+15,15,Minnesota Vikings,DEF,3,0,1,0,0,0,0,23,5.0,5
+16,16,Los Angeles Chargers,DEF,0,1,0,0,1,0,0,38,4.0,4
+17,17,Washington Football Team,DEF,1,2,0,0,0,0,0,31,4.0,4
+18,18,New England Patriots,DEF,1,0,1,0,0,0,0,20,4.0,4
+19,19,New Orleans Saints,DEF,3,1,0,0,0,0,0,29,4.0,4
+20,20,Miami Dolphins,DEF,2,1,0,0,0,0,0,31,3.0,3
+21,21,Carolina Panthers,DEF,1,0,1,0,0,0,0,21,3.0,3
+22,22,Chicago Bears,DEF,1,0,0,0,0,0,0,19,2.0,2
+23,23,Jacksonville Jaguars,DEF,1,1,0,0,0,0,0,33,2.0,2
+24,24,Houston Texans,DEF,3,0,0,0,0,0,0,31,2.0,2
+25,25,Arizona Cardinals,DEF,0,1,0,0,0,0,0,31,1.0,1
+26,26,Atlanta Falcons,DEF,1,0,0,0,0,0,0,30,0.0,0
+27,27,Detroit Lions,DEF,2,1,0,0,0,0,0,35,0.0,0
+28,28,Las Vegas Raiders,DEF,1,0,0,0,0,0,0,30,0.0,0
+29,29,Dallas Cowboys,DEF,2,0,0,0,0,0,0,49,-2.0,-2
+30,30,Pittsburgh Steelers,DEF,0,0,0,0,0,0,0,0,0.0,10
+31,31,Tennessee Titans,DEF,0,0,0,0,0,0,0,0,0.0,10

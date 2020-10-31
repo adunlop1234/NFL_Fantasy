@@ -109,7 +109,7 @@ def scrape_player_data(week, player_type):
 
     # Create data frame with the columns define and data for the specified week and player type
     df = pd.DataFrame(list_out, columns=columns)
-    df.to_csv(str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
+    df.to_csv('Statistics/' + str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
 
 # Function dedicated to returning the specific stats for each position
 def return_stats(data_in, data_out, row):
@@ -264,10 +264,15 @@ def scrape_schedule(week):
         home, away = teams
         
         # Identify the datatime and split into day and time - all in GMT
-        date, time = row.find('td', {'data-behavior' : 'date_time'})['data-date'].split('T')
-        year, month, day = date.split('-')
-        day = datetime.date(int(year), int(month), int(day)).strftime("%a")
-        time = time.split('Z')[0]
+        try:
+            date, time = row.find('td', {'data-behavior' : 'date_time'})['data-date'].split('T')
+            year, month, day = date.split('-')
+            day = datetime.date(int(year), int(month), int(day)).strftime("%a")
+            time = time.split('Z')[0]
+        except TypeError:
+            print('Warning: Scraping schedule after the initial game has been played.')
+            day = 'N/A'
+            time = 'N/A'
 
         # Pandas dict for entry
         new_dict = {'Home' : home,
@@ -283,20 +288,119 @@ def scrape_schedule(week):
 
     return df
 
-def main():
+def scrape_injuries():
+
+    # Initialise the dataframe
+    columns = ['Name', 'Team', 'Position', 'Status']
+    df = pd.DataFrame(columns=columns)
+
+    # Define the URL for the week in question
+    URL = 'https://www.espn.co.uk/nfl/injuries'
+
+    # Get page
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get all table rows
+    rows = soup.find_all('tr')
+    teams = soup.find_all('span', class_=re.compile('injuries'))
+
+    # Loop over each row
+    count = 0
+    for row in rows:
+
+        # If the row is a header then define the team/increment team
+        if row.find('th'):
+            team = teams[count].getText()
+            count += 1
+
+        else:
+
+            # Find the name, position and status
+            name = row.find('td', class_=re.compile('col-name')).getText()
+            position = row.find('td', class_=re.compile('col-pos')).getText()
+            status = row.find('td', class_=re.compile('col-stat')).getText()
+
+            # Set the input to the dataframe
+            input_data = dict(zip(columns, [name, team, position, status]))
+
+            # Add to the pandas dataframe
+            df = df.append(input_data, ignore_index = True)
+
+    # Write csv output file
+    df.to_csv('Injury_Status.csv')
+
+    return df
+
+
+def scrape_salary():
+
+    # Initialise the dataframe
+    columns = ['Name', 'Team', 'Position', 'Salary']
+    df = pd.DataFrame(columns=columns)
+
+    # Define the URL for the week in question
+    URL = 'https://www.fantasypros.com/daily-fantasy/nfl/fanduel-salary-changes.php'
+
+    # Get page
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get the week
+    week = soup.find('h1').getText().split(' ')[-1]
     
+    # Get all table rows
+    rows = soup.find_all('tr', class_=re.compile(r'RB|QB|TE|WR|DST'))
+    
+    for row in rows:
+
+        # Get all player info (name, team, position) from initial table entry
+        player_info = row.find('td', style=re.compile(r'white-space'))
+        name = player_info.find('a', href=re.compile(r'/nfl/')).getText()
+        team = re.split(' |\)|\(', player_info.find('small').getText())[1]
+        position = re.split(' |\)|\(', player_info.find('small').getText())[-2]
+
+        # Get salary info
+        salary = row.find('td', class_=re.compile('salary'))['data-salary']
+
+        # Set the input to the dataframe
+        input_data = dict(zip(columns, [name, team, position, salary]))
+
+        # Add to the pandas dataframe
+        df = df.append(input_data, ignore_index = True)
+
+
+    # Sort by salary
+    df['Salary'] = pd.to_numeric(df['Salary'], errors='ignore')
+    df = df.sort_values(by='Salary', ascending=False)
+
+    # Write csv output file
+    df.to_csv('Statistics/FD_Salary_Week_' + str(week) + '.csv')
+
+    return df
+
+def main():
+
+    # Scrape the injuries for the current week
+    scrape_injuries()
+
+    # Scrape the salary data for the current week    
+    scrape_salary()
+
     # Set weeks to scrape
     week_start = 1
-    week_end = 5
-    schedule_week = 7
+    week_end = 7
+    schedule_week = 8
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
-    player_types = ['O', 'K', 'D']
+    player_types = ['O', 'D']
 
     # Scrape schedule
-    schedule = scrape_schedule(schedule_week)
-    print(schedule)
-    sys.exit()
+    scrape_schedule(schedule_week)
 
     # Scrape data
     for position in player_types:
