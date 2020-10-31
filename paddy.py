@@ -65,7 +65,7 @@ def paddy_points(week):
 def main():
 
     # Set weeks to add Paddy Points
-    week_start = 6
+    week_start = 1
     week_end = 7
 
     # Add Paddy Points
