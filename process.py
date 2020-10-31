@@ -33,18 +33,21 @@ def opponent(offence, defence, upcoming_week):
     
     # Add opponent columns
     defence.insert(loc=1, column="Opp", value="")
-    offence.insert(loc=1, column="Opp", value="")
+    offence.insert(loc=2, column="Opp", value="")
 
     for team, opp in games.items():
         # Only eligable teams are in offence/defence
         try:
+            # Defence
             defence.at[defence.index[defence["Team"] == team][0], "Opp"] = opp
-            offence.at[offence.index[offence["Team"] == team][0], "Opp"] = opp
+            # Offence
+            # Get all players from given team
+            play_ind = offence[offence["Team"] == team].index.values
+            offence.at[play_ind, "Opp"] = opp
         except IndexError:
             continue
 
-    print(offence)
-    print(defence)
+    return defence, offence
 
 
 # Add columns with average for season and past 3 weeks
@@ -115,9 +118,32 @@ def injury(offence):
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
 
 # Adds predicted fantasy points column
-def predict(offence):
+def predict(opp, position):
 
-    a = 0
+    # Open defence factors
+    factors = pd.read_csv("Output/Defence_Factors.csv")
+    
+    # Create dictionary of {NYG : New York Giants, etc.}
+    ref = pd.read_csv('References/teams.csv')
+    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
+
+    # Get row for given team
+    try:
+        row = factors.loc[factors["Team"] == nfl_teams[opp]]
+    except KeyError:
+        # This is caused by different players of same name (e.g. Ryan Griffin) not being filtered by eligable teams because one is playing and one is not
+        return 0
+
+    if position == 'QB':
+        return row["QB Factor"].values[0]
+    elif position == 'WR' or position == 'TE':
+        return row["Passing Factor"].values[0]
+    elif position == 'RB':
+        return row["Rushing Factor"].values[0]
+
+    # If not returned value by now, error happened
+    print("ERROR in predict()")
+        
 
 
 # Produce separate outputs by position
@@ -133,14 +159,22 @@ def position(offence, upcoming_week):
 
     # Output csv by position
     pos = pd.DataFrame(columns=offence.columns.values)
+    # Add Predicted Fantasy Points column
+    pos["Predicted"] = ""
     for position in positions.keys():
 
         # Get all QBs etc.
         for player in positions[position]:
             pos = pos.append(offence.loc[offence['Name'] == player])
 
+        # Add Predicted Fantasy Points column
+        pos["Predicted"] = ""
+        for index, row in pos.iterrows(): 
+            # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
+            pos.at[index, "Predicted"] = round(predict(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+
         # Sort by descending average fantasy points
-        pos = pos.sort_values(by='Avg Points', ascending=False)
+        pos = pos.sort_values(by='Predicted', ascending=False)
 
         # Only take head of each table (size varies by position)
         if position == 'QB':
@@ -168,9 +202,9 @@ def main():
     # Open summary files
     defence, offence = open()
 
-    opponent(offence, defence, upcoming_week)
+    # Add opponent column
+    defence, offence = opponent(offence, defence, upcoming_week)
 
-'''
     # Add average columns
     defence, offence = average_pts(defence, offence)
 
@@ -186,7 +220,6 @@ def main():
     # Save processed version of defence and offence
     defence.to_csv('Output/DEF.csv')
 
-  '''  
 
 if __name__ == "__main__":
     main()

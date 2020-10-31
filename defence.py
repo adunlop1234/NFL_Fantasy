@@ -38,25 +38,35 @@ def defence_factors(c_pass_yds, c_pass_yds_att, c_pass_td, c_rush_yds, c_rush_yd
     # Now ensure mean of each 'factor' column is 1.0
     for factor in ["Passing Factor", "Rushing Factor", "QB Factor"]:
         df[factor] = df[factor]/df[factor].mean()
+
+    # Keep only factors columns
+    columns = ["Team", "Passing Factor", "Rushing Factor", "QB Factor"]
+    df = df[columns]
     
     # Save defence with factors
-    df.to_csv("Output/Defence_Total_Factors.csv")
+    df.to_csv("Output/Defence_Factors.csv")
  
     
 # Add column based on games played
 def games_played(defence):
-    
+
+    # Create dictionary of {NYG : New York Giants, etc.}
+    ref = pd.read_csv('References/teams.csv')
+    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
+    # Replace short Team name with full name (e.g. Giants with New York Giants)
+    for index, row in defence.iterrows(): 
+        for key, value in nfl_teams.items():
+            if row["Team"] in value:
+                defence.at[index, "Team"] = value
+            if row["Team"] == "FootballTeam":
+                defence.at[index, "Team"] = "Washington Football Team"
+
     # Open games_played.csv
     games = pd.read_csv("Data_NFL/games_played.csv")
     games.columns = ["Team", "Games"]
 
-    # Only keep last part team name e.g. New York Giants becomes Giants
-    u = games['Team'].str.partition()
-    games['Team'] = u[2].str.split().str[-1]
     # Create dictionary {Team : Games played, ...}
     games_ = pd.Series(games.Games.values,index=games.Team).to_dict()
-    # Need to deal with FootballTeam and Team in different datasets
-    games_["FootballTeam"] = games_.pop("Team")
 
     # Add extra column to defence with games played
     defence.insert(loc=1, column = "Games", value="")
