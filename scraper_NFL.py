@@ -10,7 +10,7 @@ import pandas as pd
 import sys, os
 from progress.bar import IncrementalBar 
 
-def scrape_offence():
+def scrape_offence_players():
 
     # Define the URL to be scraped
     URL = "https://www.nfl.com/players/lamar-jackson/stats/logs/"
@@ -35,7 +35,7 @@ def scrape_offence():
 
     for counter, player_name in enumerate(offence_names):
 
-        test_data = scrape_offence_player(URL.replace('lamar-jackson', player_name))
+        test_data = scrape_offence_player_stats(URL.replace('lamar-jackson', player_name))
         name, team, position, test_df = test_data['Player Name'], test_data['Team'], test_data['Position'], test_data['Stats']
     
         # Set the index of the dataframe to be each week and add player name/team/position 
@@ -64,7 +64,7 @@ def scrape_offence():
         if len(week_df) > 2:
             week_df.to_csv(os.path.join("Data_NFL", "O_Week_" + str(i+1) + ".csv"))
 
-def scrape_offence_player(URL):
+def scrape_offence_player_stats(URL):
 
     # Create the request
     page = requests.get(URL, allow_redirects=True)
@@ -121,7 +121,7 @@ def scrape_offence_player(URL):
     # Return the data frame
     return ret_dict
 
-def scrape_defence():
+def scrape_defence_team():
 
     # Create master df
     df = pd.DataFrame()
@@ -138,7 +138,7 @@ def scrape_defence():
     # Get all stats
     genre_dfs = dict()
     for genre in genres:
-        genre_dfs[genre] = scrape_defence_stats(URL_base.replace('passing', genre))
+        genre_dfs[genre] = scrape_defence_team_stats(URL_base.replace('passing', genre))
         bar.next()
 
     # Close progress bar
@@ -162,10 +162,7 @@ def scrape_defence():
     df.to_csv(os.path.join('Data_NFL', 'Defence_Total.csv'))
 
 
-def scrape_defence_stats(URL):
-
-    # Pass URL
-    URL_pass = 'https://www.nfl.com/stats/team-stats/defense/passing/2020/reg/all'
+def scrape_defence_team_stats(URL):
 
     # Create the request
     page = requests.get(URL, allow_redirects=True)
@@ -192,6 +189,74 @@ def scrape_defence_stats(URL):
     df = df.sort_values('Team', ascending=True)
 
     return df
+
+def scrape_offence_team():
+
+    # Create master df
+    df = pd.DataFrame()
+
+    # Define base URL
+    URL_base = 'https://www.nfl.com/stats/team-stats/offense/passing/2020/reg/all'
+    
+    # Define the stats to acquire
+    genres = ['passing', 'rushing', 'receiving', 'scoring']
+
+    # Create progress bar
+    bar = IncrementalBar('Acquiring Offence Team Data', max = len(genres), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
+    # Get all stats
+    genre_dfs = dict()
+    for genre in genres:
+        genre_dfs[genre] = scrape_offence_team_stats(URL_base.replace('passing', genre))
+        bar.next()
+
+    # Close progress bar
+    bar.finish()
+
+    # Strip relevant columns from each data frame
+    cols = {'passing' : {'Att' : 'Pass Att', 'Cmp' : 'Pass Cmp', 'Cmp %' : 'Pass Cmp %', 'Yds/Att' : 'Pass Yds/Att', 'Pass Yds' : 'Pass Yds', 'TD' : 'Pass TD', 'INT' : 'Pass INT', 'Rate' : 'Pass Rate', 'Sck' : 'Sacks'},
+            'rushing' : {'Att' : 'Rush Att', 'Rush Yds' : 'Rush Yds', 'YPC' : 'Rush YPC', 'TD' : 'Rush TD', 'Rush FUM' : 'Rush FUM'},
+            'receiving' : {'Rec' : 'Rec', 'Yds' : 'Rec Yds', 'Yds/Rec' : 'Rec Yds/Rec', 'TD' : 'Rec TD', 'Rec FUM' : 'Rec FUM'},
+            'scoring' : {'Rsh TD' : 'Rush TD', 'Rec TD' : 'Rec TD', 'Tot TD' : 'Tot TD', '2-PT' : '2PT'}
+            }
+
+    # Strip relevant data from genres and put into master
+    for genre in genres:
+        for key, value in cols[genre].items():
+            df[value] = genre_dfs[genre][key]
+
+    # Output the data 
+    df.to_csv(os.path.join('Data_NFL', 'Offence_Total.csv'))
+
+
+def scrape_offence_team_stats(URL):
+
+    # Create the request
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get all table entries and headers
+    rows = soup.find_all('tr')
+    headers_entries = soup.find_all('th')
+
+    # Collate headers
+    headers = [header.getText() for header in headers_entries]
+    df = pd.DataFrame(columns = headers)
+
+    # Loop over each row and store data
+    for row in rows[1:]:
+        entries = [item.getText().replace('\n', ' ').replace(' ', '') for item in row.find_all('td')]
+        entries[0] = entries[0][:int(len(entries[0])/2)]
+        df = df.append(dict(zip(headers, entries)), ignore_index=True)
+
+    # Set the index and sort
+    df = df.set_index('Team')
+    df = df.sort_values('Team', ascending=True)
+
+    return df
+
 
 
 def acquire_player_names():
@@ -296,11 +361,14 @@ def games_played():
 
 def main():
 
-    ## Scrape all of defence
-    scrape_defence()
+    ## Scrape all of the team defence stats
+    scrape_defence_team()
 
-    ## Scrape all of the offence
-    scrape_offence()
+    ## Scrape all of the team offence stats
+    scrape_offence_team()
+
+    ## Scrape all of the offence weekly player stats
+    scrape_offence_players()
 
     ## Scrape games played
     games_played()
