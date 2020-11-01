@@ -270,7 +270,7 @@ def scrape_schedule(week):
             day = datetime.date(int(year), int(month), int(day)).strftime("%a")
             time = time.split('Z')[0]
         except TypeError:
-            print('Warning: Scraping schedule after the initial game has been played.')
+            print('WARNING: Scraping schedule after the initial game has been played.')
             day = 'N/A'
             time = 'N/A'
 
