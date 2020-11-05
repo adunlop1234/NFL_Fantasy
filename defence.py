@@ -44,7 +44,7 @@ def defence_factors(c_pass_yds, c_pass_yds_att, c_pass_td, c_rush_yds, c_rush_yd
     df = df[columns]
     
     # Save defence with factors
-    df.to_csv("Output/Processed/Defence_Factors.csv")
+    df.to_csv("Processed/Defence_Factors.csv")
  
     
 # Add column based on games played

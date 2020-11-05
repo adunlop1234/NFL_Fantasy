@@ -11,8 +11,8 @@ import itertools
 def open():
 
     # Open output files
-    defence = pd.read_csv('Output/Processed/Defence_Summary.csv')
-    offence = pd.read_csv('Output/Processed/Offence_Summary.csv')
+    defence = pd.read_csv('Processed/Defence_Summary.csv')
+    offence = pd.read_csv('Processed/Offence_Summary.csv')
 
     # Name teams and players columns correctly
     defence = defence.rename(columns={"Unnamed: 0": "Team"})
@@ -120,7 +120,7 @@ def injury(offence):
 def predict(opp, position):
 
     # Open defence factors
-    factors = pd.read_csv("Output/Processed/Defence_Factors.csv")
+    factors = pd.read_csv("Processed/Defence_Factors.csv")
     
     # Create dictionary of {NYG : New York Giants, etc.}
     ref = pd.read_csv('References/teams.csv')
@@ -196,7 +196,7 @@ def position(offence, upcoming_week):
 
 def main():
 
-    upcoming_week = 8
+    upcoming_week = 9
 
     # Open summary files
     defence, offence = open()
@@ -216,7 +216,7 @@ def main():
     # Save seperate outputs for each position
     position(offence, upcoming_week)
 
-    # Save processed version of defence and offence
+    # Save processed version of defence
     defence.to_csv('Output/DEF.csv')
 
 

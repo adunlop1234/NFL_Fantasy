@@ -95,7 +95,7 @@ def collate_D(schedule_week, teams):
     summary_D = pd.DataFrame.from_dict(D_weeks_pp, orient='index', columns=columns).round(1)
     
     # Save summary as output file
-    summary_D.to_csv('Output/Processed/Defence_Summary.csv')
+    summary_D.to_csv('Processed/Defence_Summary.csv')
     
   
 
@@ -141,7 +141,7 @@ def collate_O(schedule_week, teams):
     summary_O = summary_O[columns]
 
     # Save summary as output file
-    summary_O.to_csv('Output/Processed/Offence_Summary.csv')
+    summary_O.to_csv('Processed/Offence_Summary.csv')
 
     
   
@@ -149,7 +149,7 @@ def collate_O(schedule_week, teams):
 def main():
     
     # Choose upcoming week
-    schedule_week = 8
+    schedule_week = 9
 
     # Grab eligable teams
     teams = eligable_teams(schedule_week)

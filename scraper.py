@@ -427,15 +427,14 @@ def main():
 
     # Scrape the injuries for the current week
     scrape_injuries()
-    '''
-
+    
     # Scrape the salary data for the current week    
     scrape_salary()
 
     # Set weeks to scrape
-    week_start = 1
-    week_end = 7
-    schedule_week = 8
+    week_start = 8
+    week_end = 8
+    schedule_week = 9
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
     player_types = ['O', 'D']
@@ -448,7 +447,7 @@ def main():
         for week in range(week_start, week_end+1):
             scrape_player_data(week, position)
             print(str(position) + ' Data exported for week ' + str(week))
-    '''
+    
 
 if __name__ == "__main__":
     main()

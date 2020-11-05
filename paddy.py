@@ -19,7 +19,6 @@ def paddy_points(week):
     # Calculate Paddy Power points and add column
 
     # DEFENCE
-    print("WARNING: DEFENCE: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
     # Add Paddy Points column (all but Points Allowed points)
     defence = defence.assign(Paddy=defence["Sacks"] + 2*defence["Saf"] +
                              2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"])
@@ -91,7 +90,9 @@ def main():
 
     # Set weeks to add Paddy Points
     week_start = 1
-    week_end = 7
+    week_end = 8
+
+    print("WARNING: DEFENCE: Incomplete data so 'Blocked Punts/Kicks' and 'Extra Point Return' cannot be included")
 
     # Add Paddy Points
     for week in range(week_start, week_end+1):
