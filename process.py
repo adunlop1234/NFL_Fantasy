@@ -11,8 +11,8 @@ import itertools
 def open():
 
     # Open output files
-    defence = pd.read_csv('Output/Defence_Summary.csv')
-    offence = pd.read_csv('Output/Offence_Summary.csv')
+    defence = pd.read_csv('Output/Processed/Defence_Summary.csv')
+    offence = pd.read_csv('Output/Processed/Offence_Summary.csv')
 
     # Name teams and players columns correctly
     defence = defence.rename(columns={"Unnamed: 0": "Team"})
@@ -24,7 +24,7 @@ def open():
 def opponent(offence, defence, upcoming_week):
 
     # Open upcoming week schedule
-    sched = pd.read_csv("Schedule/Schedule_Week_" + str(upcoming_week) + ".csv")
+    sched = pd.read_csv("Scraped/Schedule/Schedule_Week_" + str(upcoming_week) + ".csv")
 
     # Create dictionary {home : away} and {away : home}
     temp_1 = pd.Series(sched.Home.values,index=sched.Away).to_dict()
@@ -71,7 +71,7 @@ def average_pts(defence, offence):
 def salary(defence, offence, week):
 
     # Create dicitonary of {players/teams : salary} for upcoming week's salary scraped data
-    sal = pd.read_csv('Statistics/FD_Salary_Week_' + str(week) + '.csv')
+    sal = pd.read_csv('Scraped/Statistics/FD_Salary_Week_' + str(week) + '.csv')
     salary = pd.Series(sal.Salary.values, index=sal.Name).to_dict()
 
     # Create dictionary of {New York Giants : NYG, etc.}
@@ -103,7 +103,7 @@ def salary(defence, offence, week):
 def injury(offence):
 
     # Open injury status data
-    status = pd.read_csv("Injury_Status.csv")
+    status = pd.read_csv("Scraped/Injury_Status.csv")
 
     # Add injury column to offence
     offence["Injury"] = ""
@@ -120,7 +120,7 @@ def injury(offence):
 def predict(opp, position):
 
     # Open defence factors
-    factors = pd.read_csv("Output/Defence_Factors.csv")
+    factors = pd.read_csv("Output/Processed/Defence_Factors.csv")
     
     # Create dictionary of {NYG : New York Giants, etc.}
     ref = pd.read_csv('References/teams.csv')
@@ -151,7 +151,7 @@ def position(offence, upcoming_week):
     positions = {'QB' : [], 'WR' : [], 'RB' : [], 'TE' : []}
 
     # Open latest scraped offence data
-    latest_O = pd.read_csv('Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
+    latest_O = pd.read_csv('Scraped/Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
 
     for index, row in latest_O.iterrows():
         positions[row.Position].append(row.Name)

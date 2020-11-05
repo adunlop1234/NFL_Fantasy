@@ -24,7 +24,7 @@ def defence_factors(c_pass_yds, c_pass_yds_att, c_pass_td, c_rush_yds, c_rush_yd
 
 
     # Read in Defence_Total
-    df = pd.read_csv("Data_NFL/Defence_Total.csv")
+    df = pd.read_csv("Scraped/Data_NFL/Defence_Total.csv")
     # Add games played column
     df = games_played(df)
 
@@ -44,7 +44,7 @@ def defence_factors(c_pass_yds, c_pass_yds_att, c_pass_td, c_rush_yds, c_rush_yd
     df = df[columns]
     
     # Save defence with factors
-    df.to_csv("Output/Defence_Factors.csv")
+    df.to_csv("Output/Processed/Defence_Factors.csv")
  
     
 # Add column based on games played
@@ -62,7 +62,7 @@ def games_played(defence):
                 defence.at[index, "Team"] = "Washington Football Team"
 
     # Open games_played.csv
-    games = pd.read_csv("Data_NFL/games_played.csv")
+    games = pd.read_csv("Scraped/Data_NFL/games_played.csv")
     games.columns = ["Team", "Games"]
 
     # Create dictionary {Team : Games played, ...}

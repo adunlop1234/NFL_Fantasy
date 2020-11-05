@@ -8,8 +8,8 @@ import sys
 def paddy_points(week):
 
     # Read csv into a dataframe
-    defence = pd.read_csv('Statistics/D_Week_' + str(week) + '.csv')
-    offence = pd.read_csv('Data_NFL/O_Week_' + str(week) + '.csv')
+    defence = pd.read_csv('Scraped/Statistics/D_Week_' + str(week) + '.csv')
+    offence = pd.read_csv('Scraped/Data_NFL/O_Week_' + str(week) + '.csv')
 
     # For defence only, replace '-' with 0
     defence = defence.replace('-', 0)
@@ -46,7 +46,7 @@ def paddy_points(week):
     # Need to add in '2pt' and 'Ret TD' columns using original scraper (from Fantasy NFL rather than player logs)
     # Inexplicably the scraped data from log is missing some player's teams. Take this from Fantasy NFL
     # Open 'fantasy scraped' datasets
-    offence_fantasy = pd.read_csv('Statistics/O_Week_' + str(week) + '.csv')
+    offence_fantasy = pd.read_csv('Scraped/Statistics/O_Week_' + str(week) + '.csv')
     # Put missing data into dict
     temp1 = [x if x not in '-' else 0 for x in offence_fantasy["Ret TD"].tolist()]
     temp2 = [x if x not in '-' else 0 for x in offence_fantasy["Ret TD"].tolist()]
@@ -83,8 +83,8 @@ def paddy_points(week):
 
 
     # Save offence and defence data
-    defence.to_csv('PaddyPoints/D_Week_' + str(week) + '.csv')
-    offence.to_csv('PaddyPoints/O_Week_' + str(week) + '.csv')
+    defence.to_csv('Processed/PaddyPoints/D_Week_' + str(week) + '.csv')
+    offence.to_csv('Processed/PaddyPoints/O_Week_' + str(week) + '.csv')
 
 
 def main():

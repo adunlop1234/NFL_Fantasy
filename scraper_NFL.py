@@ -356,7 +356,7 @@ def games_played():
     df = pd.DataFrame.from_dict(games_played, orient='index')
 
     # Save as csv
-    df.to_csv('Data_NFL/games_played.csv')
+    df.to_csv('Scraped/Data_NFL/games_played.csv')
 
 
 def main():

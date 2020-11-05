@@ -15,7 +15,7 @@ def eligable_teams(week):
     nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
 
     # Read in schedule for week
-    sched = pd.read_csv('Schedule/Schedule_Week_' + str(week) + '.csv')
+    sched = pd.read_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
 
     # Eligable games are scheduled for Sunday and maybe Monday (i.e. Sunday late game)
     sched = sched[(sched['Day'] == "Sun")] #| (sched['Day'] == "Mon")]
@@ -31,7 +31,7 @@ def eligable_teams(week):
 def D_filtered(week, teams):
 
     # Read Defence data
-    defence = pd.read_csv('PaddyPoints/D_Week_' + str(week) + '.csv')
+    defence = pd.read_csv('Processed/PaddyPoints/D_Week_' + str(week) + '.csv')
 
     # Filter for eligable teams
     defence = defence[defence["Name"].isin(list(teams.values()))]
@@ -55,11 +55,11 @@ def D_filtered(week, teams):
 def O_filtered(week, teams, schedule_week):
 
     # Read Offence data for week
-    offence = pd.read_csv('PaddyPoints/O_Week_' + str(week) + '.csv')
+    offence = pd.read_csv('Processed/PaddyPoints/O_Week_' + str(week) + '.csv')
 
     # Read Offence data for week prior to schedule week (needed for correct team for filtering)
     # * ASSUMPTION: Player at same team as previous week
-    offence_sched = pd.read_csv('Statistics/O_Week_' + str(schedule_week-1) + '.csv')
+    offence_sched = pd.read_csv('Scraped/Statistics/O_Week_' + str(schedule_week-1) + '.csv')
     # Need to reassign LA as LAR
     offence_sched = offence_sched.replace(to_replace=r'\bLA\b', value='LAR', regex=True)
 
@@ -95,7 +95,7 @@ def collate_D(schedule_week, teams):
     summary_D = pd.DataFrame.from_dict(D_weeks_pp, orient='index', columns=columns).round(1)
     
     # Save summary as output file
-    summary_D.to_csv('Output/Defence_Summary.csv')
+    summary_D.to_csv('Output/Processed/Defence_Summary.csv')
     
   
 
@@ -103,7 +103,7 @@ def collate_D(schedule_week, teams):
 def collate_O(schedule_week, teams):
     
     # Read in fantasy data scraped from previous week
-    df = pd.read_csv("Statistics/O_Week_" + str(schedule_week-1) + ".csv")
+    df = pd.read_csv("Scraped/Statistics/O_Week_" + str(schedule_week-1) + ".csv")
 
     # Create list of names which appear more than once (no significant players, so just going to ignore these people)
     cnt = Counter(df["Name"].tolist())
@@ -141,7 +141,7 @@ def collate_O(schedule_week, teams):
     summary_O = summary_O[columns]
 
     # Save summary as output file
-    summary_O.to_csv('Output/Offence_Summary.csv')
+    summary_O.to_csv('Output/Processed/Offence_Summary.csv')
 
     
   
