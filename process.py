@@ -62,9 +62,8 @@ def average_pts(defence, offence):
     defence["Avg Points"] = defence.loc[:, columns_D].mean(axis=1).round(1)
     defence["Avg Points (3 weeks)"] = defence.loc[:, columns_D[-3:]].mean(axis=1).round(1)
     # Offence
-    print("WARNING: Incorrect assumption that 0 values mean player missed week used in calculating average")
-    offence["Avg Points"] = offence.loc[:, columns_O].replace(0, np.NaN).mean(axis=1).round(1)
-    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].replace(0, np.NaN).mean(axis=1).round(1)
+    offence["Avg Points"] = offence.loc[:, columns_O].replace('', np.NaN).mean(axis=1).round(1)
+    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].replace('', np.NaN).mean(axis=1).round(1)
 
     return (defence, offence)
 

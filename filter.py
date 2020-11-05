@@ -3,6 +3,8 @@ Filters the Paddy Points data for eligable games
 '''
 
 import pandas as pd
+import re
+from collections import Counter
 
 # Find the teams playing in eligable games
 def eligable_teams(week):
@@ -15,8 +17,8 @@ def eligable_teams(week):
     # Read in schedule for week
     sched = pd.read_csv('Schedule/Schedule_Week_' + str(week) + '.csv')
 
-    # Eligable games are scheduled for Sunday or Monday (i.e. Sunday late game)
-    sched = sched[(sched['Day'] == "Sun") | (sched['Day'] == "Mon")]
+    # Eligable games are scheduled for Sunday and maybe Monday (i.e. Sunday late game)
+    sched = sched[(sched['Day'] == "Sun")] #| (sched['Day'] == "Mon")]
     
     # Return list of eligable teams
     teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
@@ -54,9 +56,12 @@ def O_filtered(week, teams, schedule_week):
 
     # Read Offence data for week
     offence = pd.read_csv('PaddyPoints/O_Week_' + str(week) + '.csv')
+
     # Read Offence data for week prior to schedule week (needed for correct team for filtering)
-    # ASSUMPTION: Player at same team as previous week
-    offence_sched = pd.read_csv('PaddyPoints/O_Week_' + str(schedule_week-1) + '.csv')
+    # * ASSUMPTION: Player at same team as previous week
+    offence_sched = pd.read_csv('Statistics/O_Week_' + str(schedule_week-1) + '.csv')
+    # Need to reassign LA as LAR
+    offence_sched = offence_sched.replace(to_replace=r'\bLA\b', value='LAR', regex=True)
 
     # Find eligable players (based on team)
     offence_sched = offence_sched[offence_sched["Team"].isin(list(teams.keys()))]
@@ -64,6 +69,7 @@ def O_filtered(week, teams, schedule_week):
 
     # Filter for eligable players
     offence = offence[offence["Name"].isin(players)]
+
 
     # Return dictionary of {players : [paddy points, team] } for this week
     return {row["Name"] : [row["Paddy"], row["Team"]] for index, row in offence.iterrows()}
@@ -95,16 +101,32 @@ def collate_D(schedule_week, teams):
 
 # Collate all week's offence Paddy Points data into one csv
 def collate_O(schedule_week, teams):
+    
+    # Read in fantasy data scraped from previous week
+    df = pd.read_csv("Statistics/O_Week_" + str(schedule_week-1) + ".csv")
 
-    # Create dictionary to store list of each week's paddy points for each player
-    O_weeks_pp = {key : [] for key in sorted(list(O_filtered(schedule_week-1, teams, schedule_week).keys()))}
+    # Create list of names which appear more than once (no significant players, so just going to ignore these people)
+    cnt = Counter(df["Name"].tolist())
+    common_names = [k for k, v in cnt.items() if v > 1]
+
+    # Create dictionary with players' teams
+    play_team = dict(zip(df["Name"].tolist(), df["Team"].tolist()))
+    for name, team in play_team.items():
+        if team == "LA":
+            play_team[name] = "LAR"
+    
+    # Create dictionary to store list of each week's paddy points for each eligable player
+    O_weeks_pp = {name : ['']*(schedule_week-1) for name, team in play_team.items() if team in teams}
 
     # Append Paddy Points for each week
     for i in range(1, schedule_week):
         week_i = O_filtered(i, teams, schedule_week)
         for player, values in week_i.items():
+            # Ignore players with same name as another player (no significant players, so just going to ignore these people for simplicity)
+            if player in common_names:
+                continue
             # Add Paddy Points
-            O_weeks_pp[player].append(values[0])
+            O_weeks_pp[player][i-1] = round(values[0],2)
 
     # Create column names
     columns = [("Week " + str(i)) for i in range(1, schedule_week)]
@@ -113,8 +135,6 @@ def collate_O(schedule_week, teams):
     summary_O = pd.DataFrame.from_dict(O_weeks_pp, orient='index', columns=columns).round(1)
 
     # Add players' teams
-    # Create dictionary with players' teams
-    play_team = {key : values[1] for key, values in O_filtered(1, teams, schedule_week).items()}
     summary_O["Team"] = pd.Series(play_team)
     # Reorder columns
     columns.insert(0, "Team")
