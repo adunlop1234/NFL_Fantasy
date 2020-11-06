@@ -82,20 +82,35 @@ def salary(defence, offence, week):
     defence["Salary"] = ""
     offence["Salary"] = ""
     # Populate salary column
-    for key, value in salary.items():
+    for player, salary in salary.items():
 
         # Defence
         # Swap full name for short name
-        if key in nfl_teams.keys():
-            key = nfl_teams[key]
-        if not defence.loc[defence['Team'] == key].empty:
-            defence.at[defence.index[defence['Team'] == key], "Salary"] = round(value)
+        if player in nfl_teams.keys():
+            player = nfl_teams[player]
+        if not defence.loc[defence['Team'] == player].empty:
+            defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
         for name in offence['Name'].to_list():
-            # Due to differences in names of datasets need to use fuzzywuzzy. 88 value found by trial and error
-            if fuzz.ratio(key, name) > 88:
-                offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(value)
+            # Due to differences in names of datasets need to use fuzzywuzzy.
+            # Can't use one value due to incorrect matches (e.g. Darius Slay with Darius Slayton)
+            # Will sieve the data over multiple passes
+
+            ratio = fuzz.ratio(simplify(player), simplify(name))
+            # Exact match 
+            if ratio == 100:
+                offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
+                continue
+            # No match
+            if ratio < 95:
+                continue
+            # Sieve players
+            for i in [98, 97, 96, 95]:
+                if ratio >= i:
+                    offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
+                    break
+        
     
     return (defence, offence)
 
@@ -111,10 +126,25 @@ def injury(offence):
     # Populate injury column
     for name_inj in status.Name.to_list():
         for name_o in offence.Name.to_list():
-            # Due to differences in names of datasets need to use fuzzywuzzy. 88 value found by trial and error
-            if fuzz.ratio(name_inj, name_o) > 88:
-                # Used this clunky process (.tolist()[0]) because kept getting error message 
+            # Due to differences in names of datasets need to use fuzzywuzzy.
+            # Can't use one value due to incorrect matches (e.g. Darius Slay with Darius Slayton)
+            # Will sieve the data over multiple passes
+
+            # Strip out common offending characters with custom function
+            ratio = fuzz.ratio(simplify(name_inj), simplify(name_o))
+            # Exact match
+            if ratio == 100:
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
+                continue
+            # No match
+            if ratio < 95:
+                continue
+            # Sieve players
+            for i in [98, 97, 96, 95]:
+                if ratio >= i:
+                    offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
+                    break
+        
 
 # Adds predicted fantasy points column
 def predict(opp, position):
@@ -190,8 +220,11 @@ def position(offence, upcoming_week):
         
         # Remove all rows for next position
         pos = pos[0:0]
-        
 
+# For string comparisons, remove the offending parts       
+def simplify(name):
+    # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
+    return name.replace('.','').replace('Jr','').replace('Sr','').replace('III','').replace('II','').replace('IV','').replace('V','').strip()
 
 
 def main():
