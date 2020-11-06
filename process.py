@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 import itertools
+import sys, os
 
 # Open summaries
 def open():
@@ -207,13 +208,13 @@ def position(offence, upcoming_week):
 
         # Only take head of each table (size varies by position)
         if position == 'QB':
-            pos = pos.head(25)
+            pos = pos.head(32)
         elif position == 'WR':
-            pos = pos.head(100)
+            pos = pos.head(150)
         elif position == 'RB':
-            pos = pos.head(60)
+            pos = pos.head(100)
         elif position == 'TE':
-            pos = pos.head(50)
+            pos = pos.head(100)
             
         # Save position data as csv
         pos.to_csv("Output/" + str(position) + ".csv")
@@ -250,7 +251,7 @@ def main():
     position(offence, upcoming_week)
 
     # Save processed version of defence
-    defence.to_csv('Output/DEF.csv')
+    defence.to_csv(os.path.join('Output', 'DEF.csv'))
 
 
 if __name__ == "__main__":

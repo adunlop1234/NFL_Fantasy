@@ -5,6 +5,7 @@ Filters the Paddy Points data for eligable games
 import pandas as pd
 import re
 from collections import Counter
+import sys, os
 
 # Find the teams playing in eligable games
 def eligable_teams(week):
@@ -95,7 +96,7 @@ def collate_D(schedule_week, teams):
     summary_D = pd.DataFrame.from_dict(D_weeks_pp, orient='index', columns=columns).round(1)
     
     # Save summary as output file
-    summary_D.to_csv('Processed/Defence_Summary.csv')
+    summary_D.to_csv(os.path.join('Processed','Defence_Summary.csv'))
     
   
 
@@ -141,7 +142,7 @@ def collate_O(schedule_week, teams):
     summary_O = summary_O[columns]
 
     # Save summary as output file
-    summary_O.to_csv('Processed/Offence_Summary.csv')
+    summary_O.to_csv(os.path.join('Processed','Offence_Summary.csv'))
 
     
   

@@ -3,6 +3,7 @@ This script produces multiplication factors for offence players, based on defenc
 '''
 
 import pandas as pd
+import sys, os
 
 
 def defence_factors(c_pass_yds, c_pass_yds_att, c_pass_td, c_rush_yds, c_rush_yds_carry, c_rush_td, c_pass_yds_qb, c_pass_yds_att_qb, c_pass_td_qb, c_INT):
@@ -44,7 +45,7 @@ def defence_factors(c_pass_yds, c_pass_yds_att, c_pass_td, c_rush_yds, c_rush_yd
     df = df[columns]
     
     # Save defence with factors
-    df.to_csv("Processed/Defence_Factors.csv")
+    df.to_csv(os.path.join("Processed","Defence_Factors.csv"))
  
     
 # Add column based on games played
