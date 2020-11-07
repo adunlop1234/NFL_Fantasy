@@ -206,12 +206,15 @@ def output_team(team, data):
         ['WR3', team['WR'][2], data['WR']['Salary'][data['WR']['Name'] == team['WR'][2]].values[0], data['WR']['Predicted'][data['WR']['Name'] == team['WR'][2]].values[0]],
         ['TE', team['TE'][0], data['TE']['Salary'][data['TE']['Name'] == team['TE'][0]].values[0], data['TE']['Predicted'][data['TE']['Name'] == team['TE'][0]].values[0]],
         ['FLEX - ' + flex_position, flex, data[flex_position]['Salary'][data[flex_position]['Name'] == flex].values[0], data[flex_position]['Predicted'][data[flex_position]['Name'] == flex].values[0]],
+        ['DEFENCE', team['DEF'][0], data['DEF']['Salary'][data['DEF']['Name'] == team['DEF'][0]].values[0], data['DEF']['Predicted'][data['DEF']['Name'] == team['DEF'][0]].values[0]],
         [' ', ' ', ' ', ' '],
         ['Total', ' ', team['Salary'], team['Predicted']]
     ]
 
     # Print in a table format
-    print(tabulate(rows, headers = ['Position', 'Name', 'Salary', 'Points']))
+    print('')
+    print(tabulate(rows, headers = ['Position', 'Name', 'Salary', 'Points'], tablefmt='github'))
+    print('')
 
 
 def main():
