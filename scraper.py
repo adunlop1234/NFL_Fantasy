@@ -7,8 +7,9 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
-import sys
+import sys, os
 import datetime
+import json
 
 
 def scrape_player_data(week, player_type):
@@ -462,7 +463,7 @@ def scrape_depth_charts():
         soup = BeautifulSoup(page.content, 'html.parser')
 
         # Create a list to loop over the number of data-idx for each row in table of depth chart
-        data_range = range(11)
+        data_range = range(6)
 
         # Loop over each position
         for data_id in data_range:
@@ -480,15 +481,16 @@ def scrape_depth_charts():
                 # If len == 4 then it's the player names, only get offence so break after allocation
                 if len(items) == 4:
                     for i in range(0, 4):
+
                         # Strip injury status from the end of the name
-                        name = re.sub(r'( O| D| IR| Q)\b', '', items[i].getText())
+                        name = re.sub(r'( O| D| IR| Q| SUSP)\b', '', items[i].getText())
                         depth_chart[position][i+1] = name
 
                     break
-
-    
-            print(depth_chart)
-        sys.exit()
+            
+        # Write output file in json format
+        with open(os.path.join('Depth_Chart', url.split('/')[-1] + '_depth_chart.json'), 'w') as outfile:
+            json.dump(depth_chart, outfile, indent=4)
     
 
 def main():
