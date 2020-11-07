@@ -7,6 +7,7 @@ import sys
 import numpy as np
 import pandas as pd
 import os
+from tabulate import tabulate
 
 # Define salary cap
 SALARY_CAP = 60000
@@ -179,6 +180,39 @@ def read_data(week = 'Predicted'):
 
     return data_in
 
+def output_team(team, data):
+
+    # Strip the flex position
+    if len(team['RB']) > 2:
+        flex = team['RB'][-1]
+        flex_position = 'RB'
+        np.delete(team['RB'], -1)
+    elif len(team['WR']) > 3:
+        flex = team['WR'][-1]
+        flex_position = 'WR'
+        np.delete(team['WR'], -1)
+    elif len(team['TE']) > 1:
+        flex = team['TE'][-1]
+        flex_position = 'TE'
+        np.delete(team['TE'], -1)
+
+    # Assemble rows in the list
+    rows = [
+        ['QB', team['QB'][0], data['QB']['Salary'][data['QB']['Name'] == team['QB'][0]].values[0], data['QB']['Predicted'][data['QB']['Name'] == team['QB'][0]].values[0]],
+        ['RB1', team['RB'][0], data['RB']['Salary'][data['RB']['Name'] == team['RB'][0]].values[0], data['RB']['Predicted'][data['RB']['Name'] == team['RB'][0]].values[0]],
+        ['RB2', team['RB'][1], data['RB']['Salary'][data['RB']['Name'] == team['RB'][1]].values[0], data['RB']['Predicted'][data['RB']['Name'] == team['RB'][1]].values[0]],
+        ['WR1', team['WR'][0], data['WR']['Salary'][data['WR']['Name'] == team['WR'][0]].values[0], data['WR']['Predicted'][data['WR']['Name'] == team['WR'][0]].values[0]],
+        ['WR2', team['WR'][1], data['WR']['Salary'][data['WR']['Name'] == team['WR'][1]].values[0], data['WR']['Predicted'][data['WR']['Name'] == team['WR'][1]].values[0]],
+        ['WR3', team['WR'][2], data['WR']['Salary'][data['WR']['Name'] == team['WR'][2]].values[0], data['WR']['Predicted'][data['WR']['Name'] == team['WR'][2]].values[0]],
+        ['TE', team['TE'][0], data['TE']['Salary'][data['TE']['Name'] == team['TE'][0]].values[0], data['TE']['Predicted'][data['TE']['Name'] == team['TE'][0]].values[0]],
+        ['FLEX - ' + flex_position, flex, data[flex_position]['Salary'][data[flex_position]['Name'] == flex].values[0], data[flex_position]['Predicted'][data[flex_position]['Name'] == flex].values[0]],
+        [' ', ' ', ' ', ' '],
+        ['Total', ' ', team['Salary'], team['Predicted']]
+    ]
+
+    # Print in a table format
+    print(tabulate(rows, headers = ['Position', 'Name', 'Salary', 'Points']))
+
 
 def main():
 
@@ -189,24 +223,7 @@ def main():
     optimal_team = optimiser(data_in)
 
     # Print the optimal team to the command line
-    print("QB: " + optimal_team['QB'])
-    print("RB: " + optimal_team['RB'])
-    print("WR: " + optimal_team['WR'])
-    print("TE: " + optimal_team['TE'])
-    print("DEF: " + optimal_team['DEF'])
-    print("Total points predicted: " + str(optimal_team['Predicted']))
-    print("Total salary: " + str(optimal_team['Salary']))
-
-    # Find the points from the team used
-    #team_used = {
-    #'QB' : ["Nick Foles"],
-    #'RB' : ["Derrick Henry", "Jonathan Taylor", "David Montgomery"],
-    #'WR' : ["Adam Thielen", "Chase Claypool", "Calvin Ridley"],
-    #'TE' : ["Trey Burton"],
-    #'DEF' : ["Chicago Bears"]
-    #}
-#
-    #points_for_team = points(team_used, data_in)
+    output_team(optimal_team, data_in)
 
 if __name__ == "__main__":
     main()
