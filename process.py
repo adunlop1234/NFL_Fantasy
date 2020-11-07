@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 import itertools
+from factors import defence_factors, offence_factors
 
 # Open summaries
 def open():
@@ -166,9 +167,9 @@ def predict(opp, position):
     if position == 'QB':
         return row["QB Factor"].values[0]
     elif position == 'WR' or position == 'TE':
-        return row["Passing Factor"].values[0]
+        return row["Pass Factor (D)"].values[0]
     elif position == 'RB':
-        return row["Rushing Factor"].values[0]
+        return row["Rush Factor (D)"].values[0]
 
     # If not returned value by now, error happened
     print("ERROR in predict()")
@@ -230,6 +231,14 @@ def simplify(name):
 def main():
 
     upcoming_week = 9
+
+    # Update Factors
+    c_D = {"pass_yds" : 0.25, "pass_yds_att" : 0.4, "pass_td" : 0.35, "rush_yds" : 0.4, "rush_yds_carry" : 0.3, "rush_td" : 0.3, "pass_yds_qb" : 0.4, "pass_yds_att_qb" : 0.3, "pass_td_qb" : 0.3, "INT" : 0.1}
+    c_O = {"pass_yds" : 0.25, "pass_yds_att" : 0.3, "pass_td" : 0.45, "rush_yds" : 0.25, "rush_yds_carry" : 0.3, "rush_td" : 0.45}
+    c_DD = {"pass" : 0.5, "rush" : 0.5, "fum" : 0, "INT" : 0, "sacks" : 0}
+    defence_factors(c_D)
+    offence_factors(c_O)
+    defence_defence_factors(c_DD, schedule_week)
 
     # Open summary files
     defence, offence = open()
