@@ -109,7 +109,7 @@ def scrape_player_data(week, player_type):
 
     # Create data frame with the columns define and data for the specified week and player type
     df = pd.DataFrame(list_out, columns=columns)
-    df.to_csv('Scraped/Statistics/' + str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
+    df.to_csv(os.path.join('Scraped', 'Statistics', str(player_type) + '_Week_' + str(data_in['week']) + '.csv'))
 
 # Function dedicated to returning the specific stats for each position
 def return_stats(data_in, data_out, row):
@@ -284,7 +284,7 @@ def scrape_schedule(week):
         df = df.append(new_dict, ignore_index = True)
 
     # Write csv output file
-    df.to_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
+    df.to_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(week) + '.csv'))
 
     return df
 
@@ -369,7 +369,7 @@ def scrape_injuries():
         df = df.append(input_data, ignore_index = True)
 
     # Write csv output file
-    df.to_csv('Scraped/Injury_Status.csv')
+    df.to_csv(os.path.join('Scraped', 'Injury_Status.csv'))
 
     return df
 
@@ -419,7 +419,7 @@ def scrape_salary():
     df = df.sort_values(by='Salary', ascending=False)
 
     # Write csv output file
-    df.to_csv('Scraped/Statistics/FD_Salary_Week_' + str(week) + '.csv')
+    df.to_csv(os.path.join('Scraped', 'Statistics', 'FD_Salary_Week_' + str(week) + '.csv'))
 
     return df
 

@@ -4,6 +4,7 @@ Appends Paddy Power Points column to scraped data
 
 import pandas as pd
 import sys
+import sys, os
 
 def paddy_points(week):
 
@@ -82,8 +83,8 @@ def paddy_points(week):
 
 
     # Save offence and defence data
-    defence.to_csv('Processed/PaddyPoints/D_Week_' + str(week) + '.csv')
-    offence.to_csv('Processed/PaddyPoints/O_Week_' + str(week) + '.csv')
+    defence.to_csv(os.path.join('Processed','PaddyPoints','D_Week_' + str(week) + '.csv'))
+    offence.to_csv(os.path.join('Processed','PaddyPoints','O_Week_' + str(week) + '.csv'))
 
 
 def main():
