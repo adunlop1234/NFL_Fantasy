@@ -62,7 +62,7 @@ def scrape_offence_players():
 
         # Only write file if there is data in it
         if len(week_df) > 2:
-            week_df.to_csv(os.path.join("Data_NFL", "O_Week_" + str(i+1) + ".csv"))
+            week_df.to_csv(os.path.join("Scraped", "Data_NFL", "O_Week_" + str(i+1) + ".csv"))
 
 def scrape_offence_player_stats(URL):
 
@@ -159,7 +159,7 @@ def scrape_defence_team():
             df[value] = genre_dfs[genre][key]
 
     # Output the data 
-    df.to_csv(os.path.join('Data_NFL', 'Defence_Total.csv'))
+    df.to_csv(os.path.join('Scraped', 'Data_NFL', 'Defence_Total.csv'))
 
 
 def scrape_defence_team_stats(URL):
@@ -226,7 +226,7 @@ def scrape_offence_team():
             df[value] = genre_dfs[genre][key]
 
     # Output the data 
-    df.to_csv(os.path.join('Data_NFL', 'Offence_Total.csv'))
+    df.to_csv(os.path.join('Scraped', 'Data_NFL', 'Offence_Total.csv'))
 
 
 def scrape_offence_team_stats(URL):
@@ -356,7 +356,7 @@ def games_played():
     df = pd.DataFrame.from_dict(games_played, orient='index')
 
     # Save as csv
-    df.to_csv('Data_NFL/games_played.csv')
+    df.to_csv(os.path.join('Scraped','Data_NFL','games_played.csv'))
 
 
 def main():

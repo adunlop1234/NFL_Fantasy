@@ -6,13 +6,14 @@ import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 import itertools
+import sys, os
 
 # Open summaries
 def open():
 
     # Open output files
-    defence = pd.read_csv('Output/Defence_Summary.csv')
-    offence = pd.read_csv('Output/Offence_Summary.csv')
+    defence = pd.read_csv('Processed/Defence_Summary.csv')
+    offence = pd.read_csv('Processed/Offence_Summary.csv')
 
     # Name teams and players columns correctly
     defence = defence.rename(columns={"Unnamed: 0": "Team"})
@@ -24,7 +25,7 @@ def open():
 def opponent(offence, defence, upcoming_week):
 
     # Open upcoming week schedule
-    sched = pd.read_csv("Schedule/Schedule_Week_" + str(upcoming_week) + ".csv")
+    sched = pd.read_csv("Scraped/Schedule/Schedule_Week_" + str(upcoming_week) + ".csv")
 
     # Create dictionary {home : away} and {away : home}
     temp_1 = pd.Series(sched.Home.values,index=sched.Away).to_dict()
@@ -62,9 +63,8 @@ def average_pts(defence, offence):
     defence["Avg Points"] = defence.loc[:, columns_D].mean(axis=1).round(1)
     defence["Avg Points (3 weeks)"] = defence.loc[:, columns_D[-3:]].mean(axis=1).round(1)
     # Offence
-    print("WARNING: Incorrect assumption that 0 values mean player missed week used in calculating average")
-    offence["Avg Points"] = offence.loc[:, columns_O].replace(0, np.NaN).mean(axis=1).round(1)
-    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].replace(0, np.NaN).mean(axis=1).round(1)
+    offence["Avg Points"] = offence.loc[:, columns_O].replace('', np.NaN).mean(axis=1).round(1)
+    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].replace('', np.NaN).mean(axis=1).round(1)
 
     return (defence, offence)
 
@@ -72,7 +72,7 @@ def average_pts(defence, offence):
 def salary(defence, offence, week):
 
     # Create dicitonary of {players/teams : salary} for upcoming week's salary scraped data
-    sal = pd.read_csv('Statistics/FD_Salary_Week_' + str(week) + '.csv')
+    sal = pd.read_csv('Scraped/Statistics/FD_Salary_Week_' + str(week) + '.csv')
     salary = pd.Series(sal.Salary.values, index=sal.Name).to_dict()
 
     # Create dictionary of {New York Giants : NYG, etc.}
@@ -83,20 +83,23 @@ def salary(defence, offence, week):
     defence["Salary"] = ""
     offence["Salary"] = ""
     # Populate salary column
-    for key, value in salary.items():
+    for player, salary in salary.items():
 
         # Defence
         # Swap full name for short name
-        if key in nfl_teams.keys():
-            key = nfl_teams[key]
-        if not defence.loc[defence['Team'] == key].empty:
-            defence.at[defence.index[defence['Team'] == key], "Salary"] = round(value)
+        if player in nfl_teams.keys():
+            player = nfl_teams[player]
+        if not defence.loc[defence['Team'] == player].empty:
+            defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
         for name in offence['Name'].to_list():
-            # Due to differences in names of datasets need to use fuzzywuzzy. 88 value found by trial and error
-            if fuzz.ratio(key, name) > 88:
-                offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(value)
+            # Use custom made simplify function to remove offending differences
+            if simplify(player) == simplify(name):
+                offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
+                break
+        
+
     
     return (defence, offence)
 
@@ -104,7 +107,7 @@ def salary(defence, offence, week):
 def injury(offence):
 
     # Open injury status data
-    status = pd.read_csv("Injury_Status.csv")
+    status = pd.read_csv("Scraped/Injury_Status.csv")
 
     # Add injury column to offence
     offence["Injury"] = ""
@@ -112,16 +115,20 @@ def injury(offence):
     # Populate injury column
     for name_inj in status.Name.to_list():
         for name_o in offence.Name.to_list():
-            # Due to differences in names of datasets need to use fuzzywuzzy. 88 value found by trial and error
-            if fuzz.ratio(name_inj, name_o) > 88:
-                # Used this clunky process (.tolist()[0]) because kept getting error message 
+            # Use custom made simplify function to remove offending differences
+            if simplify(name_inj) == simplify(name_o):
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
+                break
+
+    return offence
+
+        
 
 # Adds predicted fantasy points column
 def predict(opp, position):
 
     # Open defence factors
-    factors = pd.read_csv("Output/Defence_Factors.csv")
+    factors = pd.read_csv("Processed/Defence_Factors.csv")
     
     # Create dictionary of {NYG : New York Giants, etc.}
     ref = pd.read_csv('References/teams.csv')
@@ -152,7 +159,7 @@ def position(offence, upcoming_week):
     positions = {'QB' : [], 'WR' : [], 'RB' : [], 'TE' : []}
 
     # Open latest scraped offence data
-    latest_O = pd.read_csv('Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
+    latest_O = pd.read_csv('Scraped/Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
 
     for index, row in latest_O.iterrows():
         positions[row.Position].append(row.Name)
@@ -178,26 +185,29 @@ def position(offence, upcoming_week):
 
         # Only take head of each table (size varies by position)
         if position == 'QB':
-            pos = pos.head(25)
+            pos = pos.head(32)
         elif position == 'WR':
-            pos = pos.head(100)
+            pos = pos.head(150)
         elif position == 'RB':
-            pos = pos.head(60)
+            pos = pos.head(100)
         elif position == 'TE':
-            pos = pos.head(50)
+            pos = pos.head(100)
             
         # Save position data as csv
         pos.to_csv("Output/" + str(position) + ".csv")
         
         # Remove all rows for next position
         pos = pos[0:0]
-        
 
+# For string comparisons, remove the offending parts       
+def simplify(name):
+    # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
+    return name.replace('.','').replace('Jr','').replace('Sr','').replace('III','').replace('II','').replace('IV','').replace('V','').strip()
 
 
 def main():
 
-    upcoming_week = 8
+    upcoming_week = 9
 
     # Open summary files
     defence, offence = open()
@@ -212,13 +222,13 @@ def main():
     defence, offence = salary(defence, offence, upcoming_week)
 
     # Add injury column
-    injury(offence)
+    offence = injury(offence)
 
     # Save seperate outputs for each position
     position(offence, upcoming_week)
 
-    # Save processed version of defence and offence
-    defence.to_csv('Output/DEF.csv')
+    # Save processed version of defence
+    defence.to_csv(os.path.join('Output', 'DEF.csv'))
 
 
 if __name__ == "__main__":
