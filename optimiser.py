@@ -149,15 +149,19 @@ def read_data(week = 'Predicted'):
         # Read the predicted points for position
         df = pd.read_csv(os.path.join('Output', position + '.csv'))
 
+        # Remove any rows that have injury status of IR or O
+        if not position == 'DEF':
+            df = df[df['Injury'] != 'O']
+            df = df[df['Injury'] != 'IR']
+
         # Limit the data to just salary, name and the points (either predicted or week).
         if position == 'DEF':
-            df = df[['Team', 'Salary', 'Avg Points (3 weeks)']]
-            print('WARNING: Defence predicted points is based on Avg from last 3 weeks.')
+            df = df[['Team', 'Salary', 'Predicted']]
         else:
             df = df[cols]
 
         # Remove all players/teams that dont have salary data
-        df = df.dropna()
+        df = df.dropna()        
 
         # Read through each column and enter into data array
         for col in cols:
@@ -166,8 +170,6 @@ def read_data(week = 'Predicted'):
             if position == 'DEF':
                 if col == 'Name':
                     data_in[position][col] = df['Team']
-                elif col == week:
-                    data_in[position][col] = df['Avg Points (3 weeks)']
                 else:
                     data_in[position][col] = df[col]
             else:
@@ -208,7 +210,7 @@ def output_team(team, data):
         ['FLEX - ' + flex_position, flex, data[flex_position]['Salary'][data[flex_position]['Name'] == flex].values[0], data[flex_position]['Predicted'][data[flex_position]['Name'] == flex].values[0]],
         ['DEFENCE', team['DEF'][0], data['DEF']['Salary'][data['DEF']['Name'] == team['DEF'][0]].values[0], data['DEF']['Predicted'][data['DEF']['Name'] == team['DEF'][0]].values[0]],
         [' ', ' ', ' ', ' '],
-        ['Total', ' ', team['Salary'], team['Predicted']]
+        ['Total', ' ', team['Salary'], round(team['Predicted'], 2)]
     ]
 
     # Print in a table format
