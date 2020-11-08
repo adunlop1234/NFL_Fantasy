@@ -94,24 +94,12 @@ def salary(defence, offence, week):
 
         # Offence
         for name in offence['Name'].to_list():
-            # Due to differences in names of datasets need to use fuzzywuzzy.
-            # Can't use one value due to incorrect matches (e.g. Darius Slay with Darius Slayton)
-            # Will sieve the data over multiple passes
-
-            ratio = fuzz.ratio(simplify(player), simplify(name))
-            # Exact match 
-            if ratio == 100:
+            # Use custom made simplify function to remove offending differences
+            if simplify(player) == simplify(name):
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
-                continue
-            # No match
-            if ratio < 95:
-                continue
-            # Sieve players
-            for i in [98, 97, 96, 95]:
-                if ratio >= i:
-                    offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
-                    break
+                break
         
+
     
     return (defence, offence)
 
@@ -127,24 +115,13 @@ def injury(offence):
     # Populate injury column
     for name_inj in status.Name.to_list():
         for name_o in offence.Name.to_list():
-            # Due to differences in names of datasets need to use fuzzywuzzy.
-            # Can't use one value due to incorrect matches (e.g. Darius Slay with Darius Slayton)
-            # Will sieve the data over multiple passes
-
-            # Strip out common offending characters with custom function
-            ratio = fuzz.ratio(simplify(name_inj), simplify(name_o))
-            # Exact match
-            if ratio == 100:
+            # Use custom made simplify function to remove offending differences
+            if simplify(name_inj) == simplify(name_o):
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
-                continue
-            # No match
-            if ratio < 95:
-                continue
-            # Sieve players
-            for i in [98, 97, 96, 95]:
-                if ratio >= i:
-                    offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
-                    break
+                break
+
+    return offence
+
         
 
 # Adds predicted fantasy points column
@@ -245,7 +222,7 @@ def main():
     defence, offence = salary(defence, offence, upcoming_week)
 
     # Add injury column
-    injury(offence)
+    offence = injury(offence)
 
     # Save seperate outputs for each position
     position(offence, upcoming_week)
