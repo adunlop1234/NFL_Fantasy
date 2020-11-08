@@ -1,0 +1,38 @@
+{
+    "QB": {
+        "1": "Patrick Mahomes ",
+        "2": "Chad Henne ",
+        "3": "- ",
+        "4": "- "
+    },
+    "RB": {
+        "1": "Clyde Edwards-Helaire ",
+        "2": "Le'Veon Bell ",
+        "3": "Darrel Williams ",
+        "4": "Darwin Thompson "
+    },
+    "WR1": {
+        "1": "Tyreek Hill ",
+        "2": "Demarcus Robinson ",
+        "3": "- ",
+        "4": "- "
+    },
+    "WR2": {
+        "1": "Sammy Watkins",
+        "2": "Byron Pringle ",
+        "3": "- ",
+        "4": "- "
+    },
+    "WR3": {
+        "1": "Mecole Hardman ",
+        "2": "Gehrig Dieter ",
+        "3": "- ",
+        "4": "- "
+    },
+    "TE": {
+        "1": "Travis Kelce ",
+        "2": "Nick Keizer ",
+        "3": "Deon Yelder ",
+        "4": "Ricky Seals-Jones "
+    }
+}

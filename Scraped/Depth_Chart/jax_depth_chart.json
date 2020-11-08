@@ -1,0 +1,38 @@
+{
+    "QB": {
+        "1": "Gardner Minshew II",
+        "2": "Jake Luton ",
+        "3": "Mike Glennon ",
+        "4": "- "
+    },
+    "RB": {
+        "1": "James Robinson ",
+        "2": "Chris Thompson ",
+        "3": "Devine Ozigbo",
+        "4": "Dare Ogunbowale "
+    },
+    "WR1": {
+        "1": "DJ Chark Jr. ",
+        "2": "Chris Conley ",
+        "3": "- ",
+        "4": "- "
+    },
+    "WR2": {
+        "1": "Laviska Shenault Jr. ",
+        "2": "Collin Johnson ",
+        "3": "- ",
+        "4": "- "
+    },
+    "WR3": {
+        "1": "Keelan Cole Sr. ",
+        "2": "Dede Westbrook",
+        "3": "- ",
+        "4": "- "
+    },
+    "TE": {
+        "1": "Tyler Eifert ",
+        "2": "James'Shaughnessy ",
+        "3": "Ben Ellefson ",
+        "4": "Tyler Davis "
+    }
+}

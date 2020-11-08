@@ -10,6 +10,7 @@ import pandas as pd
 import sys, os
 import datetime
 import json
+from progress.bar import IncrementalBar 
 
 
 def scrape_player_data(week, player_type):
@@ -453,6 +454,9 @@ def scrape_depth_charts():
         for position in o_positions
     }
 
+    # Create progress bar
+    bar = IncrementalBar('Scraping Depth Chart', max = len(urls), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
     # Loop over each page and therefore team
     for url in urls:
 
@@ -464,7 +468,7 @@ def scrape_depth_charts():
 
         # Create a list to loop over the number of data-idx for each row in table of depth chart
         data_range = range(6)
-
+ 
         # Loop over each position
         for data_id in data_range:
 
@@ -489,8 +493,14 @@ def scrape_depth_charts():
                     break
             
         # Write output file in json format
-        with open(os.path.join('Depth_Chart', url.split('/')[-1] + '_depth_chart.json'), 'w') as outfile:
+        with open(os.path.join('Scraped', 'Depth_Chart', url.split('/')[-1] + '_depth_chart.json'), 'w') as outfile:
             json.dump(depth_chart, outfile, indent=4)
+
+        # Loop to next team
+        bar.next()
+
+    # Close the progress bar
+    bar.finish()
     
 
 def main():
@@ -498,6 +508,7 @@ def main():
     # Scrape depth chart
     scrape_depth_charts()
 
+    '''
     # Scrape the injuries for the current week
     scrape_injuries()
     
@@ -520,6 +531,8 @@ def main():
         for week in range(week_start, week_end+1):
             scrape_player_data(week, position)
             print(str(position) + ' Data exported for week ' + str(week))
+
+    '''
     
 
 if __name__ == "__main__":
