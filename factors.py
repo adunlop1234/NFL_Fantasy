@@ -124,11 +124,6 @@ def defence_defence_factors(c_DD, schedule_week):
     # Save Defence with factors
     df.to_csv("Processed/Defence_Defence_Factors.csv")
 
-
-
-
-
-
     
 # Add column based on games played
 def games_played(defence):
