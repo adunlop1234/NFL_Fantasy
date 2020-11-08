@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 import itertools
+from factors import defence_factors, offence_factors, defence_defence_factors
 import sys, os
 
 # Open summaries
@@ -122,10 +123,37 @@ def injury(offence):
 
     return offence
 
-        
 
-# Adds predicted fantasy points column
-def predict(opp, position):
+# Adds predicted points column to defence
+def predict_D(defence):
+
+    # Open defence_defence factors
+    factors = pd.read_csv("Processed/Defence_Defence_Factors.csv")
+    # Reformat as dict {Team : Factor}
+    fact = pd.Series(factors["Defence Factor"].values,index=factors.Team).to_dict()
+
+    # Create dictionary of {NYG : New York Giants, etc.}
+    ref = pd.read_csv('References/teams.csv')
+    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
+
+    # Add Predicted Fantasy Points column
+    defence["Predicted"] = ""
+
+    print(defence)
+
+    # Add column to defence
+    for index, row in defence.iterrows(): 
+            # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
+            defence.at[index, "Predicted"] = round(fact[nfl_teams[row["Team"]]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+
+    print(defence)
+
+    return defence
+
+
+
+# Returns factor for offence player depending on opposition
+def predict_O(opp, position):
 
     # Open defence factors
     factors = pd.read_csv("Processed/Defence_Factors.csv")
@@ -144,12 +172,12 @@ def predict(opp, position):
     if position == 'QB':
         return row["QB Factor"].values[0]
     elif position == 'WR' or position == 'TE':
-        return row["Passing Factor"].values[0]
+        return row["Pass Factor (D)"].values[0]
     elif position == 'RB':
-        return row["Rushing Factor"].values[0]
+        return row["Rush Factor (D)"].values[0]
 
     # If not returned value by now, error happened
-    print("ERROR in predict()")
+    print("ERROR in predict_O()")
         
 
 
@@ -178,7 +206,7 @@ def position(offence, upcoming_week):
         pos["Predicted"] = ""
         for index, row in pos.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
-            pos.at[index, "Predicted"] = round(predict(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+            pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
 
         # Sort by descending average fantasy points
         pos = pos.sort_values(by='Predicted', ascending=False)
@@ -209,6 +237,14 @@ def main():
 
     upcoming_week = 9
 
+    # Update Factors
+    c_D = {"pass_yds" : 0.25, "pass_yds_att" : 0.4, "pass_td" : 0.35, "rush_yds" : 0.4, "rush_yds_carry" : 0.3, "rush_td" : 0.3, "pass_yds_qb" : 0.4, "pass_yds_att_qb" : 0.3, "pass_td_qb" : 0.3, "INT" : 0.1}
+    c_O = {"pass_yds" : 0.25, "pass_yds_att" : 0.3, "pass_td" : 0.45, "rush_yds" : 0.25, "rush_yds_carry" : 0.3, "rush_td" : 0.45}
+    c_DD = {"pass" : 0.5, "rush" : 0.5, "fum" : 0, "INT" : 0, "sacks" : 0}
+    defence_factors(c_D)
+    offence_factors(c_O)
+    defence_defence_factors(c_DD, upcoming_week)
+
     # Open summary files
     defence, offence = open()
 
@@ -226,6 +262,8 @@ def main():
 
     # Save seperate outputs for each position
     position(offence, upcoming_week)
+
+    defence = predict_D(defence)
 
     # Save processed version of defence
     defence.to_csv(os.path.join('Output', 'DEF.csv'))
