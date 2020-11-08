@@ -109,7 +109,7 @@ def scrape_player_data(week, player_type):
 
     # Create data frame with the columns define and data for the specified week and player type
     df = pd.DataFrame(list_out, columns=columns)
-    df.to_csv('Statistics/' + str(player_type) + '_Week_' + str(data_in['week']) + '.csv')
+    df.to_csv(os.path.join('Scraped', 'Statistics', str(player_type) + '_Week_' + str(data_in['week']) + '.csv'))
 
 # Function dedicated to returning the specific stats for each position
 def return_stats(data_in, data_out, row):
@@ -270,7 +270,7 @@ def scrape_schedule(week):
             day = datetime.date(int(year), int(month), int(day)).strftime("%a")
             time = time.split('Z')[0]
         except TypeError:
-            print('Warning: Scraping schedule after the initial game has been played.')
+            print('WARNING: Scraping schedule after the initial game has been played.')
             day = 'N/A'
             time = 'N/A'
 
@@ -284,18 +284,18 @@ def scrape_schedule(week):
         df = df.append(new_dict, ignore_index = True)
 
     # Write csv output file
-    df.to_csv('Schedule/Schedule_Week_' + str(week) + '.csv')
+    df.to_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(week) + '.csv'))
 
     return df
 
 def scrape_injuries():
 
     # Initialise the dataframe
-    columns = ['Name', 'Team', 'Position', 'Status']
+    columns = ['Name', 'Team','Position', 'Status']
     df = pd.DataFrame(columns=columns)
 
     # Define the URL for the week in question
-    URL = 'https://www.espn.co.uk/nfl/injuries'
+    URL = 'https://www.cbssports.com/nfl/injuries/'
 
     # Get page
     page = requests.get(URL, allow_redirects=True)
@@ -303,36 +303,76 @@ def scrape_injuries():
     # Parse the html using soup
     soup = BeautifulSoup(page.content, 'html.parser')
 
+    # Get list of teams
+    # Get all h4
+    headings = soup.find_all('h4')
+    teams = []
+    for heading in headings:
+        # Add team name (only keeping last word, e.g. Ram)
+        teams.append([item for item in heading.find_all('a')][1].getText().split()[-1])
+
+    # Tidy up team names with abreviation form
+    # Create dictionary of {New York Giants : NYG, etc.}
+    ref = pd.read_csv('References/teams.csv')
+    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
+
+    # Convert the list of team names into the abreviation form
+    teams_abrev = []
+    for team in teams:
+        for full in nfl_teams.keys():
+            if team in full:
+                teams_abrev.append(nfl_teams[full])    
+
     # Get all table rows
     rows = soup.find_all('tr')
-    teams = soup.find_all('span', class_=re.compile('injuries'))
 
-    # Loop over each row
+    # Loop over rows
     count = 0
+    team = teams_abrev[0]
     for row in rows:
 
-        # If the row is a header then define the team/increment team
-        if row.find('th'):
-            team = teams[count].getText()
+        # Get list of table data in given row
+        items = row.find_all('td')
+
+        # Header row means next team
+        if len(items) == 0:
+            team = teams_abrev[count]
             count += 1
+            continue
 
-        else:
+        # Get player name
+        name = [item.find_all('a') for item in items][0][1].getText().strip()
 
-            # Find the name, position and status
-            name = row.find('td', class_=re.compile('col-name')).getText()
-            position = row.find('td', class_=re.compile('col-pos')).getText()
-            status = row.find('td', class_=re.compile('col-stat')).getText()
+        # Get position
+        position = [item.getText().strip() for item in items][1]
 
-            # Set the input to the dataframe
-            input_data = dict(zip(columns, [name, team, position, status]))
+        # Get Status
+        status_text = [item.getText().strip() for item in items][4]
+        status = status_text
 
-            # Add to the pandas dataframe
-            df = df.append(input_data, ignore_index = True)
+        # Search Status comment for status
+        if "IR" in status_text:
+            status = "IR"
+        elif "questionable" in status_text.lower():
+            status = "Q"
+        elif "inactive" in status_text.lower():
+            status = "inactive"
+        elif "doubtful" in status_text.lower():
+            status = "D"
+        elif "out" in status_text.lower():
+            status = "O"
+
+        # Set the input to the dataframe
+        input_data = dict(zip(columns, [name, team, position, status]))
+
+        # Add to the pandas dataframe
+        df = df.append(input_data, ignore_index = True)
 
     # Write csv output file
-    df.to_csv('Injury_Status.csv')
+    df.to_csv(os.path.join('Scraped', 'Injury_Status.csv'))
 
     return df
+
 
 
 def scrape_salary():
@@ -379,7 +419,7 @@ def scrape_salary():
     df = df.sort_values(by='Salary', ascending=False)
 
     # Write csv output file
-    df.to_csv('Statistics/FD_Salary_Week_' + str(week) + '.csv')
+    df.to_csv(os.path.join('Scraped', 'Statistics', 'FD_Salary_Week_' + str(week) + '.csv'))
 
     return df
 
@@ -387,14 +427,14 @@ def main():
 
     # Scrape the injuries for the current week
     scrape_injuries()
-
+    
     # Scrape the salary data for the current week    
     scrape_salary()
 
     # Set weeks to scrape
-    week_start = 1
-    week_end = 7
-    schedule_week = 8
+    week_start = 8
+    week_end = 8
+    schedule_week = 9
 
     # Define what is to be scraped, Offence (O), Defence (D), Kicker (K)
     player_types = ['O', 'D']
