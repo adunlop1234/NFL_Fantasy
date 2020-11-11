@@ -4,9 +4,9 @@ Adds useful metrics and sorts output data from filter.py
 
 import pandas as pd
 import numpy as np
-from fuzzywuzzy import fuzz
 import itertools
 from factors import defence_factors, offence_factors, defence_defence_factors
+from scraper import scrape_injuries
 import sys, os
 
 # Open summaries
@@ -94,7 +94,7 @@ def salary(defence, offence, week):
             defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
-        for name in offence['Name'].to_list():
+        for name in offence['Name'].tolist():
             # Use custom made simplify function to remove offending differences
             if simplify(player) == simplify(name):
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
@@ -114,8 +114,8 @@ def injury(offence):
     offence["Injury"] = ""
 
     # Populate injury column
-    for name_inj in status.Name.to_list():
-        for name_o in offence.Name.to_list():
+    for name_inj in status.Name.tolist():
+        for name_o in offence.Name.tolist():
             # Use custom made simplify function to remove offending differences
             if simplify(name_inj) == simplify(name_o):
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
@@ -139,14 +139,10 @@ def predict_D(defence):
     # Add Predicted Fantasy Points column
     defence["Predicted"] = ""
 
-    print(defence)
-
     # Add column to defence
     for index, row in defence.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
             defence.at[index, "Predicted"] = round(fact[nfl_teams[row["Team"]]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
-
-    print(defence)
 
     return defence
 
@@ -236,6 +232,9 @@ def simplify(name):
 def main():
 
     upcoming_week = 9
+
+    # Update injury status
+    scrape_injuries()
 
     # Update Factors
     c_D = {"pass_yds" : 0.25, "pass_yds_att" : 0.4, "pass_td" : 0.35, "rush_yds" : 0.4, "rush_yds_carry" : 0.3, "rush_td" : 0.3, "pass_yds_qb" : 0.4, "pass_yds_att_qb" : 0.3, "pass_td_qb" : 0.3, "INT" : 0.1}
