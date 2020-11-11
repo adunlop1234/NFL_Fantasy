@@ -290,92 +290,6 @@ def scrape_schedule(week):
 
     return df
 
-def scrape_injuries():
-
-    # Initialise the dataframe
-    columns = ['Name', 'Team','Position', 'Status']
-    df = pd.DataFrame(columns=columns)
-
-    # Define the URL for the week in question
-    URL = 'https://www.cbssports.com/nfl/injuries/'
-
-    # Get page
-    page = requests.get(URL, allow_redirects=True)
-
-    # Parse the html using soup
-    soup = BeautifulSoup(page.content, 'html.parser')
-
-    # Get list of teams
-    # Get all h4
-    headings = soup.find_all('h4')
-    teams = []
-    for heading in headings:
-        # Add team name (only keeping last word, e.g. Ram)
-        teams.append([item for item in heading.find_all('a')][1].getText().split()[-1])
-
-    # Tidy up team names with abreviation form
-    # Create dictionary of {New York Giants : NYG, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
-
-    # Convert the list of team names into the abreviation form
-    teams_abrev = []
-    for team in teams:
-        for full in nfl_teams.keys():
-            if team in full:
-                teams_abrev.append(nfl_teams[full])    
-
-    # Get all table rows
-    rows = soup.find_all('tr')
-
-    # Loop over rows
-    count = 0
-    team = teams_abrev[0]
-    for row in rows:
-
-        # Get list of table data in given row
-        items = row.find_all('td')
-
-        # Header row means next team
-        if len(items) == 0:
-            team = teams_abrev[count]
-            count += 1
-            continue
-
-        # Get player name
-        name = [item.find_all('a') for item in items][0][1].getText().strip()
-
-        # Get position
-        position = [item.getText().strip() for item in items][1]
-
-        # Get Status
-        status_text = [item.getText().strip() for item in items][4]
-        status = status_text
-
-        # Search Status comment for status
-        if "IR" in status_text:
-            status = "IR"
-        elif "questionable" in status_text.lower():
-            status = "Q"
-        elif "inactive" in status_text.lower():
-            status = "inactive"
-        elif "doubtful" in status_text.lower():
-            status = "D"
-        elif "out" in status_text.lower():
-            status = "O"
-
-        # Set the input to the dataframe
-        input_data = dict(zip(columns, [name, team, position, status]))
-
-        # Add to the pandas dataframe
-        df = df.append(input_data, ignore_index = True)
-
-    # Write csv output file
-    df.to_csv(os.path.join('Scraped', 'Injury_Status.csv'))
-
-    return df
-
-
 
 def scrape_salary():
 
@@ -425,7 +339,7 @@ def scrape_salary():
 
     return df
 
-def scrape_depth_charts():
+def scrape_depth_charts_injuries():
     # Scrape depth chart for each team
 
     # Define the URL for the team in question
@@ -457,11 +371,15 @@ def scrape_depth_charts():
     # Create progress bar
     bar = IncrementalBar('Scraping Depth Chart', max = len(urls), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
 
+    # Create injury list
+    injuries = pd.DataFrame(columns = ['Name', 'Status', 'Team'])
+
     # Loop over each page and therefore team
     for url in urls:
 
         # Get the current url
         page = requests.get(URL.replace('/nfl/team/depth/_/name/ari', url))
+        team = url.split('/')[-1].upper()
 
         # Parse the html using soup
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -485,6 +403,11 @@ def scrape_depth_charts():
                 # If len == 4 then it's the player names, only get offence so break after allocation
                 if len(items) == 4:
                     for i in range(0, 4):
+                        
+                        if re.search(r'( O| D| IR| Q| SUSP)\b', items[i].getText()):
+                            status = items[i].getText().split(' ')[-1]
+                            name = ' '.join(items[i].getText().split(' ')[0:-1])
+                            injuries = injuries.append({'Name' : name, 'Team' : team, 'Position': o_positions[data_id][0:2], 'Status' : status}, ignore_index=True)
 
                         # Strip injury status from the end of the name
                         name = re.sub(r'( O| D| IR| Q| SUSP)\b', '', items[i].getText())
@@ -501,16 +424,16 @@ def scrape_depth_charts():
 
     # Close the progress bar
     bar.finish()
-    
+
+    # Write the csv output
+    injuries.to_csv(os.path.join('Scraped', 'Injury_Status.csv'))
 
 def main():
 
-    # Scrape depth chart
-    scrape_depth_charts()
+    # Scrape depth chart and injuries
+    scrape_depth_charts_injuries()
 
     '''
-    # Scrape the injuries for the current week
-    scrape_injuries()
     
     # Scrape the salary data for the current week    
     scrape_salary()
