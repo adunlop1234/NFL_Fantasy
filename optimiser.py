@@ -148,31 +148,6 @@ def optimiser(data_in):
 
     return data_out
 
-# Function to return the projected points for a given team
-def points(team, data_in):
-
-    # Initialise total and define positions
-    total = 0
-    positions = ['QB', 'RB', 'WR', 'TE', 'DEF']
-
-    # Loop over each position
-    for position in positions:
-        players = team[position]
-
-        # Loop over every player detailed at the position adding points
-        for player in players:
-
-            # Check if the player is in the list
-            try: 
-                player_index = data_in[position]['Name'].index(player)
-            except ValueError:
-                print(player + ' is not in the list. Available players at ' + position + ' are:')
-                print(data_in[position]['Name'])
-                raise
-
-            total += data_in[position]['Predicted'][player_index]
-
-    return total
 
 # Read in the desired data - either predicted or previous week (specify the integer week in the argument)
 def read_data(week = 'Predicted'):
