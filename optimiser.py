@@ -2,11 +2,12 @@
 Set of scripts that find the optimum team with limited salary.
 '''
 
-import cvxpy
+import pulp
 import sys
 import numpy as np
 import pandas as pd
 import os
+import re
 from tabulate import tabulate
 
 # Define salary cap
@@ -25,104 +26,128 @@ TE_max = TE_min + 1
 def optimiser(data_in):
     
     # The variable we are solving for
-    selection_QB = cvxpy.Variable(len(data_in['QB']['Salary']), boolean=True)
-    selection_RB = cvxpy.Variable(len(data_in['RB']['Salary']), boolean=True)
-    selection_WR = cvxpy.Variable(len(data_in['WR']['Salary']), boolean=True)
-    selection_TE = cvxpy.Variable(len(data_in['TE']['Salary']), boolean=True)
-    selection_DEF = cvxpy.Variable(len(data_in['DEF']['Salary']), boolean=True)
+    QB_list = [str(name) for name in data_in['QB']['Name']]
+    RB_list = [str(name) for name in data_in['RB']['Name']]
+    WR_list = [str(name) for name in data_in['WR']['Name']]
+    TE_list = [str(name) for name in data_in['TE']['Name']]
+    DEF_list = [str(name) for name in data_in['DEF']['Name']]
+
+    selections = {}
+    selections['QB'] = pulp.LpVariable.dicts('QB', QB_list, cat = 'Binary')
+    selections['RB']  = pulp.LpVariable.dicts('RB', RB_list, cat = 'Binary')
+    selections['WR']  = pulp.LpVariable.dicts('WR', WR_list, cat = 'Binary')
+    selections['TE']  = pulp.LpVariable.dicts('TE', TE_list, cat = 'Binary')
+    selections['DEF']  = pulp.LpVariable.dicts('DEF', DEF_list, cat = 'Binary')
     
-    # The sum of the salaries should be less than or equal to the salary cap
-    constraints = [
+    # Initialise problem
+    prob = pulp.LpProblem("Fantasy Team", pulp.LpMaximize)
 
-    # Define the salary cap limit
-    sum([sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['QB']['Salary'], selection_QB)),
-    sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['RB']['Salary'], selection_RB)),
-    sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['WR']['Salary'], selection_WR)),
-    sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['TE']['Salary'], selection_TE)),
-    sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['DEF']['Salary'], selection_DEF))]) <= SALARY_CAP,
+    # Define cost function
+    total_points = ""
+    for position in ['QB', 'RB', 'WR', 'TE', 'DEF']:
+
+        players = selections[position]
+
+        for i, player_var in enumerate(players.values()):
+            
+            total_points += np.array(data_in[position]['Predicted'])[i] * player_var  
     
-    # Define the number of QB and D
-    sum(selection_QB) == QB_min,
-    sum(selection_DEF) == DEF_min,
+    prob += total_points
 
-    # Define the upper and lower bounds of number of FLEX eligibles.
-    sum(selection_RB) >= RB_min,
-    sum(selection_WR) >= WR_min,
-    sum(selection_TE) >= TE_min,
-    sum(selection_RB) <= RB_max,
-    sum(selection_WR) <= WR_max,
-    sum(selection_TE) <= TE_max,
+    # Define salary constraint
+    salary_const = ""
+    for position in ['QB', 'RB', 'WR', 'TE', 'DEF']:
 
-    # Define that there is only one FLEX
-    sum(selection_RB) + sum(selection_WR) + sum(selection_TE) == TE_min + RB_min + WR_min + 1
+        players = selections[position]
+
+        for i, player_var in enumerate(players.values()):
+
+            salary_const += np.array(data_in[position]['Salary'])[i] * player_var  
     
-    ]
+    prob += (salary_const <= SALARY_CAP)
 
-    # Parameter we want to maximise
-    total_points = sum([sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['QB']['Predicted'], selection_QB)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['RB']['Predicted'], selection_RB)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['WR']['Predicted'], selection_WR)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['TE']['Predicted'], selection_TE)), 
-                        sum(cvxpy.atoms.affine.binary_operators.multiply(data_in['DEF']['Predicted'] , selection_DEF))])
+    # Define number of QBs
+    QB_const = ""
+    for player_var in selections['QB'].values():
+
+        QB_const += player_var
+
+    prob += (QB_const == QB_min)
+
+    # Define number of defences
+    DEF_const = ""
+    for player_var in selections['DEF'].values():
+
+        DEF_const += player_var
+
+    prob += (DEF_const == DEF_min)
+
+    # Define number of rb, wr, te player quantitites
+    RB_const = WR_const = TE_const = ""
+    for rb_player_var, wr_player_var, te_player_var in zip(selections['RB'].values(), selections['WR'].values(), selections['TE'].values()):
+
+        RB_const += rb_player_var
+        WR_const += wr_player_var
+        TE_const += te_player_var
+
+    # Define number of rbs, wrs, tes and flexes
+    prob += (RB_const >= RB_min)
+    prob += (RB_const <= RB_max)
+    prob += (WR_const >= WR_min)
+    prob += (WR_const <= WR_max)
+    prob += (TE_const >= TE_min)
+    prob += (TE_const <= TE_max)
+    prob += (RB_const + WR_const + TE_const == TE_min + WR_min + RB_min + 1)
+
+    # Write the problem
+    prob.writeLP('Fantasy_Team.lp')
+
+    # Solve the problem
+    optimisation_result = prob.solve()
+    assert optimisation_result == pulp.LpStatusOptimal
+    print("Status:", pulp.LpStatus[prob.status])
+
+    # Strip the output
+    variable_names = []
+    for v in prob.variables():
+        if v.varValue:
+            variable_names.append(v.name)
+
+    # Check the total salary it came to
+    salary_out = 0
+    score_out = 0
+    players = {'QB' : [],
+    'RB' : [],
+    'WR' : [],
+    'TE' : [],
+    'DEF' : []}
+    for name in variable_names:
+
+        # Get position
+        position = name.split('_')[0]
+
+        # Get the name
+        name = re.sub(r'DEF_|QB_|RB_|WR_|TE_', '', name).replace('_', ' ')
+        
+        # Add the total for score, salary
+        salary_out += np.array(data_in[position]['Salary'][data_in[position]['Name'] == name])[0]
+        score_out += np.array(data_in[position]['Predicted'][data_in[position]['Name'] == name])[0]
+
+        players[position].append(name)
     
-    # Set up the problem
-    fantasy_team = cvxpy.Problem(cvxpy.Maximize(total_points), constraints)
-    
-    # Solving the problem
-    fantasy_team.solve(solver=cvxpy.GLPK_MI)
-
-    # Assign the output selections
-    QB = np.array(data_in['QB']['Name'])[np.where(selection_QB.value.astype(int)==1)]
-    RB = np.array(data_in['RB']['Name'])[np.where(selection_RB.value.astype(int)==1)]
-    WR = np.array(data_in['WR']['Name'])[np.where(selection_WR.value.astype(int)==1)]
-    TE = np.array(data_in['TE']['Name'])[np.where(selection_TE.value.astype(int)==1)]
-    DEF = np.array(data_in['DEF']['Name'])[np.where(selection_DEF.value.astype(int)==1)]
-
-    # Define the total salary for the selections
-    salary_out = (sum(np.multiply(np.array(data_in['QB']['Salary']),selection_QB.value))+
-    sum(np.multiply(np.array(data_in['RB']['Salary']),selection_RB.value))+
-    sum(np.multiply(np.array(data_in['WR']['Salary']),selection_WR.value))+
-    sum(np.multiply(np.array(data_in['TE']['Salary']),selection_TE.value))+
-    sum(np.multiply(np.array(data_in['DEF']['Salary']),selection_DEF.value)))
-
     # Assign output data structure
     data_out = {
-        'QB' : QB,
-        'RB' : RB,
-        'WR' : WR,
-        'TE' : TE,
-        'DEF' : DEF,
+        'QB' : players['QB'],
+        'RB' : players['RB'],
+        'WR' : players['WR'],
+        'TE' : players['TE'],
+        'DEF' : players['DEF'],
         'Salary' : salary_out,
-        'Predicted' : fantasy_team.value 
+        'Predicted' : score_out
     }
 
     return data_out
 
-# Function to return the projected points for a given team
-def points(team, data_in):
-
-    # Initialise total and define positions
-    total = 0
-    positions = ['QB', 'RB', 'WR', 'TE', 'DEF']
-
-    # Loop over each position
-    for position in positions:
-        players = team[position]
-
-        # Loop over every player detailed at the position adding points
-        for player in players:
-
-            # Check if the player is in the list
-            try: 
-                player_index = data_in[position]['Name'].index(player)
-            except ValueError:
-                print(player + ' is not in the list. Available players at ' + position + ' are:')
-                print(data_in[position]['Name'])
-                raise
-
-            total += data_in[position]['Predicted'][player_index]
-
-    return total
 
 # Read in the desired data - either predicted or previous week (specify the integer week in the argument)
 def read_data(week = 'Predicted'):
