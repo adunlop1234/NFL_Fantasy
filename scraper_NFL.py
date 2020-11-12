@@ -145,7 +145,7 @@ def scrape_defence_team():
     bar.finish()
 
     # Strip relevant columns from each data frame
-    cols = {'passing' : {'Att' : 'Pass Att', 'Cmp' : 'Pass Cmp', 'Cmp %' : 'Pass Cmp %', 'Yds/Att' : 'Pass Yds/Att', 'Yds' : 'Pass Yds', 'TD' : 'Pass TD', 'Rate' : 'Pass Rate'},
+    cols = {'passing' : {'Att' : 'Pass Att', 'Cmp' : 'Pass Cmp', 'Cmp %' : 'Pass Cmp %', 'Yds/Att' : 'Pass Yds/Att', 'Yds' : 'Pass Yds', 'TD' : 'Pass TD', 'Rate' : 'Pass Rate', 'Sck' : 'Sacks'},
             'rushing' : {'Att' : 'Rush Att', 'Rush Yds' : 'Rush Yds', 'YPC' : 'Rush YPC', 'TD' : 'Rush TD'},
             'receiving' : {'Rec' : 'Rec', 'Yds' : 'Rec Yds', 'Yds/Rec' : 'Rec Yds/Rec', 'TD' : 'Rec TD'},
             'scoring' : {'FR TD' : 'FR TD', 'SFTY' : 'SFTY'},
