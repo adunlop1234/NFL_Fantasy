@@ -68,7 +68,7 @@ def main():
         exit(1)
 
     # Set upcoming_week
-    upcoming_week = sys.argv[1]
+    upcoming_week = int(sys.argv[1])
 
     # Update player data 
     update_player_data(upcoming_week)
