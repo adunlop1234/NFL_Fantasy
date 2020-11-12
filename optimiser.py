@@ -105,6 +105,7 @@ def optimiser(data_in):
     # Solve the problem
     optimisation_result = prob.solve()
     assert optimisation_result == pulp.LpStatusOptimal
+    
     print("Status:", pulp.LpStatus[prob.status])
 
     # Strip the output
