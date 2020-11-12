@@ -1,6 +1,6 @@
 {
     "QB": {
-        "1": "Cam Newton ",
+        "1": "Cam Newton",
         "2": "Jarrett Stidham ",
         "3": "Brian Hoyer ",
         "4": "- "
@@ -12,13 +12,13 @@
         "4": "J.J. Taylor"
     },
     "WR1": {
-        "1": "N'Keal Harry",
+        "1": "Jakobi Meyers ",
         "2": "Isaiah Ford ",
         "3": "Julian Edelman",
         "4": "- "
     },
     "WR2": {
-        "1": "Jakobi Meyers ",
+        "1": "N'Keal Harry",
         "2": "Gunner Olszewski ",
         "3": "Quincy Adeboyejo",
         "4": "- "
@@ -31,8 +31,8 @@
     },
     "TE": {
         "1": "Ryan Izzo",
-        "2": "Dalton Keene",
-        "3": "Devin Asiasi",
-        "4": "Matt LaCosse"
+        "2": "Jordan Thomas",
+        "3": "Dalton Keene",
+        "4": "Devin Asiasi"
     }
 }

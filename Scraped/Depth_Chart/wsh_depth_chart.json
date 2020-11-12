@@ -1,32 +1,32 @@
 {
     "QB": {
-        "1": "Kyle Allen ",
-        "2": "Alex Smith ",
-        "3": "Dwayne Haskins Jr. ",
+        "1": "Alex Smith ",
+        "2": "Dwayne Haskins Jr. ",
+        "3": "Kyle Allen",
         "4": "- "
     },
     "RB": {
-        "1": "Antonio Gibson ",
+        "1": "Antonio Gibson",
         "2": "J.D. McKissic ",
         "3": "Peyton Barber ",
         "4": "Bryce Love"
     },
     "WR1": {
         "1": "Terry McLaurin ",
-        "2": "Isaiah Wright ",
-        "3": "Tony Brown ",
-        "4": "Kelvin Harmon"
-    },
-    "WR2": {
-        "1": "Dontrelle Inman",
         "2": "Cam Sims ",
         "3": "Jeff Badet ",
         "4": "Emanuel Hall"
     },
+    "WR2": {
+        "1": "Dontrelle Inman",
+        "2": "Isaiah Wright ",
+        "3": "Antonio Gandy-Golden",
+        "4": "- "
+    },
     "WR3": {
         "1": "Steven Sims Jr. ",
         "2": "Robert Foster ",
-        "3": "Antonio Gandy-Golden",
+        "3": "Kelvin Harmon",
         "4": "- "
     },
     "TE": {
