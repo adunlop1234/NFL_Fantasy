@@ -9,6 +9,8 @@ import re
 import pandas as pd
 import sys, os
 import datetime
+import json
+from progress.bar import IncrementalBar 
 
 
 def scrape_player_data(week, player_type):
@@ -423,8 +425,90 @@ def scrape_salary():
 
     return df
 
+def scrape_depth_charts():
+    # Scrape depth chart for each team
+
+    # Define the URL for the team in question
+    URL = 'https://www.espn.com/nfl/team/depth/_/name/ari'
+
+    # Get page
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Links for all teams
+    attrs = {'class' : re.compile('dropdown__option'), 'data-url' : re.compile('/nfl/team/depth/_/name/')}
+    urls = [team['data-url'] for team in soup.find_all('option', attrs)]
+    urls.insert(0, '/nfl/team/depth/_/name/ari')
+
+    # Define the output offence depth chart
+    o_positions = ['QB', 'RB', 'WR1', 'WR2', 'WR3', 'TE']
+    depth_chart = {
+        position : {
+            1 : '',
+            2 : '',
+            3 : '',
+            4 : ''
+        }
+        for position in o_positions
+    }
+
+    # Create progress bar
+    bar = IncrementalBar('Scraping Depth Chart', max = len(urls), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
+    # Loop over each page and therefore team
+    for url in urls:
+
+        # Get the current url
+        page = requests.get(URL.replace('/nfl/team/depth/_/name/ari', url))
+
+        # Parse the html using soup
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        # Create a list to loop over the number of data-idx for each row in table of depth chart
+        data_range = range(6)
+ 
+        # Loop over each position
+        for data_id in data_range:
+
+            # Get all rows for the current position
+            rows = soup.find_all('tr', {'class' : 'Table__TR Table__TR--sm Table__even', 'data-idx' : str(data_id)})
+            for row in rows:
+
+                # Find all the entries
+                items = row.find_all('td')
+
+                # Position determined by data-idx
+                position = o_positions[data_id]
+
+                # If len == 4 then it's the player names, only get offence so break after allocation
+                if len(items) == 4:
+                    for i in range(0, 4):
+
+                        # Strip injury status from the end of the name
+                        name = re.sub(r'( O| D| IR| Q| SUSP)\b', '', items[i].getText())
+                        depth_chart[position][i+1] = name
+
+                    break
+            
+        # Write output file in json format
+        with open(os.path.join('Scraped', 'Depth_Chart', url.split('/')[-1] + '_depth_chart.json'), 'w') as outfile:
+            json.dump(depth_chart, outfile, indent=4)
+
+        # Loop to next team
+        bar.next()
+
+    # Close the progress bar
+    bar.finish()
+    
+
 def main():
 
+    # Scrape depth chart
+    scrape_depth_charts()
+
+    '''
     # Scrape the injuries for the current week
     scrape_injuries()
     
@@ -447,6 +531,8 @@ def main():
         for week in range(week_start, week_end+1):
             scrape_player_data(week, position)
             print(str(position) + ' Data exported for week ' + str(week))
+
+    '''
     
 
 if __name__ == "__main__":

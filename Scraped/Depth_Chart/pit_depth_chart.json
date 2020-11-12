@@ -1,0 +1,38 @@
+{
+    "QB": {
+        "1": "Ben Roethlisberger ",
+        "2": "Mason Rudolph ",
+        "3": "Joshua Dobbs ",
+        "4": "- "
+    },
+    "RB": {
+        "1": "James Conner ",
+        "2": "Jaylen Samuels ",
+        "3": "Anthony McFarland Jr. ",
+        "4": "Benny Snell Jr. "
+    },
+    "WR1": {
+        "1": "JuJu Smith-Schuster ",
+        "2": "James Washington ",
+        "3": "- ",
+        "4": "- "
+    },
+    "WR2": {
+        "1": "Diontae Johnson ",
+        "2": "Ray-Ray McCloud ",
+        "3": "- ",
+        "4": "- "
+    },
+    "WR3": {
+        "1": "Chase Claypool ",
+        "2": "- ",
+        "3": "- ",
+        "4": "- "
+    },
+    "TE": {
+        "1": "Eric Ebron ",
+        "2": "Vance McDonald",
+        "3": "Zach Gentry ",
+        "4": "- "
+    }
+}
