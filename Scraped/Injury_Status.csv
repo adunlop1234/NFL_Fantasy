@@ -49,7 +49,7 @@
 47,Allen Lazard,IR,GB,WR
 48,Robert Tonyan,Q,GB,TE
 49,Marcedes Lewis,Q,GB,TE
-50,John Lovett,Q,GB,TE
+50,John Lovett,O,GB,TE
 51,David Johnson,Q,HOU,RB
 52,Kahale Warring,IR,HOU,TE
 53,Jacob Eason,O,IND,QB
@@ -113,8 +113,8 @@
 111,Anthony McFarland Jr.,Q,PIT,RB
 112,Vance McDonald,O,PIT,TE
 113,Jimmy Garoppolo,IR,SF,QB
-114,Tevin Coleman,D,SF,RB
-115,Deebo Samuel,Q,SF,WR
+114,Tevin Coleman,Q,SF,RB
+115,Deebo Samuel,D,SF,WR
 116,Jalen Hurd,IR,SF,WR
 117,River Cracraft,Q,SF,WR
 118,Chris Thompson,IR,SF,WR

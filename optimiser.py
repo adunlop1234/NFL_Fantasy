@@ -40,7 +40,7 @@ def optimiser(data_in):
     selections['DEF']  = pulp.LpVariable.dicts('DEF', DEF_list, cat = 'Binary')
     
     # Initialise problem
-    prob = pulp.LpProblem("Fantasy Team", pulp.LpMaximize)
+    prob = pulp.LpProblem("Fantasy_Team", pulp.LpMaximize)
 
     # Define cost function
     total_points = ""
@@ -103,10 +103,10 @@ def optimiser(data_in):
     prob.writeLP('Fantasy_Team.lp')
 
     # Solve the problem
-    optimisation_result = prob.solve()
+    optimisation_result = prob.solve(pulp.PULP_CBC_CMD(msg=0))
     assert optimisation_result == pulp.LpStatusOptimal
     
-    print("Status:", pulp.LpStatus[prob.status])
+    print("The solution found is:", pulp.LpStatus[prob.status])
 
     # Strip the output
     variable_names = []
