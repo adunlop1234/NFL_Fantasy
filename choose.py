@@ -12,7 +12,7 @@ def main():
 
     # Check correct command-line usuage
     if len(sys.argv) != 1:
-        print("USUAGE: python select.py")
+        print("USUAGE: python choose.py")
         exit(1)
 
     # Read in the data array
