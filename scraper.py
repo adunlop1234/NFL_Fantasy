@@ -68,7 +68,13 @@ def scrape_player_data(week, player_type):
             positionTeam = row.find('em').getText().split(' - ')
             if len(positionTeam) > 1:
                 data_out['Position'] = positionTeam[0]
-                data_out['Team'] = positionTeam[1]
+                # Replace LA with LAR and WAS with WSH
+                if positionTeam[1] == "LA":
+                    data_out['Team'] = "LAR"
+                elif positionTeam[1] == "WAS":
+                    data_out['Team'] = "WSH"
+                else:
+                    data_out['Team'] = positionTeam[1]
             else:
                 data_out['Position'] = positionTeam[0]
                 data_out['Team'] = None 

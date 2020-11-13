@@ -67,8 +67,7 @@ def paddy_points(week):
         try:
             offence.at[offence.index[offence["Player Name"] == name], "RET TD"] = offence_missing[name][0]
             offence.at[offence.index[offence["Player Name"] == name], "2PT"] = offence_missing[name][1]
-            # Need to change LA to LAR 
-            offence.at[offence.index[offence["Player Name"] == name], "Team"] = offence_missing[name][2] if offence_missing[name][2] != "LA" else "LAR"
+            offence.at[offence.index[offence["Player Name"] == name], "Team"] = offence_missing[name][2]
         except KeyError:
             print(name + " is in NFL Log dataset but not NFL Fantasy dataset")
             continue
