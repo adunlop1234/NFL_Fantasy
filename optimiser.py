@@ -186,6 +186,11 @@ def read_data(week = 'Predicted'):
         else:
             df = df[cols]
 
+        # Print players with missing salary info
+        for index, row in df.iterrows():
+            if pd.isnull(row.Salary):
+                print(str(row.Name) + " has no salary data. They are predicted " + str(row["Predicted"]) + " points")
+
         # Remove all players/teams that dont have salary data
         df = df.dropna()        
 

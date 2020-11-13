@@ -313,11 +313,15 @@ def salary(defence, offence, week):
             defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
-        for name in offence['Name'].tolist():
+        num_players = len(offence['Name'].tolist())
+        for count, name in enumerate(offence['Name'].tolist()):
             # Use custom made simplify function to remove offending differences
             if simplify(player) == simplify(name):
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
                 break
+            # No match found
+            if count+1 == num_players:
+                print(player + " has a salary, but not in Offence")
         
 
     
