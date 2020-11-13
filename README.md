@@ -19,8 +19,8 @@ Formulae can be found here: https://docs.google.com/document/d/1gwx1Za9LCGU4VGip
 
 **Usuage:** python develop.py upcoming_week
 
-### select.py
+### choose.py
 **Description:** Selects the optimal team
 
-**Usuage:** python select.py 
+**Usuage:** python choose.py 
 
