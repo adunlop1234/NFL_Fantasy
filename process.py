@@ -364,6 +364,9 @@ def predict_D(defence):
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
             defence.at[index, "Predicted"] = round(fact[nfl_teams[row["Team"]]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
 
+    # Sort by descending average fantasy points
+    defence = defence.sort_values(by='Predicted', ascending=False)
+
     return defence
 
 
