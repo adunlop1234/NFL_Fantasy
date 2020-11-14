@@ -1,563 +1,605 @@
 \* Fantasy_Team *\
 Maximize
-OBJ: 8.62 DEF_ARI + 3.54 DEF_ATL + 10.4 DEF_BAL + 4.69 DEF_BUF + 3.33 DEF_CAR
- + 6.07 DEF_CHI + 2.75 DEF_DAL + 6.19 DEF_DEN + 2.44 DEF_DET + 2.69 DEF_HOU
- + 11.32 DEF_IND + 3.48 DEF_JAX + 9.09 DEF_KC + 5.4 DEF_LAC + 3.35 DEF_LV
- + 9.78 DEF_MIA + 3.56 DEF_MIN + 7.24 DEF_NYG + 11.73 DEF_PIT + 5.58 DEF_SEA
- + 3.93 DEF_TEN + 9.51 DEF_WSH + 3.13 QB_Ben_DiNucci
- + 17.84 QB_Ben_Roethlisberger + 2.97 QB_Chad_Henne + 12.04 QB_Daniel_Jones
- + 19 QB_Derek_Carr + 29.01 QB_Deshaun_Watson + 15.27 QB_Drew_Lock
- + 24.71 QB_Josh_Allen + 23.91 QB_Justin_Herbert + 16.87 QB_Kirk_Cousins
- + 26.09 QB_Kyler_Murray + 16.49 QB_Lamar_Jackson - 0.11 QB_Mason_Rudolph
- + 18.71 QB_Matt_Ryan + 23.86 QB_Matthew_Stafford + 16.2 QB_Nick_Foles
- + 20.99 QB_Patrick_Mahomes + 16.46 QB_Philip_Rivers + 28.72 QB_Russell_Wilson
- + 18.91 QB_Ryan_Fitzpatrick + 17.55 QB_Ryan_Tannehill
- + 11.82 QB_Teddy_Bridgewater + 2.92 QB_Tua_Tagovailoa
- + 6.41 RB_Adrian_Peterson + 5.83 RB_Alexander_Mattison
- + 1.56 RB_Ameer_Abdullah + 7.22 RB_Benny_Snell + 4.95 RB_Brian_Hill
- + 11.66 RB_Chase_Edmonds + 14.6 RB_Chris_Carson
- + 14.95 RB_Clyde_Edwards_Helaire + 10.9 RB_D'Andre_Swift
- + 37.97 RB_Dalvin_Cook + 5.25 RB_Darrel_Williams + 1.02 RB_Darwin_Thompson
- + 15.47 RB_David_Johnson + 11.58 RB_David_Montgomery
- + 1.1 RB_DeAndre_Washington + 11.38 RB_DeeJay_Dallas + 19.08 RB_Derrick_Henry
- + 8.21 RB_Devin_Singletary + 5.81 RB_Devonta_Freeman
- + 3.67 RB_Devontae_Booker + 3.61 RB_Dion_Lewis + 4.6 RB_Duke_Johnson
- + 1.22 RB_Elijhaa_Penny + 10.1 RB_Ezekiel_Elliott + 5.88 RB_Gabe_Nabers
- + 5.15 RB_Gus_Edwards + 1.52 RB_Ito_Smith + 5.17 RB_J.K._Dobbins
- + 3.02 RB_Jalen_Richard + 19.15 RB_James_Conner + 18.76 RB_James_Robinson
- + 0.54 RB_Jaylen_Samuels + 2.72 RB_Jeremy_McNichols + 9.23 RB_Jonathan_Taylor
- + 5.22 RB_Jordan_Wilkins + 11.52 RB_Josh_Jacobs + 6.57 RB_Joshua_Kelley
- + 12.43 RB_Justin_Jackson + 14.9 RB_Kenyan_Drake + 4.36 RB_Kerryon_Johnson
- + 0.58 RB_Khari_Blasingame + 6.21 RB_Le'Veon_Bell + 3.37 RB_Mark_Ingram
- + 2.86 RB_Matt_Breida + 10.57 RB_Melvin_Gordon + 1.54 RB_Mike_Boone
- + 13.23 RB_Mike_Davis + 8.67 RB_Nyheim_Hines + 1.03 RB_Patrick_Laird
- + 8.65 RB_Phillip_Lindsay + 0.28 RB_Qadree_Ollison + 1.05 RB_Rico_Dowdle
- + 2.41 RB_Royce_Freeman + 0.73 RB_Ryan_Nall + 13.01 RB_Todd_Gurley
- + 3.63 RB_Tony_Pollard + 2.06 RB_Travis_Homer + 1.74 RB_Trenton_Cannon
- + 14.66 RB_Troymaine_Pope + 8.86 RB_Wayne_Gallman + 9 RB_Zack_Moss
- + 4.63 TE_Adam_Shaheen + 9.64 TE_Albert_Okwuegbunam + 5.77 TE_Anthony_Firkser
- + 1.32 TE_Blake_Bell + 0.98 TE_Chris_Manhertz + 4.03 TE_Cole_Kmet
- + 6.82 TE_Dalton_Schultz + 4.3 TE_Dan_Arnold + 1.11 TE_Darrell_Daniels
- + 12.49 TE_Darren_Fells + 10.77 TE_Darren_Waller + 1.3 TE_Demetrius_Harris
- + 0.82 TE_Deon_Yelder + 3.92 TE_Durham_Smythe + 7.66 TE_Eric_Ebron
- + 5.86 TE_Evan_Engram + 2.6 TE_Foster_Moreau + 0.79 TE_Geoff_Swaim
- + 3.17 TE_Greg_Olsen + 8.43 TE_Hayden_Hurst + 7.24 TE_Hunter_Henry
- + 2.05 TE_Ian_Thomas + 4.07 TE_Irv_Smith + 0.98 TE_Isaac_Nauta
- + 5.36 TE_Jack_Doyle + 2.74 TE_Jacob_Hollister + 2.38 TE_James_O'Shaughnessy
- + 2.6 TE_Jason_Witten + 4.45 TE_Jesse_James + 7.97 TE_Jimmy_Graham
- + 5.92 TE_Jonnu_Smith + 1.57 TE_Kaden_Smith + 3.96 TE_Kyle_Rudolph
- + 1.35 TE_Levine_Toilolo + 0.26 TE_Luke_Stocker + 7.12 TE_Mark_Andrews
- + 5.08 TE_Mike_Gesicki + 5.63 TE_Mo_Alie_Cox + 1.71 TE_MyCole_Pruitt
- + 3.45 TE_Nick_Boyle + 0.86 TE_Nick_Keizer + 2.01 TE_Nick_Vannett
- + 11.17 TE_Noah_Fant + 3.33 TE_Pharaoh_Brown + 4.2 TE_Reggie_Gilliam
- + 12.76 TE_T.J._Hockenson + 12.18 TE_Travis_Kelce + 9.33 TE_Trey_Burton
- + 6.09 TE_Tyler_Kroft + 2.26 TE_Vance_McDonald + 3.04 TE_Will_Dissly
- + 13.06 WR_A.J._Brown + 5.54 WR_Adam_Humphries + 13.87 WR_Adam_Thielen
- + 14.64 WR_Allen_Robinson + 11.52 WR_Amari_Cooper + 3.44 WR_Andy_Isabella
- + 7.3 WR_Anthony_Miller + 1.57 WR_Ashton_Dulin + 0.53 WR_Austin_Mack
- + 13.19 WR_Brandin_Cooks + 0.95 WR_Brandon_Powell + 0.71 WR_Brandon_Zylstra
- + 3.42 WR_Byron_Pringle + 1.63 WR_C.J._Board + 13.54 WR_Calvin_Ridley
- + 9.25 WR_CeeDee_Lamb + 2.04 WR_Chad_Beebe + 12.58 WR_Chase_Claypool
- + 4 WR_Chris_Conley + 2.55 WR_Christian_Blake + 11.98 WR_Christian_Kirk
- + 12.1 WR_Cole_Beasley + 2.84 WR_Cordarrelle_Patterson + 11.84 WR_Corey_Davis
- + 9.31 WR_Curtis_Samuel + 12.18 WR_D.J._Chark + 9.95 WR_D.J._Moore
- + 16.85 WR_DK_Metcalf + 6.24 WR_DaeSean_Hamilton + 7.37 WR_Danny_Amendola
- + 8.09 WR_Darius_Slayton + 8.58 WR_Darnell_Mooney + 7.74 WR_David_Moore
- + 13.55 WR_DeAndre_Hopkins + 8.53 WR_DeVante_Parker
- + 4.77 WR_Demarcus_Robinson + 3.89 WR_Devin_Duvernay
- + 10.66 WR_Diontae_Johnson + 1.25 WR_Diontae_Spencer + 2.07 WR_Freddie_Swain
- + 4.38 WR_Gabriel_Davis + 5.94 WR_Golden_Tate + 6.2 WR_Henry_Ruggs_III
- + 8.3 WR_Hunter_Renfrow + 3.23 WR_Isaiah_McKenzie + 5.51 WR_Jakeem_Grant
- + 4.04 WR_Jalen_Guyton + 5.75 WR_James_Washington + 2.42 WR_Javon_Wims
- + 8.96 WR_Jerry_Jeudy + 5.99 WR_John_Brown + 10.34 WR_JuJu_Smith_Schuster
- + 15.28 WR_Julio_Jones + 15.48 WR_Justin_Jefferson + 8.13 WR_K.J._Hamler
- + 3.3 WR_Kalif_Raymond + 15.37 WR_Keelan_Cole + 14.3 WR_Keenan_Allen
- + 12.97 WR_Kenny_Golladay + 4.95 WR_Kenny_Stills + 4.86 WR_Larry_Fitzgerald
- + 8.06 WR_Laviska_Shenault_Jr. + 0.97 WR_Malcolm_Perry
- + 6.65 WR_Marcus_Johnson + 7.5 WR_Marquise_Brown + 5.56 WR_Marvin_Hall
- + 10.46 WR_Marvin_Jones + 6.91 WR_Mecole_Hardman + 6.68 WR_Michael_Gallup
- + 2.24 WR_Michael_Pittman + 13.44 WR_Mike_Williams + 3.74 WR_Miles_Boykin
- + 9.25 WR_Nelson_Agholor + 2.3 WR_Noah_Brown + 2.4 WR_Olamide_Zaccheaus
- + 6.26 WR_Preston_Williams + 11.65 WR_Randall_Cobb + 8.93 WR_Robby_Anderson
- + 6.69 WR_Russell_Gage + 15.55 WR_Stefon_Diggs + 9.37 WR_Sterling_Shepard
- + 3.65 WR_T.Y._Hilton + 1.13 WR_Ted_Ginn + 12.29 WR_Tim_Patrick
- + 18.51 WR_Tyler_Lockett + 12.41 WR_Tyreek_Hill + 0.54 WR_Tyrie_Cleveland
- + 16.91 WR_Will_Fuller + 5.66 WR_Willie_Snead + 6.48 WR_Zach_Pascal
+OBJ: 6.55 DEF_ARI + 6.06 DEF_BUF + 3.58 DEF_CAR + 3.45 DEF_CIN + 6.67 DEF_CLE
+ + 4.76 DEF_DEN + 1.98 DEF_DET + 4.75 DEF_GB + 2.79 DEF_HOU + 3.51 DEF_JAX
+ + 4.53 DEF_LAC + 8.37 DEF_LAR + 3.09 DEF_LV + 9.64 DEF_MIA + 6.84 DEF_NO
+ + 7.51 DEF_NYG + 10.58 DEF_PHI + 10.66 DEF_PIT + 4.47 DEF_SEA + 4.91 DEF_SF
+ + 7.93 DEF_TB + 8.32 DEF_WSH + 28.75 QB_Aaron_Rodgers + 10.61 QB_Alex_Smith
+ + 19.4 QB_Baker_Mayfield - 0.03 QB_Blaine_Gabbert + 19.53 QB_Carson_Wentz
+ + 5.74 QB_Chase_Daniel + 13.77 QB_Daniel_Jones + 16.79 QB_Derek_Carr
+ + 25.43 QB_Deshaun_Watson + 19.03 QB_Drew_Brees + 17.41 QB_Drew_Lock
+ + 23.09 QB_Jake_Luton + 0.81 QB_Jalen_Hurts + 0.19 QB_Jameis_Winston
+ + 21.07 QB_Jared_Goff + 18.74 QB_Joe_Burrow + 23.38 QB_Josh_Allen
+ + 24.17 QB_Justin_Herbert + 31.5 QB_Kyler_Murray + 0.03 QB_Mason_Rudolph
+ + 13.74 QB_Matthew_Stafford + 13.51 QB_Nick_Mullens + 21.76 QB_Russell_Wilson
+ + 2.82 QB_Taysom_Hill + 16.85 QB_Teddy_Bridgewater + 18.95 QB_Tom_Brady
+ + 10.97 QB_Tua_Tagovailoa + 19.79 RB_Aaron_Jones + 6.68 RB_Adrian_Peterson
+ + 16.74 RB_Alvin_Kamara + 0.63 RB_Andy_Janovich + 16.75 RB_Antonio_Gibson
+ + 4.12 RB_Benny_Snell + 6.2 RB_Boston_Scott + 4.84 RB_Cam_Akers
+ + 7.99 RB_Carlos_Hyde + 13.29 RB_Chase_Edmonds + 9.97 RB_Chris_Carson
+ + 20.66 RB_Christian_McCaffrey + 1.92 RB_Corey_Clement
+ + 11.21 RB_D'Andre_Swift + 2.84 RB_D'Ernest_Johnson
+ + 9.7 RB_Darrell_Henderson + 9.72 RB_David_Johnson
+ + 1.19 RB_DeAndre_Washington + 7.98 RB_DeeJay_Dallas
+ + 7.26 RB_Devin_Singletary + 5.53 RB_Devonta_Freeman
+ + 5.38 RB_Devontae_Booker + 4.11 RB_Dion_Lewis + 6.44 RB_Duke_Johnson
+ + 0.71 RB_Dwayne_Washington + 0.88 RB_Elijhaa_Penny + 4.61 RB_Gabe_Nabers
+ + 9.67 RB_Giovani_Bernard + 10.25 RB_J.D._McKissic + 3.84 RB_JaMycal_Hasty
+ + 3.05 RB_Jalen_Richard + 13.51 RB_Jamaal_Williams + 13.15 RB_James_Conner
+ + 16.87 RB_James_Robinson + 0.74 RB_Jason_Huntley + 0.45 RB_Jaylen_Samuels
+ + 11.96 RB_Jeff_Wilson + 6.75 RB_Jerick_McKinnon + 6.15 RB_Jordan_Howard
+ + 12.04 RB_Josh_Jacobs + 7.69 RB_Joshua_Kelley + 10.36 RB_Justin_Jackson
+ + 18.11 RB_Kareem_Hunt + 11.22 RB_Kenyan_Drake + 6.33 RB_Kerryon_Johnson
+ + 5.34 RB_Latavius_Murray + 10.77 RB_Leonard_Fournette
+ + 8.23 RB_Malcolm_Brown + 2.81 RB_Matt_Breida + 12.43 RB_Melvin_Gordon
+ + 0.68 RB_Michael_Burton + 8.16 RB_Mike_Davis + 11.73 RB_Myles_Gaskin
+ + 1.73 RB_Patrick_Laird + 4.57 RB_Peyton_Barber + 9.64 RB_Phillip_Lindsay
+ + 10.54 RB_Ronald_Jones + 3.05 RB_Royce_Freeman + 3.76 RB_Salvon_Ahmed
+ + 3.42 RB_Samaje_Perine + 2.01 RB_Tevin_Coleman + 2.62 RB_Travis_Homer
+ + 0.86 RB_Trenton_Cannon + 7.25 RB_Troymaine_Pope + 4.59 RB_Tyler_Ervin
+ + 10.85 RB_Wayne_Gallman + 9.62 RB_Zack_Moss + 2.41 TE_Adam_Shaheen
+ + 4.4 TE_Adam_Trautman + 2.95 TE_Cameron_Brate + 0.87 TE_Cethan_Carter
+ + 1.18 TE_Chris_Manhertz + 5.71 TE_Dallas_Goedert + 3.82 TE_Dan_Arnold
+ + 3.19 TE_Darrell_Daniels + 6.51 TE_Darren_Fells + 10.26 TE_Darren_Waller
+ + 6.06 TE_David_Njoku + 4.01 TE_Donald_Parham + 3.36 TE_Drew_Sample
+ + 3.17 TE_Durham_Smythe + 8.99 TE_Eric_Ebron + 7.38 TE_Evan_Engram
+ + 2.45 TE_Foster_Moreau + 8.09 TE_Gerald_Everett + 2.57 TE_Greg_Olsen
+ + 7.47 TE_Harrison_Bryant + 6.07 TE_Hunter_Henry + 2.36 TE_Ian_Thomas
+ + 0.68 TE_Isaac_Nauta + 4.11 TE_Jace_Sternberger + 3.3 TE_Jacob_Hollister
+ + 2.29 TE_James_O'Shaughnessy + 8.31 TE_Jared_Cook + 2.1 TE_Jason_Witten
+ + 0.82 TE_Jeremy_Sprinkle + 2.55 TE_Jesse_James + 5.3 TE_Johnny_Mundt
+ + 5.9 TE_Jordan_Akins + 5.43 TE_Jordan_Reed + 2.32 TE_Josh_Hill
+ + 1.4 TE_Kaden_Smith + 1.03 TE_Levine_Toilolo + 8.11 TE_Logan_Thomas
+ + 4.18 TE_Marcedes_Lewis + 4.28 TE_Maxx_Williams + 6.02 TE_Mike_Gesicki
+ + 1.63 TE_Nick_Vannett + 8.28 TE_Noah_Fant + 1.22 TE_Pharaoh_Brown
+ + 3.54 TE_Reggie_Gilliam + 7.27 TE_Richard_Rodgers + 7.03 TE_Rob_Gronkowski
+ + 10.4 TE_Robert_Tonyan + 6.84 TE_Ross_Dwelley + 9.31 TE_T.J._Hockenson
+ + 0.85 TE_Tanner_Hudson + 0.61 TE_Temarrick_Hemingway + 5.22 TE_Tyler_Eifert
+ + 7.1 TE_Tyler_Higbee + 5.73 TE_Tyler_Kroft + 2.48 TE_Will_Dissly
+ + 6.04 WR_A.J._Green + 3.76 WR_Andy_Isabella + 4.18 WR_Antonio_Brown
+ + 3.77 WR_Auden_Tate + 5.59 WR_Austin_Mack + 12.42 WR_Brandin_Cooks
+ + 14.57 WR_Brandon_Aiyuk + 2 WR_Brandon_Zylstra + 1.67 WR_C.J._Board
+ + 7.51 WR_Cam_Sims + 12.2 WR_Chase_Claypool + 6.06 WR_Chris_Conley
+ + 10.76 WR_Chris_Godwin + 14.03 WR_Christian_Kirk + 9.15 WR_Cole_Beasley
+ + 2.43 WR_Collin_Johnson + 14.01 WR_Cooper_Kupp + 12.89 WR_Curtis_Samuel
+ + 16.54 WR_D.J._Chark + 10.53 WR_D.J._Moore + 14.14 WR_DK_Metcalf
+ + 4.87 WR_DaeSean_Hamilton + 6.14 WR_Danny_Amendola - 1.17 WR_Dante_Pettis
+ + 6.89 WR_Darius_Slayton + 1.19 WR_Darrius_Shepherd + 30.25 WR_Davante_Adams
+ + 7.32 WR_David_Moore + 13.45 WR_DeAndre_Hopkins + 9.47 WR_DeVante_Parker
+ + 9.76 WR_Deebo_Samuel + 5.05 WR_Deonte_Harris + 10.94 WR_Diontae_Johnson
+ + 9.68 WR_Donovan_Peoples_Jones + 10.92 WR_Emmanuel_Sanders
+ + 1.25 WR_Equanimeous_St._Brown + 1.44 WR_Freddie_Swain
+ + 5.8 WR_Gabriel_Davis + 6.87 WR_Golden_Tate + 7.54 WR_Greg_Ward
+ + 4.9 WR_Henry_Ruggs_III + 7.61 WR_Hunter_Renfrow + 4.41 WR_Isaiah_McKenzie
+ + 3.56 WR_Isaiah_Wright + 1.41 WR_J.J._Arcega_Whiteside + 5.7 WR_Jakeem_Grant
+ + 5.66 WR_Jalen_Guyton + 8.23 WR_Jalen_Reagor + 5.39 WR_James_Washington
+ + 8.38 WR_Jarvis_Landry + 10.03 WR_Jerry_Jeudy + 3.06 WR_Joe_Reed
+ + 7.76 WR_John_Brown + 3.14 WR_John_Hightower + 9.09 WR_Josh_Reynolds
+ + 13.15 WR_JuJu_Smith_Schuster + 7.66 WR_K.J._Hamler - 0.3 WR_K.J._Hill
+ + 7.2 WR_Keelan_Cole + 14.74 WR_Keenan_Allen + 8.49 WR_Kenny_Golladay
+ + 4.56 WR_Kenny_Stills + 6.1 WR_Larry_Fitzgerald
+ + 5.32 WR_Laviska_Shenault_Jr. + 7.69 WR_Mack_Hollins + 0.51 WR_Malcolm_Perry
+ + 3.65 WR_Malik_Taylor + 5.52 WR_Marquez_Callaway
+ + 8.68 WR_Marquez_Valdes_Scantling + 4.12 WR_Marvin_Hall
+ + 8.35 WR_Marvin_Jones + 5.82 WR_Michael_Thomas + 9.71 WR_Mike_Evans
+ + 4.11 WR_Mike_Thomas + 9.14 WR_Mike_Williams + 9.34 WR_Nelson_Agholor
+ + 4.37 WR_Quintez_Cephus + 9.28 WR_Randall_Cobb + 8.34 WR_Rashard_Higgins
+ + 31.83 WR_Richie_James + 2.53 WR_River_Cracraft + 10.86 WR_Robby_Anderson
+ + 16.48 WR_Robert_Woods + 13.5 WR_Stefon_Diggs + 9.11 WR_Sterling_Shepard
+ + 3.42 WR_Steven_Sims + 12.18 WR_Tee_Higgins + 17.21 WR_Terry_McLaurin
+ + 9.55 WR_Tim_Patrick + 15.87 WR_Travis_Fulgham + 7.3 WR_Tre'Quan_Smith
+ + 2.46 WR_Trent_Taylor + 14.44 WR_Tyler_Boyd + 4.92 WR_Tyler_Johnson
+ + 12.95 WR_Tyler_Lockett + 0.28 WR_Tyrie_Cleveland + 4 WR_Tyron_Johnson
+ + 2.96 WR_Van_Jefferson + 15.58 WR_Will_Fuller
 Subject To
-_C1: 4300 DEF_ARI + 3300 DEF_ATL + 4500 DEF_BAL + 3900 DEF_BUF + 3100 DEF_CAR
- + 4000 DEF_CHI + 3000 DEF_DAL + 4200 DEF_DEN + 3200 DEF_DET + 3700 DEF_HOU
- + 4800 DEF_IND + 3500 DEF_JAX + 4600 DEF_KC + 4200 DEF_LAC + 3600 DEF_LV
- + 4400 DEF_MIA + 3400 DEF_MIN + 4100 DEF_NYG + 5000 DEF_PIT + 3500 DEF_SEA
- + 3800 DEF_TEN + 4700 DEF_WSH + 6600 QB_Ben_DiNucci
- + 7700 QB_Ben_Roethlisberger + 6000 QB_Chad_Henne + 6900 QB_Daniel_Jones
- + 7000 QB_Derek_Carr + 8300 QB_Deshaun_Watson + 7200 QB_Drew_Lock
- + 8200 QB_Josh_Allen + 7900 QB_Justin_Herbert + 7100 QB_Kirk_Cousins
- + 8600 QB_Kyler_Murray + 8100 QB_Lamar_Jackson + 6000 QB_Mason_Rudolph
- + 7600 QB_Matt_Ryan + 7500 QB_Matthew_Stafford + 6800 QB_Nick_Foles
- + 9300 QB_Patrick_Mahomes + 6900 QB_Philip_Rivers + 9000 QB_Russell_Wilson
- + 6400 QB_Ryan_Fitzpatrick + 7400 QB_Ryan_Tannehill
- + 7300 QB_Teddy_Bridgewater + 6700 QB_Tua_Tagovailoa
- + 5300 RB_Adrian_Peterson + 5100 RB_Alexander_Mattison
- + 4500 RB_Ameer_Abdullah + 5000 RB_Benny_Snell + 5000 RB_Brian_Hill
- + 7400 RB_Chase_Edmonds + 7600 RB_Chris_Carson
- + 7000 RB_Clyde_Edwards_Helaire + 6000 RB_D'Andre_Swift + 9300 RB_Dalvin_Cook
- + 4600 RB_Darrel_Williams + 4500 RB_Darwin_Thompson + 6800 RB_David_Johnson
- + 5900 RB_David_Montgomery + 4500 RB_DeAndre_Washington
- + 5100 RB_DeeJay_Dallas + 8900 RB_Derrick_Henry + 5800 RB_Devin_Singletary
- + 5500 RB_Devonta_Freeman + 4900 RB_Devontae_Booker + 4600 RB_Dion_Lewis
- + 4800 RB_Duke_Johnson + 4500 RB_Elijhaa_Penny + 8000 RB_Ezekiel_Elliott
- + 4500 RB_Gabe_Nabers + 5400 RB_Gus_Edwards + 4800 RB_Ito_Smith
- + 5300 RB_J.K._Dobbins + 4500 RB_Jalen_Richard + 8200 RB_James_Conner
- + 7300 RB_James_Robinson + 4500 RB_Jaylen_Samuels + 4600 RB_Jeremy_McNichols
- + 6400 RB_Jonathan_Taylor + 5600 RB_Jordan_Wilkins + 7700 RB_Josh_Jacobs
- + 5400 RB_Joshua_Kelley + 5900 RB_Justin_Jackson + 6000 RB_Kenyan_Drake
- + 5200 RB_Kerryon_Johnson + 4500 RB_Khari_Blasingame + 5500 RB_Le'Veon_Bell
- + 5600 RB_Mark_Ingram + 4700 RB_Matt_Breida + 6600 RB_Melvin_Gordon
- + 4600 RB_Mike_Boone + 7800 RB_Mike_Davis + 5400 RB_Nyheim_Hines
- + 4500 RB_Patrick_Laird + 5700 RB_Phillip_Lindsay + 4800 RB_Qadree_Ollison
- + 4500 RB_Rico_Dowdle + 4900 RB_Royce_Freeman + 4600 RB_Ryan_Nall
- + 6900 RB_Todd_Gurley + 4900 RB_Tony_Pollard + 5200 RB_Travis_Homer
- + 4700 RB_Trenton_Cannon + 4500 RB_Troymaine_Pope + 5500 RB_Wayne_Gallman
- + 5800 RB_Zack_Moss + 4200 TE_Adam_Shaheen + 5000 TE_Albert_Okwuegbunam
- + 4900 TE_Anthony_Firkser + 4000 TE_Blake_Bell + 4000 TE_Chris_Manhertz
- + 4300 TE_Cole_Kmet + 5100 TE_Dalton_Schultz + 4300 TE_Dan_Arnold
- + 4000 TE_Darrell_Daniels + 5200 TE_Darren_Fells + 6400 TE_Darren_Waller
- + 4200 TE_Demetrius_Harris + 4000 TE_Deon_Yelder + 4100 TE_Durham_Smythe
- + 5400 TE_Eric_Ebron + 5500 TE_Evan_Engram + 4100 TE_Foster_Moreau
- + 4000 TE_Geoff_Swaim + 4800 TE_Greg_Olsen + 5600 TE_Hayden_Hurst
- + 5600 TE_Hunter_Henry + 4600 TE_Ian_Thomas + 4600 TE_Irv_Smith
- + 4000 TE_Isaac_Nauta + 4900 TE_Jack_Doyle + 4300 TE_Jacob_Hollister
- + 4100 TE_James_O'Shaughnessy + 4300 TE_Jason_Witten + 4300 TE_Jesse_James
- + 5300 TE_Jimmy_Graham + 5700 TE_Jonnu_Smith + 4100 TE_Kaden_Smith
- + 4400 TE_Kyle_Rudolph + 4000 TE_Levine_Toilolo + 4000 TE_Luke_Stocker
- + 6600 TE_Mark_Andrews + 5300 TE_Mike_Gesicki + 5000 TE_Mo_Alie_Cox
- + 4000 TE_MyCole_Pruitt + 4100 TE_Nick_Boyle + 4100 TE_Nick_Keizer
- + 4000 TE_Nick_Vannett + 5800 TE_Noah_Fant + 4100 TE_Pharaoh_Brown
- + 4200 TE_Reggie_Gilliam + 4000 TE_Ricky_Seals_Jones + 6000 TE_T.J._Hockenson
- + 8000 TE_Travis_Kelce + 5500 TE_Trey_Burton + 4000 TE_Tyler_Davis
- + 4700 TE_Tyler_Kroft + 4200 TE_Vance_McDonald + 4600 TE_Will_Dissly
- + 7600 WR_A.J._Brown + 5000 WR_Adam_Humphries + 7700 WR_Adam_Thielen
- + 6900 WR_Allen_Robinson + 7000 WR_Amari_Cooper + 4700 WR_Andy_Isabella
- + 5100 WR_Anthony_Miller + 4500 WR_Ashton_Dulin + 4600 WR_Austin_Mack
- + 6100 WR_Brandin_Cooks + 4600 WR_Brandon_Powell + 4500 WR_Brandon_Zylstra
- + 4700 WR_Byron_Pringle + 4500 WR_C.J._Board + 8000 WR_Calvin_Ridley
- + 5800 WR_CeeDee_Lamb + 4500 WR_Chad_Beebe + 6300 WR_Chase_Claypool
- + 4600 WR_Chris_Conley + 4800 WR_Christian_Blake + 5900 WR_Christian_Kirk
- + 5300 WR_Cole_Beasley + 4700 WR_Cordarrelle_Patterson + 6000 WR_Corey_Davis
- + 5600 WR_Curtis_Samuel + 6400 WR_D.J._Chark + 7000 WR_D.J._Moore
- + 8100 WR_DK_Metcalf + 4600 WR_DaeSean_Hamilton + 5300 WR_Danny_Amendola
- + 5900 WR_Darius_Slayton + 5500 WR_Darnell_Mooney + 5200 WR_David_Moore
- + 8800 WR_DeAndre_Hopkins + 6300 WR_DeVante_Parker
- + 5400 WR_Demarcus_Robinson + 4800 WR_Devin_Duvernay
- + 6000 WR_Diontae_Johnson + 4500 WR_Diontae_Spencer + 4600 WR_Freddie_Swain
- + 4800 WR_Gabriel_Davis + 5500 WR_Golden_Tate + 5700 WR_Henry_Ruggs_III
- + 5100 WR_Hunter_Renfrow + 4600 WR_Isaiah_McKenzie + 4600 WR_Jakeem_Grant
- + 4900 WR_Jalen_Guyton + 4500 WR_James_Proche + 5000 WR_James_Washington
- + 4600 WR_Javon_Wims + 5700 WR_Jerry_Jeudy + 5500 WR_John_Brown
- + 6500 WR_JuJu_Smith_Schuster + 8200 WR_Julio_Jones
- + 6800 WR_Justin_Jefferson + 4800 WR_K.J._Hamler + 4900 WR_Kalif_Raymond
- + 5200 WR_Keelan_Cole + 7500 WR_Keenan_Allen + 7300 WR_Kenny_Golladay
- + 4600 WR_Kenny_Stills + 5000 WR_Larry_Fitzgerald
- + 5400 WR_Laviska_Shenault_Jr. + 4500 WR_Malcolm_Perry
- + 4900 WR_Marcus_Johnson + 5800 WR_Marquise_Brown + 4600 WR_Marvin_Hall
- + 6100 WR_Marvin_Jones + 5600 WR_Mecole_Hardman + 5400 WR_Michael_Gallup
- + 5000 WR_Michael_Pittman + 6200 WR_Mike_Williams + 4800 WR_Miles_Boykin
- + 5000 WR_Nelson_Agholor + 4600 WR_Noah_Brown + 4700 WR_Olamide_Zaccheaus
- + 5100 WR_Preston_Williams + 5400 WR_Randall_Cobb + 6600 WR_Robby_Anderson
- + 5400 WR_Russell_Gage + 7600 WR_Stefon_Diggs + 5500 WR_Sterling_Shepard
- + 5300 WR_T.Y._Hilton + 4500 WR_Ted_Ginn + 5300 WR_Tim_Patrick
- + 7400 WR_Tyler_Lockett + 8300 WR_Tyreek_Hill + 4500 WR_Tyrie_Cleveland
- + 7100 WR_Will_Fuller + 5100 WR_Willie_Snead + 5200 WR_Zach_Pascal <= 60000
-_C10: RB_Adrian_Peterson + RB_Alexander_Mattison + RB_Ameer_Abdullah
- + RB_Benny_Snell + RB_Brian_Hill + RB_Chase_Edmonds + RB_Chris_Carson
- + RB_Clyde_Edwards_Helaire + RB_D'Andre_Swift + RB_Dalvin_Cook
- + RB_Darrel_Williams + RB_David_Johnson + RB_David_Montgomery
- + RB_DeeJay_Dallas + RB_Derrick_Henry + RB_Devin_Singletary
- + RB_Devonta_Freeman + RB_Devontae_Booker + RB_Dion_Lewis + RB_Duke_Johnson
- + RB_Elijhaa_Penny + RB_Ezekiel_Elliott + RB_Gabe_Nabers + RB_Gus_Edwards
- + RB_Ito_Smith + RB_J.K._Dobbins + RB_Jalen_Richard + RB_James_Conner
- + RB_James_Robinson + RB_Jeremy_McNichols + RB_Jonathan_Taylor
- + RB_Jordan_Wilkins + RB_Josh_Jacobs + RB_Joshua_Kelley + RB_Justin_Jackson
- + RB_Kenyan_Drake + RB_Kerryon_Johnson + RB_Le'Veon_Bell + RB_Mark_Ingram
- + RB_Matt_Breida + RB_Melvin_Gordon + RB_Mike_Boone + RB_Mike_Davis
- + RB_Nyheim_Hines + RB_Phillip_Lindsay + RB_Royce_Freeman + RB_Todd_Gurley
- + RB_Tony_Pollard + RB_Travis_Homer + RB_Trenton_Cannon + RB_Troymaine_Pope
- + RB_Wayne_Gallman + RB_Zack_Moss + TE_Adam_Shaheen + TE_Albert_Okwuegbunam
- + TE_Anthony_Firkser + TE_Blake_Bell + TE_Chris_Manhertz + TE_Cole_Kmet
- + TE_Dalton_Schultz + TE_Dan_Arnold + TE_Darrell_Daniels + TE_Darren_Fells
- + TE_Darren_Waller + TE_Demetrius_Harris + TE_Deon_Yelder + TE_Durham_Smythe
- + TE_Eric_Ebron + TE_Evan_Engram + TE_Foster_Moreau + TE_Geoff_Swaim
- + TE_Greg_Olsen + TE_Hayden_Hurst + TE_Hunter_Henry + TE_Ian_Thomas
- + TE_Irv_Smith + TE_Isaac_Nauta + TE_Jack_Doyle + TE_Jacob_Hollister
- + TE_James_O'Shaughnessy + TE_Jason_Witten + TE_Jesse_James + TE_Jimmy_Graham
- + TE_Jonnu_Smith + TE_Kaden_Smith + TE_Kyle_Rudolph + TE_Levine_Toilolo
- + TE_Luke_Stocker + TE_Mark_Andrews + TE_Mike_Gesicki + TE_Mo_Alie_Cox
- + TE_MyCole_Pruitt + TE_Nick_Boyle + TE_Nick_Keizer + TE_Nick_Vannett
- + TE_Noah_Fant + TE_Pharaoh_Brown + TE_Reggie_Gilliam + TE_Ricky_Seals_Jones
- + TE_T.J._Hockenson + TE_Travis_Kelce + TE_Trey_Burton + TE_Tyler_Davis
- + TE_Tyler_Kroft + TE_Vance_McDonald + TE_Will_Dissly + WR_A.J._Brown
- + WR_Adam_Thielen + WR_Allen_Robinson + WR_Amari_Cooper + WR_Anthony_Miller
- + WR_Brandin_Cooks + WR_Calvin_Ridley + WR_CeeDee_Lamb + WR_Chase_Claypool
- + WR_Christian_Kirk + WR_Cole_Beasley + WR_Corey_Davis + WR_Curtis_Samuel
- + WR_D.J._Chark + WR_D.J._Moore + WR_DK_Metcalf + WR_DaeSean_Hamilton
- + WR_Danny_Amendola + WR_Darius_Slayton + WR_Darnell_Mooney + WR_David_Moore
- + WR_DeAndre_Hopkins + WR_DeVante_Parker + WR_Diontae_Johnson
- + WR_Henry_Ruggs_III + WR_Hunter_Renfrow + WR_Jerry_Jeudy
- + WR_JuJu_Smith_Schuster + WR_Julio_Jones + WR_Justin_Jefferson
- + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay
- + WR_Laviska_Shenault_Jr. + WR_Marcus_Johnson + WR_Marquise_Brown
- + WR_Marvin_Jones + WR_Mecole_Hardman + WR_Michael_Gallup + WR_Mike_Williams
- + WR_Nelson_Agholor + WR_Preston_Williams + WR_Randall_Cobb
- + WR_Robby_Anderson + WR_Russell_Gage + WR_Stefon_Diggs + WR_Sterling_Shepard
- + WR_Tim_Patrick + WR_Tyler_Lockett + WR_Tyreek_Hill + WR_Will_Fuller
- + WR_Zach_Pascal = 7
-_C2: QB_Ben_DiNucci + QB_Ben_Roethlisberger + QB_Chad_Henne + QB_Daniel_Jones
- + QB_Derek_Carr + QB_Deshaun_Watson + QB_Drew_Lock + QB_Josh_Allen
- + QB_Justin_Herbert + QB_Kirk_Cousins + QB_Kyler_Murray + QB_Lamar_Jackson
- + QB_Mason_Rudolph + QB_Matt_Ryan + QB_Matthew_Stafford + QB_Nick_Foles
- + QB_Patrick_Mahomes + QB_Philip_Rivers + QB_Russell_Wilson
- + QB_Ryan_Fitzpatrick + QB_Ryan_Tannehill + QB_Teddy_Bridgewater
+_C1: 3600 DEF_ARI + 4100 DEF_BUF + 3000 DEF_CAR + 3400 DEF_CIN + 4400 DEF_CLE
+ + 4300 DEF_DEN + 3900 DEF_DET + 4800 DEF_GB + 3500 DEF_HOU + 3100 DEF_JAX
+ + 4100 DEF_LAC + 4000 DEF_LAR + 3500 DEF_LV + 4700 DEF_MIA + 4500 DEF_NO
+ + 3900 DEF_NYG + 4600 DEF_PHI + 5000 DEF_PIT + 3700 DEF_SEA + 3700 DEF_SF
+ + 4200 DEF_TB + 3800 DEF_WSH + 8400 QB_Aaron_Rodgers + 6500 QB_Alex_Smith
+ + 7000 QB_Baker_Mayfield + 6000 QB_Blaine_Gabbert + 7500 QB_Carson_Wentz
+ + 6000 QB_Chase_Daniel + 6700 QB_Daniel_Jones + 6900 QB_Derek_Carr
+ + 8300 QB_Deshaun_Watson + 7600 QB_Drew_Brees + 7100 QB_Drew_Lock
+ + 6000 QB_Easton_Stick + 6700 QB_Jake_Luton + 6100 QB_Jalen_Hurts
+ + 6000 QB_Jameis_Winston + 7400 QB_Jared_Goff + 7200 QB_Joe_Burrow
+ + 8700 QB_Josh_Allen + 8000 QB_Justin_Herbert + 8800 QB_Kyler_Murray
+ + 6000 QB_Mason_Rudolph + 7300 QB_Matthew_Stafford + 6600 QB_Nick_Mullens
+ + 8900 QB_Russell_Wilson + 4500 QB_Taysom_Hill + 7000 QB_Teddy_Bridgewater
+ + 7800 QB_Tom_Brady + 6800 QB_Tua_Tagovailoa + 8800 RB_Aaron_Jones
+ + 5200 RB_Adrian_Peterson + 9000 RB_Alvin_Kamara + 4500 RB_Andy_Janovich
+ + 6100 RB_Antonio_Gibson + 4900 RB_Benny_Snell + 5900 RB_Boston_Scott
+ + 5100 RB_Cam_Akers + 5500 RB_Carlos_Hyde + 7100 RB_Chase_Edmonds
+ + 7800 RB_Chris_Carson + 9700 RB_Christian_McCaffrey + 5000 RB_Corey_Clement
+ + 6000 RB_D'Andre_Swift + 4800 RB_D'Ernest_Johnson
+ + 5800 RB_Darrell_Henderson + 6300 RB_David_Johnson
+ + 4500 RB_DeAndre_Washington + 5600 RB_DeeJay_Dallas
+ + 5600 RB_Devin_Singletary + 5400 RB_Devonta_Freeman
+ + 5200 RB_Devontae_Booker + 4600 RB_Dion_Lewis + 5800 RB_Duke_Johnson
+ + 4500 RB_Dwayne_Washington + 4500 RB_Elijhaa_Penny + 4700 RB_Gabe_Nabers
+ + 6200 RB_Giovani_Bernard + 5300 RB_J.D._McKissic + 5100 RB_JaMycal_Hasty
+ + 4500 RB_Jalen_Richard + 5600 RB_Jamaal_Williams + 7600 RB_James_Conner
+ + 7300 RB_James_Robinson + 4500 RB_Jason_Huntley + 4500 RB_Jaylen_Samuels
+ + 5700 RB_Jeff_Wilson + 5500 RB_Jerick_McKinnon + 5200 RB_Jordan_Howard
+ + 7500 RB_Josh_Jacobs + 5200 RB_Joshua_Kelley + 5500 RB_Justin_Jackson
+ + 7500 RB_Kareem_Hunt + 6000 RB_Kenyan_Drake + 5000 RB_Kerryon_Johnson
+ + 5000 RB_Latavius_Murray + 6400 RB_Leonard_Fournette + 5500 RB_Malcolm_Brown
+ + 4600 RB_Matt_Breida + 6600 RB_Melvin_Gordon + 4500 RB_Michael_Burton
+ + 5400 RB_Mike_Davis + 5700 RB_Myles_Gaskin + 4700 RB_Patrick_Laird
+ + 4500 RB_Peyton_Barber + 5900 RB_Phillip_Lindsay + 6400 RB_Ronald_Jones
+ + 4800 RB_Royce_Freeman + 4900 RB_Salvon_Ahmed + 4700 RB_Samaje_Perine
+ + 5000 RB_Tevin_Coleman + 5300 RB_Travis_Homer + 4700 RB_Trenton_Cannon
+ + 4500 RB_Troymaine_Pope + 4900 RB_Tyler_Ervin + 5700 RB_Wayne_Gallman
+ + 5800 RB_Zack_Moss + 4200 TE_Adam_Shaheen + 4200 TE_Adam_Trautman
+ + 4600 TE_Cameron_Brate + 4000 TE_Cethan_Carter + 4000 TE_Chris_Manhertz
+ + 5800 TE_Dallas_Goedert + 4300 TE_Dan_Arnold + 4500 TE_Darrell_Daniels
+ + 5000 TE_Darren_Fells + 7000 TE_Darren_Waller + 4800 TE_David_Njoku
+ + 4400 TE_Donald_Parham + 4400 TE_Drew_Sample + 4300 TE_Durham_Smythe
+ + 5400 TE_Eric_Ebron + 5600 TE_Evan_Engram + 4100 TE_Foster_Moreau
+ + 4500 TE_Gerald_Everett + 4600 TE_Greg_Olsen + 4800 TE_Harrison_Bryant
+ + 5500 TE_Hunter_Henry + 4400 TE_Ian_Thomas + 4000 TE_Isaac_Nauta
+ + 4400 TE_Jace_Sternberger + 4700 TE_Jacob_Hollister
+ + 4100 TE_James_O'Shaughnessy + 6000 TE_Jared_Cook + 4300 TE_Jason_Witten
+ + 4000 TE_Jeremy_Sprinkle + 4300 TE_Jesse_James + 4000 TE_Johnny_Mundt
+ + 4900 TE_Jordan_Akins + 5000 TE_Jordan_Reed + 4200 TE_Josh_Hill
+ + 4100 TE_Kaden_Smith + 4000 TE_Levine_Toilolo + 4900 TE_Logan_Thomas
+ + 4300 TE_Marcedes_Lewis + 4000 TE_Maxx_Williams + 5300 TE_Mike_Gesicki
+ + 4400 TE_Nick_Vannett + 5700 TE_Noah_Fant + 4100 TE_Pharaoh_Brown
+ + 4200 TE_Reggie_Gilliam + 4900 TE_Richard_Rodgers + 6100 TE_Rob_Gronkowski
+ + 5700 TE_Robert_Tonyan + 5000 TE_Ross_Dwelley + 6200 TE_T.J._Hockenson
+ + 4000 TE_Tanner_Hudson + 4000 TE_Temarrick_Hemingway + 4600 TE_Tyler_Eifert
+ + 5200 TE_Tyler_Higbee + 4700 TE_Tyler_Kroft + 4500 TE_Will_Dissly
+ + 5600 WR_A.J._Green + 4800 WR_Andy_Isabella + 6500 WR_Antonio_Brown
+ + 4600 WR_Auden_Tate + 4900 WR_Austin_Mack + 6300 WR_Brandin_Cooks
+ + 6500 WR_Brandon_Aiyuk + 4500 WR_Brandon_Zylstra + 4500 WR_C.J._Board
+ + 4900 WR_Cam_Sims + 6100 WR_Chase_Claypool + 4800 WR_Chris_Conley
+ + 7500 WR_Chris_Godwin + 6300 WR_Christian_Kirk + 5400 WR_Cole_Beasley
+ + 4600 WR_Collin_Johnson + 7700 WR_Cooper_Kupp + 5700 WR_Curtis_Samuel
+ + 6600 WR_D.J._Chark + 6900 WR_D.J._Moore + 8300 WR_DK_Metcalf
+ + 4700 WR_DaeSean_Hamilton + 5200 WR_Danny_Amendola + 4500 WR_Dante_Pettis
+ + 5900 WR_Darius_Slayton + 4600 WR_Darrius_Shepherd + 9500 WR_Davante_Adams
+ + 5300 WR_David_Moore + 8600 WR_DeAndre_Hopkins + 6000 WR_DeVante_Parker
+ + 6000 WR_Deebo_Samuel + 4900 WR_Deonte_Harris + 5700 WR_Diontae_Johnson
+ + 5200 WR_Donovan_Peoples_Jones + 5800 WR_Emmanuel_Sanders
+ + 4500 WR_Equanimeous_St._Brown + 4700 WR_Freddie_Swain
+ + 5000 WR_Gabriel_Davis + 5300 WR_Golden_Tate + 5100 WR_Greg_Ward
+ + 5600 WR_Henry_Ruggs_III + 4900 WR_Hunter_Renfrow + 4700 WR_Isaiah_McKenzie
+ + 4500 WR_Isaiah_Wright + 4600 WR_J.J._Arcega_Whiteside
+ + 4600 WR_Jakeem_Grant + 4900 WR_Jalen_Guyton + 5600 WR_Jalen_Reagor
+ + 5100 WR_James_Washington + 6000 WR_Jarvis_Landry + 5800 WR_Jerry_Jeudy
+ + 4700 WR_Joe_Reed + 5600 WR_John_Brown + 4900 WR_John_Hightower
+ + 5000 WR_Josh_Reynolds + 6400 WR_JuJu_Smith_Schuster + 5200 WR_K.J._Hamler
+ + 4500 WR_K.J._Hill + 5100 WR_Keelan_Cole + 7800 WR_Keenan_Allen
+ + 7000 WR_Kenny_Golladay + 4600 WR_Kenny_Stills + 5000 WR_Larry_Fitzgerald
+ + 5200 WR_Laviska_Shenault_Jr. + 4800 WR_Mack_Hollins + 4500 WR_Malcolm_Perry
+ + 4600 WR_Malik_Taylor + 4700 WR_Marquez_Callaway
+ + 5500 WR_Marquez_Valdes_Scantling + 4600 WR_Marvin_Hall
+ + 6200 WR_Marvin_Jones + 8500 WR_Michael_Thomas + 7300 WR_Mike_Evans
+ + 4500 WR_Mike_Thomas + 5900 WR_Mike_Williams + 5100 WR_Nelson_Agholor
+ + 4500 WR_Nsimba_Webster + 4600 WR_Quintez_Cephus + 5100 WR_Randall_Cobb
+ + 5500 WR_Rashard_Higgins + 5400 WR_Richie_James + 4500 WR_River_Cracraft
+ + 6400 WR_Robby_Anderson + 7200 WR_Robert_Woods + 7900 WR_Stefon_Diggs
+ + 5500 WR_Sterling_Shepard + 4600 WR_Steven_Sims + 6100 WR_Tee_Higgins
+ + 7000 WR_Terry_McLaurin + 5500 WR_Tim_Patrick + 6800 WR_Travis_Fulgham
+ + 5000 WR_Tre'Quan_Smith + 4800 WR_Trent_Taylor + 6700 WR_Tyler_Boyd
+ + 5000 WR_Tyler_Johnson + 7400 WR_Tyler_Lockett + 4500 WR_Tyrie_Cleveland
+ + 4700 WR_Tyron_Johnson + 4600 WR_Van_Jefferson + 7100 WR_Will_Fuller
+ <= 60000
+_C10: RB_Aaron_Jones + RB_Adrian_Peterson + RB_Alvin_Kamara
+ + RB_Antonio_Gibson + RB_Benny_Snell + RB_Boston_Scott + RB_Cam_Akers
+ + RB_Carlos_Hyde + RB_Chase_Edmonds + RB_Chris_Carson
+ + RB_Christian_McCaffrey + RB_D'Andre_Swift + RB_D'Ernest_Johnson
+ + RB_Darrell_Henderson + RB_David_Johnson + RB_DeeJay_Dallas
+ + RB_Devin_Singletary + RB_Devonta_Freeman + RB_Devontae_Booker
+ + RB_Dion_Lewis + RB_Duke_Johnson + RB_Gabe_Nabers + RB_Giovani_Bernard
+ + RB_J.D._McKissic + RB_JaMycal_Hasty + RB_Jalen_Richard + RB_Jamaal_Williams
+ + RB_James_Conner + RB_James_Robinson + RB_Jeff_Wilson + RB_Jerick_McKinnon
+ + RB_Jordan_Howard + RB_Josh_Jacobs + RB_Joshua_Kelley + RB_Justin_Jackson
+ + RB_Kareem_Hunt + RB_Kenyan_Drake + RB_Kerryon_Johnson + RB_Latavius_Murray
+ + RB_Leonard_Fournette + RB_Malcolm_Brown + RB_Matt_Breida + RB_Melvin_Gordon
+ + RB_Mike_Davis + RB_Myles_Gaskin + RB_Peyton_Barber + RB_Phillip_Lindsay
+ + RB_Ronald_Jones + RB_Royce_Freeman + RB_Salvon_Ahmed + RB_Samaje_Perine
+ + RB_Troymaine_Pope + RB_Tyler_Ervin + RB_Wayne_Gallman + RB_Zack_Moss
+ + TE_Adam_Shaheen + TE_Adam_Trautman + TE_Cameron_Brate + TE_Cethan_Carter
+ + TE_Chris_Manhertz + TE_Dallas_Goedert + TE_Dan_Arnold + TE_Darrell_Daniels
+ + TE_Darren_Fells + TE_Darren_Waller + TE_David_Njoku + TE_Donald_Parham
+ + TE_Drew_Sample + TE_Durham_Smythe + TE_Eric_Ebron + TE_Evan_Engram
+ + TE_Foster_Moreau + TE_Gerald_Everett + TE_Greg_Olsen + TE_Harrison_Bryant
+ + TE_Hunter_Henry + TE_Ian_Thomas + TE_Isaac_Nauta + TE_Jace_Sternberger
+ + TE_Jacob_Hollister + TE_James_O'Shaughnessy + TE_Jared_Cook
+ + TE_Jason_Witten + TE_Jeremy_Sprinkle + TE_Jesse_James + TE_Johnny_Mundt
+ + TE_Jordan_Akins + TE_Jordan_Reed + TE_Josh_Hill + TE_Kaden_Smith
+ + TE_Levine_Toilolo + TE_Logan_Thomas + TE_Marcedes_Lewis + TE_Maxx_Williams
+ + TE_Mike_Gesicki + TE_Nick_Vannett + TE_Noah_Fant + TE_Pharaoh_Brown
+ + TE_Reggie_Gilliam + TE_Richard_Rodgers + TE_Rob_Gronkowski
+ + TE_Robert_Tonyan + TE_Ross_Dwelley + TE_T.J._Hockenson + TE_Tanner_Hudson
+ + TE_Temarrick_Hemingway + TE_Tyler_Eifert + TE_Tyler_Higbee + TE_Tyler_Kroft
+ + TE_Will_Dissly + WR_Brandin_Cooks + WR_Brandon_Aiyuk + WR_Cam_Sims
+ + WR_Chase_Claypool + WR_Chris_Godwin + WR_Christian_Kirk + WR_Cole_Beasley
+ + WR_Cooper_Kupp + WR_Curtis_Samuel + WR_D.J._Chark + WR_D.J._Moore
+ + WR_DK_Metcalf + WR_Darius_Slayton + WR_Davante_Adams + WR_David_Moore
+ + WR_DeAndre_Hopkins + WR_DeVante_Parker + WR_Deebo_Samuel
+ + WR_Diontae_Johnson + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders
+ + WR_Golden_Tate + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor
+ + WR_Jarvis_Landry + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds
+ + WR_JuJu_Smith_Schuster + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen
+ + WR_Kenny_Golladay + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling
+ + WR_Marvin_Jones + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor
+ + WR_Randall_Cobb + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson
+ + WR_Robert_Woods + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins
+ + WR_Terry_McLaurin + WR_Tim_Patrick + WR_Travis_Fulgham + WR_Tre'Quan_Smith
+ + WR_Tyler_Boyd + WR_Tyler_Lockett + WR_Will_Fuller = 7
+_C2: QB_Aaron_Rodgers + QB_Alex_Smith + QB_Baker_Mayfield + QB_Blaine_Gabbert
+ + QB_Carson_Wentz + QB_Chase_Daniel + QB_Daniel_Jones + QB_Derek_Carr
+ + QB_Deshaun_Watson + QB_Drew_Brees + QB_Drew_Lock + QB_Easton_Stick
+ + QB_Jake_Luton + QB_Jalen_Hurts + QB_Jameis_Winston + QB_Jared_Goff
+ + QB_Joe_Burrow + QB_Josh_Allen + QB_Justin_Herbert + QB_Kyler_Murray
+ + QB_Mason_Rudolph + QB_Matthew_Stafford + QB_Nick_Mullens
+ + QB_Russell_Wilson + QB_Taysom_Hill + QB_Teddy_Bridgewater + QB_Tom_Brady
  + QB_Tua_Tagovailoa = 1
-_C3: DEF_ARI + DEF_ATL + DEF_BAL + DEF_BUF + DEF_CAR + DEF_CHI + DEF_DAL
- + DEF_DEN + DEF_DET + DEF_HOU + DEF_IND + DEF_JAX + DEF_KC + DEF_LAC + DEF_LV
- + DEF_MIA + DEF_MIN + DEF_NYG + DEF_PIT + DEF_SEA + DEF_TEN + DEF_WSH = 1
-_C4: RB_Adrian_Peterson + RB_Alexander_Mattison + RB_Ameer_Abdullah
- + RB_Benny_Snell + RB_Brian_Hill + RB_Chase_Edmonds + RB_Chris_Carson
- + RB_Clyde_Edwards_Helaire + RB_D'Andre_Swift + RB_Dalvin_Cook
- + RB_Darrel_Williams + RB_David_Johnson + RB_David_Montgomery
- + RB_DeeJay_Dallas + RB_Derrick_Henry + RB_Devin_Singletary
+_C3: DEF_ARI + DEF_BUF + DEF_CAR + DEF_CIN + DEF_CLE + DEF_DEN + DEF_DET
+ + DEF_GB + DEF_HOU + DEF_JAX + DEF_LAC + DEF_LAR + DEF_LV + DEF_MIA + DEF_NO
+ + DEF_NYG + DEF_PHI + DEF_PIT + DEF_SEA + DEF_SF + DEF_TB + DEF_WSH = 1
+_C4: RB_Aaron_Jones + RB_Adrian_Peterson + RB_Alvin_Kamara + RB_Antonio_Gibson
+ + RB_Benny_Snell + RB_Boston_Scott + RB_Cam_Akers + RB_Carlos_Hyde
+ + RB_Chase_Edmonds + RB_Chris_Carson + RB_Christian_McCaffrey
+ + RB_D'Andre_Swift + RB_D'Ernest_Johnson + RB_Darrell_Henderson
+ + RB_David_Johnson + RB_DeeJay_Dallas + RB_Devin_Singletary
  + RB_Devonta_Freeman + RB_Devontae_Booker + RB_Dion_Lewis + RB_Duke_Johnson
- + RB_Elijhaa_Penny + RB_Ezekiel_Elliott + RB_Gabe_Nabers + RB_Gus_Edwards
- + RB_Ito_Smith + RB_J.K._Dobbins + RB_Jalen_Richard + RB_James_Conner
- + RB_James_Robinson + RB_Jeremy_McNichols + RB_Jonathan_Taylor
- + RB_Jordan_Wilkins + RB_Josh_Jacobs + RB_Joshua_Kelley + RB_Justin_Jackson
- + RB_Kenyan_Drake + RB_Kerryon_Johnson + RB_Le'Veon_Bell + RB_Mark_Ingram
- + RB_Matt_Breida + RB_Melvin_Gordon + RB_Mike_Boone + RB_Mike_Davis
- + RB_Nyheim_Hines + RB_Phillip_Lindsay + RB_Royce_Freeman + RB_Todd_Gurley
- + RB_Tony_Pollard + RB_Travis_Homer + RB_Trenton_Cannon + RB_Troymaine_Pope
- + RB_Wayne_Gallman + RB_Zack_Moss >= 2
-_C5: RB_Adrian_Peterson + RB_Alexander_Mattison + RB_Ameer_Abdullah
- + RB_Benny_Snell + RB_Brian_Hill + RB_Chase_Edmonds + RB_Chris_Carson
- + RB_Clyde_Edwards_Helaire + RB_D'Andre_Swift + RB_Dalvin_Cook
- + RB_Darrel_Williams + RB_David_Johnson + RB_David_Montgomery
- + RB_DeeJay_Dallas + RB_Derrick_Henry + RB_Devin_Singletary
+ + RB_Gabe_Nabers + RB_Giovani_Bernard + RB_J.D._McKissic + RB_JaMycal_Hasty
+ + RB_Jalen_Richard + RB_Jamaal_Williams + RB_James_Conner + RB_James_Robinson
+ + RB_Jeff_Wilson + RB_Jerick_McKinnon + RB_Jordan_Howard + RB_Josh_Jacobs
+ + RB_Joshua_Kelley + RB_Justin_Jackson + RB_Kareem_Hunt + RB_Kenyan_Drake
+ + RB_Kerryon_Johnson + RB_Latavius_Murray + RB_Leonard_Fournette
+ + RB_Malcolm_Brown + RB_Matt_Breida + RB_Melvin_Gordon + RB_Mike_Davis
+ + RB_Myles_Gaskin + RB_Peyton_Barber + RB_Phillip_Lindsay + RB_Ronald_Jones
+ + RB_Royce_Freeman + RB_Salvon_Ahmed + RB_Samaje_Perine + RB_Troymaine_Pope
+ + RB_Tyler_Ervin + RB_Wayne_Gallman + RB_Zack_Moss >= 2
+_C5: RB_Aaron_Jones + RB_Adrian_Peterson + RB_Alvin_Kamara + RB_Antonio_Gibson
+ + RB_Benny_Snell + RB_Boston_Scott + RB_Cam_Akers + RB_Carlos_Hyde
+ + RB_Chase_Edmonds + RB_Chris_Carson + RB_Christian_McCaffrey
+ + RB_D'Andre_Swift + RB_D'Ernest_Johnson + RB_Darrell_Henderson
+ + RB_David_Johnson + RB_DeeJay_Dallas + RB_Devin_Singletary
  + RB_Devonta_Freeman + RB_Devontae_Booker + RB_Dion_Lewis + RB_Duke_Johnson
- + RB_Elijhaa_Penny + RB_Ezekiel_Elliott + RB_Gabe_Nabers + RB_Gus_Edwards
- + RB_Ito_Smith + RB_J.K._Dobbins + RB_Jalen_Richard + RB_James_Conner
- + RB_James_Robinson + RB_Jeremy_McNichols + RB_Jonathan_Taylor
- + RB_Jordan_Wilkins + RB_Josh_Jacobs + RB_Joshua_Kelley + RB_Justin_Jackson
- + RB_Kenyan_Drake + RB_Kerryon_Johnson + RB_Le'Veon_Bell + RB_Mark_Ingram
- + RB_Matt_Breida + RB_Melvin_Gordon + RB_Mike_Boone + RB_Mike_Davis
- + RB_Nyheim_Hines + RB_Phillip_Lindsay + RB_Royce_Freeman + RB_Todd_Gurley
- + RB_Tony_Pollard + RB_Travis_Homer + RB_Trenton_Cannon + RB_Troymaine_Pope
- + RB_Wayne_Gallman + RB_Zack_Moss <= 3
-_C6: WR_A.J._Brown + WR_Adam_Thielen + WR_Allen_Robinson + WR_Amari_Cooper
- + WR_Anthony_Miller + WR_Brandin_Cooks + WR_Calvin_Ridley + WR_CeeDee_Lamb
- + WR_Chase_Claypool + WR_Christian_Kirk + WR_Cole_Beasley + WR_Corey_Davis
+ + RB_Gabe_Nabers + RB_Giovani_Bernard + RB_J.D._McKissic + RB_JaMycal_Hasty
+ + RB_Jalen_Richard + RB_Jamaal_Williams + RB_James_Conner + RB_James_Robinson
+ + RB_Jeff_Wilson + RB_Jerick_McKinnon + RB_Jordan_Howard + RB_Josh_Jacobs
+ + RB_Joshua_Kelley + RB_Justin_Jackson + RB_Kareem_Hunt + RB_Kenyan_Drake
+ + RB_Kerryon_Johnson + RB_Latavius_Murray + RB_Leonard_Fournette
+ + RB_Malcolm_Brown + RB_Matt_Breida + RB_Melvin_Gordon + RB_Mike_Davis
+ + RB_Myles_Gaskin + RB_Peyton_Barber + RB_Phillip_Lindsay + RB_Ronald_Jones
+ + RB_Royce_Freeman + RB_Salvon_Ahmed + RB_Samaje_Perine + RB_Troymaine_Pope
+ + RB_Tyler_Ervin + RB_Wayne_Gallman + RB_Zack_Moss <= 3
+_C6: WR_Brandin_Cooks + WR_Brandon_Aiyuk + WR_Cam_Sims + WR_Chase_Claypool
+ + WR_Chris_Godwin + WR_Christian_Kirk + WR_Cole_Beasley + WR_Cooper_Kupp
  + WR_Curtis_Samuel + WR_D.J._Chark + WR_D.J._Moore + WR_DK_Metcalf
- + WR_DaeSean_Hamilton + WR_Danny_Amendola + WR_Darius_Slayton
- + WR_Darnell_Mooney + WR_David_Moore + WR_DeAndre_Hopkins + WR_DeVante_Parker
- + WR_Diontae_Johnson + WR_Henry_Ruggs_III + WR_Hunter_Renfrow
- + WR_Jerry_Jeudy + WR_JuJu_Smith_Schuster + WR_Julio_Jones
- + WR_Justin_Jefferson + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen
- + WR_Kenny_Golladay + WR_Laviska_Shenault_Jr. + WR_Marcus_Johnson
- + WR_Marquise_Brown + WR_Marvin_Jones + WR_Mecole_Hardman + WR_Michael_Gallup
- + WR_Mike_Williams + WR_Nelson_Agholor + WR_Preston_Williams
- + WR_Randall_Cobb + WR_Robby_Anderson + WR_Russell_Gage + WR_Stefon_Diggs
- + WR_Sterling_Shepard + WR_Tim_Patrick + WR_Tyler_Lockett + WR_Tyreek_Hill
- + WR_Will_Fuller + WR_Zach_Pascal >= 3
-_C7: WR_A.J._Brown + WR_Adam_Thielen + WR_Allen_Robinson + WR_Amari_Cooper
- + WR_Anthony_Miller + WR_Brandin_Cooks + WR_Calvin_Ridley + WR_CeeDee_Lamb
- + WR_Chase_Claypool + WR_Christian_Kirk + WR_Cole_Beasley + WR_Corey_Davis
+ + WR_Darius_Slayton + WR_Davante_Adams + WR_David_Moore + WR_DeAndre_Hopkins
+ + WR_DeVante_Parker + WR_Deebo_Samuel + WR_Diontae_Johnson
+ + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders + WR_Golden_Tate
+ + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry
+ + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster
+ + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay
+ + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones
+ + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb
+ + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods
+ + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins + WR_Terry_McLaurin
+ + WR_Tim_Patrick + WR_Travis_Fulgham + WR_Tre'Quan_Smith + WR_Tyler_Boyd
+ + WR_Tyler_Lockett + WR_Will_Fuller >= 3
+_C7: WR_Brandin_Cooks + WR_Brandon_Aiyuk + WR_Cam_Sims + WR_Chase_Claypool
+ + WR_Chris_Godwin + WR_Christian_Kirk + WR_Cole_Beasley + WR_Cooper_Kupp
  + WR_Curtis_Samuel + WR_D.J._Chark + WR_D.J._Moore + WR_DK_Metcalf
- + WR_DaeSean_Hamilton + WR_Danny_Amendola + WR_Darius_Slayton
- + WR_Darnell_Mooney + WR_David_Moore + WR_DeAndre_Hopkins + WR_DeVante_Parker
- + WR_Diontae_Johnson + WR_Henry_Ruggs_III + WR_Hunter_Renfrow
- + WR_Jerry_Jeudy + WR_JuJu_Smith_Schuster + WR_Julio_Jones
- + WR_Justin_Jefferson + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen
- + WR_Kenny_Golladay + WR_Laviska_Shenault_Jr. + WR_Marcus_Johnson
- + WR_Marquise_Brown + WR_Marvin_Jones + WR_Mecole_Hardman + WR_Michael_Gallup
- + WR_Mike_Williams + WR_Nelson_Agholor + WR_Preston_Williams
- + WR_Randall_Cobb + WR_Robby_Anderson + WR_Russell_Gage + WR_Stefon_Diggs
- + WR_Sterling_Shepard + WR_Tim_Patrick + WR_Tyler_Lockett + WR_Tyreek_Hill
- + WR_Will_Fuller + WR_Zach_Pascal <= 4
-_C8: TE_Adam_Shaheen + TE_Albert_Okwuegbunam + TE_Anthony_Firkser
- + TE_Blake_Bell + TE_Chris_Manhertz + TE_Cole_Kmet + TE_Dalton_Schultz
- + TE_Dan_Arnold + TE_Darrell_Daniels + TE_Darren_Fells + TE_Darren_Waller
- + TE_Demetrius_Harris + TE_Deon_Yelder + TE_Durham_Smythe + TE_Eric_Ebron
- + TE_Evan_Engram + TE_Foster_Moreau + TE_Geoff_Swaim + TE_Greg_Olsen
- + TE_Hayden_Hurst + TE_Hunter_Henry + TE_Ian_Thomas + TE_Irv_Smith
- + TE_Isaac_Nauta + TE_Jack_Doyle + TE_Jacob_Hollister
- + TE_James_O'Shaughnessy + TE_Jason_Witten + TE_Jesse_James + TE_Jimmy_Graham
- + TE_Jonnu_Smith + TE_Kaden_Smith + TE_Kyle_Rudolph + TE_Levine_Toilolo
- + TE_Luke_Stocker + TE_Mark_Andrews + TE_Mike_Gesicki + TE_Mo_Alie_Cox
- + TE_MyCole_Pruitt + TE_Nick_Boyle + TE_Nick_Keizer + TE_Nick_Vannett
- + TE_Noah_Fant + TE_Pharaoh_Brown + TE_Reggie_Gilliam + TE_Ricky_Seals_Jones
- + TE_T.J._Hockenson + TE_Travis_Kelce + TE_Trey_Burton + TE_Tyler_Davis
- + TE_Tyler_Kroft + TE_Vance_McDonald + TE_Will_Dissly >= 1
-_C9: TE_Adam_Shaheen + TE_Albert_Okwuegbunam + TE_Anthony_Firkser
- + TE_Blake_Bell + TE_Chris_Manhertz + TE_Cole_Kmet + TE_Dalton_Schultz
- + TE_Dan_Arnold + TE_Darrell_Daniels + TE_Darren_Fells + TE_Darren_Waller
- + TE_Demetrius_Harris + TE_Deon_Yelder + TE_Durham_Smythe + TE_Eric_Ebron
- + TE_Evan_Engram + TE_Foster_Moreau + TE_Geoff_Swaim + TE_Greg_Olsen
- + TE_Hayden_Hurst + TE_Hunter_Henry + TE_Ian_Thomas + TE_Irv_Smith
- + TE_Isaac_Nauta + TE_Jack_Doyle + TE_Jacob_Hollister
- + TE_James_O'Shaughnessy + TE_Jason_Witten + TE_Jesse_James + TE_Jimmy_Graham
- + TE_Jonnu_Smith + TE_Kaden_Smith + TE_Kyle_Rudolph + TE_Levine_Toilolo
- + TE_Luke_Stocker + TE_Mark_Andrews + TE_Mike_Gesicki + TE_Mo_Alie_Cox
- + TE_MyCole_Pruitt + TE_Nick_Boyle + TE_Nick_Keizer + TE_Nick_Vannett
- + TE_Noah_Fant + TE_Pharaoh_Brown + TE_Reggie_Gilliam + TE_Ricky_Seals_Jones
- + TE_T.J._Hockenson + TE_Travis_Kelce + TE_Trey_Burton + TE_Tyler_Davis
- + TE_Tyler_Kroft + TE_Vance_McDonald + TE_Will_Dissly <= 2
+ + WR_Darius_Slayton + WR_Davante_Adams + WR_David_Moore + WR_DeAndre_Hopkins
+ + WR_DeVante_Parker + WR_Deebo_Samuel + WR_Diontae_Johnson
+ + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders + WR_Golden_Tate
+ + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry
+ + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster
+ + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay
+ + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones
+ + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb
+ + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods
+ + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins + WR_Terry_McLaurin
+ + WR_Tim_Patrick + WR_Travis_Fulgham + WR_Tre'Quan_Smith + WR_Tyler_Boyd
+ + WR_Tyler_Lockett + WR_Will_Fuller <= 4
+_C8: TE_Adam_Shaheen + TE_Adam_Trautman + TE_Cameron_Brate + TE_Cethan_Carter
+ + TE_Chris_Manhertz + TE_Dallas_Goedert + TE_Dan_Arnold + TE_Darrell_Daniels
+ + TE_Darren_Fells + TE_Darren_Waller + TE_David_Njoku + TE_Donald_Parham
+ + TE_Drew_Sample + TE_Durham_Smythe + TE_Eric_Ebron + TE_Evan_Engram
+ + TE_Foster_Moreau + TE_Gerald_Everett + TE_Greg_Olsen + TE_Harrison_Bryant
+ + TE_Hunter_Henry + TE_Ian_Thomas + TE_Isaac_Nauta + TE_Jace_Sternberger
+ + TE_Jacob_Hollister + TE_James_O'Shaughnessy + TE_Jared_Cook
+ + TE_Jason_Witten + TE_Jeremy_Sprinkle + TE_Jesse_James + TE_Johnny_Mundt
+ + TE_Jordan_Akins + TE_Jordan_Reed + TE_Josh_Hill + TE_Kaden_Smith
+ + TE_Levine_Toilolo + TE_Logan_Thomas + TE_Marcedes_Lewis + TE_Maxx_Williams
+ + TE_Mike_Gesicki + TE_Nick_Vannett + TE_Noah_Fant + TE_Pharaoh_Brown
+ + TE_Reggie_Gilliam + TE_Richard_Rodgers + TE_Rob_Gronkowski
+ + TE_Robert_Tonyan + TE_Ross_Dwelley + TE_T.J._Hockenson + TE_Tanner_Hudson
+ + TE_Temarrick_Hemingway + TE_Tyler_Eifert + TE_Tyler_Higbee + TE_Tyler_Kroft
+ + TE_Will_Dissly >= 1
+_C9: TE_Adam_Shaheen + TE_Adam_Trautman + TE_Cameron_Brate + TE_Cethan_Carter
+ + TE_Chris_Manhertz + TE_Dallas_Goedert + TE_Dan_Arnold + TE_Darrell_Daniels
+ + TE_Darren_Fells + TE_Darren_Waller + TE_David_Njoku + TE_Donald_Parham
+ + TE_Drew_Sample + TE_Durham_Smythe + TE_Eric_Ebron + TE_Evan_Engram
+ + TE_Foster_Moreau + TE_Gerald_Everett + TE_Greg_Olsen + TE_Harrison_Bryant
+ + TE_Hunter_Henry + TE_Ian_Thomas + TE_Isaac_Nauta + TE_Jace_Sternberger
+ + TE_Jacob_Hollister + TE_James_O'Shaughnessy + TE_Jared_Cook
+ + TE_Jason_Witten + TE_Jeremy_Sprinkle + TE_Jesse_James + TE_Johnny_Mundt
+ + TE_Jordan_Akins + TE_Jordan_Reed + TE_Josh_Hill + TE_Kaden_Smith
+ + TE_Levine_Toilolo + TE_Logan_Thomas + TE_Marcedes_Lewis + TE_Maxx_Williams
+ + TE_Mike_Gesicki + TE_Nick_Vannett + TE_Noah_Fant + TE_Pharaoh_Brown
+ + TE_Reggie_Gilliam + TE_Richard_Rodgers + TE_Rob_Gronkowski
+ + TE_Robert_Tonyan + TE_Ross_Dwelley + TE_T.J._Hockenson + TE_Tanner_Hudson
+ + TE_Temarrick_Hemingway + TE_Tyler_Eifert + TE_Tyler_Higbee + TE_Tyler_Kroft
+ + TE_Will_Dissly <= 2
 Binaries
 DEF_ARI
-DEF_ATL
-DEF_BAL
 DEF_BUF
 DEF_CAR
-DEF_CHI
-DEF_DAL
+DEF_CIN
+DEF_CLE
 DEF_DEN
 DEF_DET
+DEF_GB
 DEF_HOU
-DEF_IND
 DEF_JAX
-DEF_KC
 DEF_LAC
+DEF_LAR
 DEF_LV
 DEF_MIA
-DEF_MIN
+DEF_NO
 DEF_NYG
+DEF_PHI
 DEF_PIT
 DEF_SEA
-DEF_TEN
+DEF_SF
+DEF_TB
 DEF_WSH
-QB_Ben_DiNucci
-QB_Ben_Roethlisberger
-QB_Chad_Henne
+QB_Aaron_Rodgers
+QB_Alex_Smith
+QB_Baker_Mayfield
+QB_Blaine_Gabbert
+QB_Carson_Wentz
+QB_Chase_Daniel
 QB_Daniel_Jones
 QB_Derek_Carr
 QB_Deshaun_Watson
+QB_Drew_Brees
 QB_Drew_Lock
+QB_Easton_Stick
+QB_Jake_Luton
+QB_Jalen_Hurts
+QB_Jameis_Winston
+QB_Jared_Goff
+QB_Joe_Burrow
 QB_Josh_Allen
 QB_Justin_Herbert
-QB_Kirk_Cousins
 QB_Kyler_Murray
-QB_Lamar_Jackson
 QB_Mason_Rudolph
-QB_Matt_Ryan
 QB_Matthew_Stafford
-QB_Nick_Foles
-QB_Patrick_Mahomes
-QB_Philip_Rivers
+QB_Nick_Mullens
 QB_Russell_Wilson
-QB_Ryan_Fitzpatrick
-QB_Ryan_Tannehill
+QB_Taysom_Hill
 QB_Teddy_Bridgewater
+QB_Tom_Brady
 QB_Tua_Tagovailoa
+RB_Aaron_Jones
 RB_Adrian_Peterson
-RB_Alexander_Mattison
-RB_Ameer_Abdullah
+RB_Alvin_Kamara
+RB_Andy_Janovich
+RB_Antonio_Gibson
 RB_Benny_Snell
-RB_Brian_Hill
+RB_Boston_Scott
+RB_Cam_Akers
+RB_Carlos_Hyde
 RB_Chase_Edmonds
 RB_Chris_Carson
-RB_Clyde_Edwards_Helaire
+RB_Christian_McCaffrey
+RB_Corey_Clement
 RB_D'Andre_Swift
-RB_Dalvin_Cook
-RB_Darrel_Williams
-RB_Darwin_Thompson
+RB_D'Ernest_Johnson
+RB_Darrell_Henderson
 RB_David_Johnson
-RB_David_Montgomery
 RB_DeAndre_Washington
 RB_DeeJay_Dallas
-RB_Derrick_Henry
 RB_Devin_Singletary
 RB_Devonta_Freeman
 RB_Devontae_Booker
 RB_Dion_Lewis
 RB_Duke_Johnson
+RB_Dwayne_Washington
 RB_Elijhaa_Penny
-RB_Ezekiel_Elliott
 RB_Gabe_Nabers
-RB_Gus_Edwards
-RB_Ito_Smith
-RB_J.K._Dobbins
+RB_Giovani_Bernard
+RB_J.D._McKissic
+RB_JaMycal_Hasty
 RB_Jalen_Richard
+RB_Jamaal_Williams
 RB_James_Conner
 RB_James_Robinson
+RB_Jason_Huntley
 RB_Jaylen_Samuels
-RB_Jeremy_McNichols
-RB_Jonathan_Taylor
-RB_Jordan_Wilkins
+RB_Jeff_Wilson
+RB_Jerick_McKinnon
+RB_Jordan_Howard
 RB_Josh_Jacobs
 RB_Joshua_Kelley
 RB_Justin_Jackson
+RB_Kareem_Hunt
 RB_Kenyan_Drake
 RB_Kerryon_Johnson
-RB_Khari_Blasingame
-RB_Le'Veon_Bell
-RB_Mark_Ingram
+RB_Latavius_Murray
+RB_Leonard_Fournette
+RB_Malcolm_Brown
 RB_Matt_Breida
 RB_Melvin_Gordon
-RB_Mike_Boone
+RB_Michael_Burton
 RB_Mike_Davis
-RB_Nyheim_Hines
+RB_Myles_Gaskin
 RB_Patrick_Laird
+RB_Peyton_Barber
 RB_Phillip_Lindsay
-RB_Qadree_Ollison
-RB_Rico_Dowdle
+RB_Ronald_Jones
 RB_Royce_Freeman
-RB_Ryan_Nall
-RB_Todd_Gurley
-RB_Tony_Pollard
+RB_Salvon_Ahmed
+RB_Samaje_Perine
+RB_Tevin_Coleman
 RB_Travis_Homer
 RB_Trenton_Cannon
 RB_Troymaine_Pope
+RB_Tyler_Ervin
 RB_Wayne_Gallman
 RB_Zack_Moss
 TE_Adam_Shaheen
-TE_Albert_Okwuegbunam
-TE_Anthony_Firkser
-TE_Blake_Bell
+TE_Adam_Trautman
+TE_Cameron_Brate
+TE_Cethan_Carter
 TE_Chris_Manhertz
-TE_Cole_Kmet
-TE_Dalton_Schultz
+TE_Dallas_Goedert
 TE_Dan_Arnold
 TE_Darrell_Daniels
 TE_Darren_Fells
 TE_Darren_Waller
-TE_Demetrius_Harris
-TE_Deon_Yelder
+TE_David_Njoku
+TE_Donald_Parham
+TE_Drew_Sample
 TE_Durham_Smythe
 TE_Eric_Ebron
 TE_Evan_Engram
 TE_Foster_Moreau
-TE_Geoff_Swaim
+TE_Gerald_Everett
 TE_Greg_Olsen
-TE_Hayden_Hurst
+TE_Harrison_Bryant
 TE_Hunter_Henry
 TE_Ian_Thomas
-TE_Irv_Smith
 TE_Isaac_Nauta
-TE_Jack_Doyle
+TE_Jace_Sternberger
 TE_Jacob_Hollister
 TE_James_O'Shaughnessy
+TE_Jared_Cook
 TE_Jason_Witten
+TE_Jeremy_Sprinkle
 TE_Jesse_James
-TE_Jimmy_Graham
-TE_Jonnu_Smith
+TE_Johnny_Mundt
+TE_Jordan_Akins
+TE_Jordan_Reed
+TE_Josh_Hill
 TE_Kaden_Smith
-TE_Kyle_Rudolph
 TE_Levine_Toilolo
-TE_Luke_Stocker
-TE_Mark_Andrews
+TE_Logan_Thomas
+TE_Marcedes_Lewis
+TE_Maxx_Williams
 TE_Mike_Gesicki
-TE_Mo_Alie_Cox
-TE_MyCole_Pruitt
-TE_Nick_Boyle
-TE_Nick_Keizer
 TE_Nick_Vannett
 TE_Noah_Fant
 TE_Pharaoh_Brown
 TE_Reggie_Gilliam
-TE_Ricky_Seals_Jones
+TE_Richard_Rodgers
+TE_Rob_Gronkowski
+TE_Robert_Tonyan
+TE_Ross_Dwelley
 TE_T.J._Hockenson
-TE_Travis_Kelce
-TE_Trey_Burton
-TE_Tyler_Davis
+TE_Tanner_Hudson
+TE_Temarrick_Hemingway
+TE_Tyler_Eifert
+TE_Tyler_Higbee
 TE_Tyler_Kroft
-TE_Vance_McDonald
 TE_Will_Dissly
-WR_A.J._Brown
-WR_Adam_Humphries
-WR_Adam_Thielen
-WR_Allen_Robinson
-WR_Amari_Cooper
+WR_A.J._Green
 WR_Andy_Isabella
-WR_Anthony_Miller
-WR_Ashton_Dulin
+WR_Antonio_Brown
+WR_Auden_Tate
 WR_Austin_Mack
 WR_Brandin_Cooks
-WR_Brandon_Powell
+WR_Brandon_Aiyuk
 WR_Brandon_Zylstra
-WR_Byron_Pringle
 WR_C.J._Board
-WR_Calvin_Ridley
-WR_CeeDee_Lamb
-WR_Chad_Beebe
+WR_Cam_Sims
 WR_Chase_Claypool
 WR_Chris_Conley
-WR_Christian_Blake
+WR_Chris_Godwin
 WR_Christian_Kirk
 WR_Cole_Beasley
-WR_Cordarrelle_Patterson
-WR_Corey_Davis
+WR_Collin_Johnson
+WR_Cooper_Kupp
 WR_Curtis_Samuel
 WR_D.J._Chark
 WR_D.J._Moore
 WR_DK_Metcalf
 WR_DaeSean_Hamilton
 WR_Danny_Amendola
+WR_Dante_Pettis
 WR_Darius_Slayton
-WR_Darnell_Mooney
+WR_Darrius_Shepherd
+WR_Davante_Adams
 WR_David_Moore
 WR_DeAndre_Hopkins
 WR_DeVante_Parker
-WR_Demarcus_Robinson
-WR_Devin_Duvernay
+WR_Deebo_Samuel
+WR_Deonte_Harris
 WR_Diontae_Johnson
-WR_Diontae_Spencer
+WR_Donovan_Peoples_Jones
+WR_Emmanuel_Sanders
+WR_Equanimeous_St._Brown
 WR_Freddie_Swain
 WR_Gabriel_Davis
 WR_Golden_Tate
+WR_Greg_Ward
 WR_Henry_Ruggs_III
 WR_Hunter_Renfrow
 WR_Isaiah_McKenzie
+WR_Isaiah_Wright
+WR_J.J._Arcega_Whiteside
 WR_Jakeem_Grant
 WR_Jalen_Guyton
-WR_James_Proche
+WR_Jalen_Reagor
 WR_James_Washington
-WR_Javon_Wims
+WR_Jarvis_Landry
 WR_Jerry_Jeudy
+WR_Joe_Reed
 WR_John_Brown
+WR_John_Hightower
+WR_Josh_Reynolds
 WR_JuJu_Smith_Schuster
-WR_Julio_Jones
-WR_Justin_Jefferson
 WR_K.J._Hamler
-WR_Kalif_Raymond
+WR_K.J._Hill
 WR_Keelan_Cole
 WR_Keenan_Allen
 WR_Kenny_Golladay
 WR_Kenny_Stills
 WR_Larry_Fitzgerald
 WR_Laviska_Shenault_Jr.
+WR_Mack_Hollins
 WR_Malcolm_Perry
-WR_Marcus_Johnson
-WR_Marquise_Brown
+WR_Malik_Taylor
+WR_Marquez_Callaway
+WR_Marquez_Valdes_Scantling
 WR_Marvin_Hall
 WR_Marvin_Jones
-WR_Mecole_Hardman
-WR_Michael_Gallup
-WR_Michael_Pittman
+WR_Michael_Thomas
+WR_Mike_Evans
+WR_Mike_Thomas
 WR_Mike_Williams
-WR_Miles_Boykin
 WR_Nelson_Agholor
-WR_Noah_Brown
-WR_Olamide_Zaccheaus
-WR_Preston_Williams
+WR_Nsimba_Webster
+WR_Quintez_Cephus
 WR_Randall_Cobb
+WR_Rashard_Higgins
+WR_Richie_James
+WR_River_Cracraft
 WR_Robby_Anderson
-WR_Russell_Gage
+WR_Robert_Woods
 WR_Stefon_Diggs
 WR_Sterling_Shepard
-WR_T.Y._Hilton
-WR_Ted_Ginn
+WR_Steven_Sims
+WR_Tee_Higgins
+WR_Terry_McLaurin
 WR_Tim_Patrick
+WR_Travis_Fulgham
+WR_Tre'Quan_Smith
+WR_Trent_Taylor
+WR_Tyler_Boyd
+WR_Tyler_Johnson
 WR_Tyler_Lockett
-WR_Tyreek_Hill
 WR_Tyrie_Cleveland
+WR_Tyron_Johnson
+WR_Van_Jefferson
 WR_Will_Fuller
-WR_Willie_Snead
-WR_Zach_Pascal
 End
