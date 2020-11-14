@@ -85,12 +85,12 @@ OBJ: 6.55 DEF_ARI + 6.06 DEF_BUF + 3.58 DEF_CAR + 3.45 DEF_CIN + 6.67 DEF_CLE
  + 4.11 WR_Mike_Thomas + 9.14 WR_Mike_Williams + 9.34 WR_Nelson_Agholor
  + 4.37 WR_Quintez_Cephus + 9.28 WR_Randall_Cobb + 8.34 WR_Rashard_Higgins
  + 31.83 WR_Richie_James + 2.53 WR_River_Cracraft + 10.86 WR_Robby_Anderson
- + 16.48 WR_Robert_Woods + 13.5 WR_Stefon_Diggs + 9.11 WR_Sterling_Shepard
- + 3.42 WR_Steven_Sims + 12.18 WR_Tee_Higgins + 17.21 WR_Terry_McLaurin
- + 9.55 WR_Tim_Patrick + 15.87 WR_Travis_Fulgham + 7.3 WR_Tre'Quan_Smith
- + 2.46 WR_Trent_Taylor + 14.44 WR_Tyler_Boyd + 4.92 WR_Tyler_Johnson
- + 12.95 WR_Tyler_Lockett + 0.28 WR_Tyrie_Cleveland + 4 WR_Tyron_Johnson
- + 2.96 WR_Van_Jefferson + 15.58 WR_Will_Fuller
+ + 16.48 WR_Robert_Woods + 7.8 WR_Scott_Miller + 13.5 WR_Stefon_Diggs
+ + 9.11 WR_Sterling_Shepard + 3.42 WR_Steven_Sims + 12.18 WR_Tee_Higgins
+ + 17.21 WR_Terry_McLaurin + 9.55 WR_Tim_Patrick + 15.87 WR_Travis_Fulgham
+ + 7.3 WR_Tre'Quan_Smith + 2.46 WR_Trent_Taylor + 14.44 WR_Tyler_Boyd
+ + 4.92 WR_Tyler_Johnson + 12.95 WR_Tyler_Lockett + 0.28 WR_Tyrie_Cleveland
+ + 4 WR_Tyron_Johnson + 2.96 WR_Van_Jefferson + 15.58 WR_Will_Fuller
 Subject To
 _C1: 3600 DEF_ARI + 4100 DEF_BUF + 3000 DEF_CAR + 3400 DEF_CIN + 4400 DEF_CLE
  + 4300 DEF_DEN + 3900 DEF_DET + 4800 DEF_GB + 3500 DEF_HOU + 3100 DEF_JAX
@@ -177,13 +177,13 @@ _C1: 3600 DEF_ARI + 4100 DEF_BUF + 3000 DEF_CAR + 3400 DEF_CIN + 4400 DEF_CLE
  + 4500 WR_Mike_Thomas + 5900 WR_Mike_Williams + 5100 WR_Nelson_Agholor
  + 4500 WR_Nsimba_Webster + 4600 WR_Quintez_Cephus + 5100 WR_Randall_Cobb
  + 5500 WR_Rashard_Higgins + 5400 WR_Richie_James + 4500 WR_River_Cracraft
- + 6400 WR_Robby_Anderson + 7200 WR_Robert_Woods + 7900 WR_Stefon_Diggs
- + 5500 WR_Sterling_Shepard + 4600 WR_Steven_Sims + 6100 WR_Tee_Higgins
- + 7000 WR_Terry_McLaurin + 5500 WR_Tim_Patrick + 6800 WR_Travis_Fulgham
- + 5000 WR_Tre'Quan_Smith + 4800 WR_Trent_Taylor + 6700 WR_Tyler_Boyd
- + 5000 WR_Tyler_Johnson + 7400 WR_Tyler_Lockett + 4500 WR_Tyrie_Cleveland
- + 4700 WR_Tyron_Johnson + 4600 WR_Van_Jefferson + 7100 WR_Will_Fuller
- <= 60000
+ + 6400 WR_Robby_Anderson + 7200 WR_Robert_Woods + 5500 WR_Scott_Miller
+ + 7900 WR_Stefon_Diggs + 5500 WR_Sterling_Shepard + 4600 WR_Steven_Sims
+ + 6100 WR_Tee_Higgins + 7000 WR_Terry_McLaurin + 5500 WR_Tim_Patrick
+ + 6800 WR_Travis_Fulgham + 5000 WR_Tre'Quan_Smith + 4800 WR_Trent_Taylor
+ + 6700 WR_Tyler_Boyd + 5000 WR_Tyler_Johnson + 7400 WR_Tyler_Lockett
+ + 4500 WR_Tyrie_Cleveland + 4700 WR_Tyron_Johnson + 4600 WR_Van_Jefferson
+ + 7100 WR_Will_Fuller <= 60000
 _C10: RB_Aaron_Jones + RB_Adrian_Peterson + RB_Alvin_Kamara
  + RB_Antonio_Gibson + RB_Benny_Snell + RB_Boston_Scott + RB_Cam_Akers
  + RB_Carlos_Hyde + RB_Chase_Edmonds + RB_Chris_Carson
@@ -219,13 +219,13 @@ _C10: RB_Aaron_Jones + RB_Adrian_Peterson + RB_Alvin_Kamara
  + WR_DK_Metcalf + WR_Darius_Slayton + WR_Davante_Adams + WR_David_Moore
  + WR_DeAndre_Hopkins + WR_DeVante_Parker + WR_Deebo_Samuel
  + WR_Diontae_Johnson + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders
- + WR_Golden_Tate + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor
- + WR_Jarvis_Landry + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds
- + WR_JuJu_Smith_Schuster + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen
- + WR_Kenny_Golladay + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling
- + WR_Marvin_Jones + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor
- + WR_Randall_Cobb + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson
- + WR_Robert_Woods + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins
+ + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry
+ + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster
+ + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay
+ + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones
+ + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb
+ + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods
+ + WR_Scott_Miller + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins
  + WR_Terry_McLaurin + WR_Tim_Patrick + WR_Travis_Fulgham + WR_Tre'Quan_Smith
  + WR_Tyler_Boyd + WR_Tyler_Lockett + WR_Will_Fuller = 7
 _C2: QB_Aaron_Rodgers + QB_Alex_Smith + QB_Baker_Mayfield + QB_Blaine_Gabbert
@@ -274,13 +274,13 @@ _C6: WR_Brandin_Cooks + WR_Brandon_Aiyuk + WR_Cam_Sims + WR_Chase_Claypool
  + WR_Curtis_Samuel + WR_D.J._Chark + WR_D.J._Moore + WR_DK_Metcalf
  + WR_Darius_Slayton + WR_Davante_Adams + WR_David_Moore + WR_DeAndre_Hopkins
  + WR_DeVante_Parker + WR_Deebo_Samuel + WR_Diontae_Johnson
- + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders + WR_Golden_Tate
- + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry
- + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster
- + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay
- + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones
- + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb
- + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods
+ + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders + WR_Greg_Ward
+ + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry + WR_Jerry_Jeudy
+ + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster + WR_K.J._Hamler
+ + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay + WR_Mack_Hollins
+ + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones + WR_Mike_Evans
+ + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb + WR_Rashard_Higgins
+ + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods + WR_Scott_Miller
  + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins + WR_Terry_McLaurin
  + WR_Tim_Patrick + WR_Travis_Fulgham + WR_Tre'Quan_Smith + WR_Tyler_Boyd
  + WR_Tyler_Lockett + WR_Will_Fuller >= 3
@@ -289,13 +289,13 @@ _C7: WR_Brandin_Cooks + WR_Brandon_Aiyuk + WR_Cam_Sims + WR_Chase_Claypool
  + WR_Curtis_Samuel + WR_D.J._Chark + WR_D.J._Moore + WR_DK_Metcalf
  + WR_Darius_Slayton + WR_Davante_Adams + WR_David_Moore + WR_DeAndre_Hopkins
  + WR_DeVante_Parker + WR_Deebo_Samuel + WR_Diontae_Johnson
- + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders + WR_Golden_Tate
- + WR_Greg_Ward + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry
- + WR_Jerry_Jeudy + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster
- + WR_K.J._Hamler + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay
- + WR_Mack_Hollins + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones
- + WR_Mike_Evans + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb
- + WR_Rashard_Higgins + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods
+ + WR_Donovan_Peoples_Jones + WR_Emmanuel_Sanders + WR_Greg_Ward
+ + WR_Hunter_Renfrow + WR_Jalen_Reagor + WR_Jarvis_Landry + WR_Jerry_Jeudy
+ + WR_John_Brown + WR_Josh_Reynolds + WR_JuJu_Smith_Schuster + WR_K.J._Hamler
+ + WR_Keelan_Cole + WR_Keenan_Allen + WR_Kenny_Golladay + WR_Mack_Hollins
+ + WR_Marquez_Valdes_Scantling + WR_Marvin_Jones + WR_Mike_Evans
+ + WR_Mike_Williams + WR_Nelson_Agholor + WR_Randall_Cobb + WR_Rashard_Higgins
+ + WR_Richie_James + WR_Robby_Anderson + WR_Robert_Woods + WR_Scott_Miller
  + WR_Stefon_Diggs + WR_Sterling_Shepard + WR_Tee_Higgins + WR_Terry_McLaurin
  + WR_Tim_Patrick + WR_Travis_Fulgham + WR_Tre'Quan_Smith + WR_Tyler_Boyd
  + WR_Tyler_Lockett + WR_Will_Fuller <= 4
@@ -586,6 +586,7 @@ WR_Richie_James
 WR_River_Cracraft
 WR_Robby_Anderson
 WR_Robert_Woods
+WR_Scott_Miller
 WR_Stefon_Diggs
 WR_Sterling_Shepard
 WR_Steven_Sims
