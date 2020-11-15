@@ -313,15 +313,11 @@ def salary(defence, offence, week):
             defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
-        num_players = len(offence['Name'].tolist())
         for count, name in enumerate(offence['Name'].tolist()):
             # Use custom made simplify function to remove offending differences
             if simplify(player) == simplify(name):
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
                 break
-            # No match found
-            if count+1 == num_players:
-                print(player + " has a salary, but not in Offence")
         
 
     
@@ -366,6 +362,9 @@ def predict_D(defence):
     for index, row in defence.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
             defence.at[index, "Predicted"] = round(fact[nfl_teams[row["Team"]]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+
+    # Sort by descending average fantasy points
+    defence = defence.sort_values(by='Predicted', ascending=False)
 
     return defence
 
@@ -425,7 +424,11 @@ def position(offence, upcoming_week):
         pos["Predicted"] = ""
         for index, row in pos.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
-            pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+            # If havent played last 3 weeks, then only use overall average
+            if pd.isnull(row["Avg Points (3 weeks)"]):
+                pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*row["Avg Points"],2)
+            else:
+                pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
 
         # Sort by descending average fantasy points
         pos = pos.sort_values(by='Predicted', ascending=False)
@@ -454,7 +457,7 @@ def simplify(name):
 #! FACTORS
 
 # The stats will be normalised with the following 2019 values (from https://www.pro-football-reference.com/years/NFL/passing.htm)
-stats = {"pass_yds" : 235, "pass_yds_att" : 7.2, "pass_td" : 1.6, "rush_yds" : 113, "rush_yds_carry" : 4.3, "rush_td" : 0.9, "INT" : 0.9}
+stats = {"pass_yds" : 235, "pass_yds_att" : 7.2, "pass_td" : 1.6, "rush_yds" : 113, "rush_yds_carry" : 4.3, "rush_td" : 0.9, "INT" : 0.9, "sacks" : 2.5, "fumbles" : 0.6}
 
 
 # These defence factors are used for selecting offencive players
@@ -519,6 +522,25 @@ def defence_defence_factors(c_DD, schedule_week):
     # Read in Defence factors
     defe_f = pd.read_csv("Processed/Defence_Factors.csv")
 
+    # Add no. games played column
+    # Open games_played.csv
+    games = pd.read_csv("Scraped/Data_NFL/games_played.csv")
+    games.columns = ["Team", "Games"]
+    # Only keep last part name (e.g. New York Giants -> Giants)
+    for index, row in games.iterrows():
+        if row["Team"] == "Washington Football Team":
+            games.at[index, "Team"] = "FootballTeam"
+            continue
+        games.at[index, "Team"] = row["Team"].split()[-1]
+    # Create dictionary {Team : Games played, ...}
+    games_ = pd.Series(games.Games.values,index=games.Team).to_dict()
+    # Add extra column to defence with games played
+    off.insert(loc=1, column = "Games", value="")
+    defe.insert(loc=1, column = "Games", value="")
+    for team, games_played in games_.items():
+        off.at[off.index[off["Team"] == team][0], "Games"] = games_played
+        defe.at[defe.index[defe["Team"] == team][0], "Games"] = games_played
+
     # Get list of eligable games
     eligable_games = list(eligable_teams(schedule_week).values())
     
@@ -536,29 +558,68 @@ def defence_defence_factors(c_DD, schedule_week):
     # Create dictionary of {NYG : New York Giants, etc.}
     ref = pd.read_csv('References/teams.csv')
     nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-
     # Substitue schedule with full team name
     sched_ = []
     for game in sched:
         sched_.append([nfl_teams.get(item, item) for item in game])
     sched = sched_
 
-    # Replace list of teams with their opponents
-    for index, row in off_f.iterrows():
+    # Add column of opponent
+    defe_f["Opponent"] = ""
+    for index, row in defe_f.iterrows():
         for game in sched:
             if row["Team"] == game[0]:
-                off_f.at[index, "Team"] = game[1]
+                defe_f.at[index, "Opponent"] = game[1]
             elif row["Team"] == game[1]:
-                off_f.at[index, "Team"] = game[0]
-    
+                defe_f.at[index, "Opponent"] = game[0]
 
-    # Create new dataframe 
-    df = pd.merge(off_f, defe_f, on="Team")
+    # Create new dataframe
+    df = pd.merge(off_f, defe_f, left_on="Team", right_on="Opponent")
     # Keep only relevant columns
-    df = df[["Team", "Pass Factor (O)", "Rush Factor (O)", "Pass Factor (D)", "Rush Factor (D)"]]
-    
+    df = df[["Team_y", "Opponent", "Pass Factor (O)", "Rush Factor (O)", "Pass Factor (D)", "Rush Factor (D)"]]
+    df = df.rename(columns={"Team_y" : "Team"})
+
+    # Add sacks column
+    df["Sacks (D)"] = ""
+    df["Sacks (O)"] = ""
+    # Add fumbles column
+    df["Fumbles (D)"] = ""
+    df["Fumbles (O)"] = ""
+    # Add interception column
+    df["INT (D)"] = ""
+    df["INT (O)"] = ""
+    # Iterate over Defence_Total.csv
+    for index, row in defe.iterrows():
+        # Iterate over newly created dataframe 
+        for i, r in df.iterrows():
+            # Same team
+            if row["Team"] in r["Team"]:
+                df.at[i, "Sacks (D)"] = row["Sacks"] / row["Games"]
+                df.at[i, "Fumbles (D)"] = (row["Rec FUM"] + row["Rush FUM"]) / row["Games"]
+                df.at[i, "INT (D)"] = row["INT"] / row["Games"]
+            # Need to handle WSH manually
+            if r["Team"] == "Washington Football Team" and row["Team"] == "FootballTeam":
+                df.at[i, "Sacks (D)"] = row["Sacks"] / row["Games"]
+                df.at[i, "Fumbles (D)"] = (row["Rec FUM"] + row["Rush FUM"]) / row["Games"]
+                df.at[i, "INT (D)"] = row["INT"] / row["Games"]
+    # Sacks, Fumbles, INTs given up by offence they are playing
+    # Iterate over Offence_Total.csv
+    for index, row in off.iterrows():
+        # Iterate over newly created dataframe 
+        for i, r in df.iterrows():
+            # Same team
+            if row["Team"] in r["Opponent"]:
+                df.at[i, "Sacks (O)"] = row["Sacks"] / row["Games"]
+                df.at[i, "Fumbles (O)"] = (row["Rec FUM"] + row["Rush FUM"]) / row["Games"]
+                df.at[i, "INT (O)"] = row["Pass INT"] / row["Games"]
+            # Need to handle WSH manually
+            if r["Opponent"] == "Washington Football Team" and row["Team"] == "FootballTeam":
+                df.at[i, "Sacks (O)"] = row["Sacks"] / row["Games"]
+                df.at[i, "Fumbles (O)"] = (row["Rec FUM"] + row["Rush FUM"]) / row["Games"]
+                df.at[i, "INT (O)"] = row["Pass INT"] / row["Games"]
+
     # Add column with factor used to choose defence
-    df["Defence Factor"] = c_DD["pass"]/(df["Pass Factor (D)"]*df["Pass Factor (O)"]) + c_DD["rush"]/(df["Rush Factor (D)"]*df["Rush Factor (O)"])
+    df["Defence Factor"] = c_DD["pass"]/((df["Pass Factor (D)"]*df["Pass Factor (O)"]) ** (0.5)) + c_DD["rush"]/((df["Rush Factor (D)"]*df["Rush Factor (O)"]) ** (0.5)) + c_DD["sacks"]*((df["Sacks (D)"]*df["Sacks (O)"]) ** (0.5))/stats["sacks"] + c_DD["fum"]*((df["Fumbles (D)"]*df["Fumbles (O)"]) ** (0.5))/stats["fumbles"] + c_DD["INT"]*((df["INT (D)"]*df["INT (O)"]) ** (0.5))/stats["INT"]
 
     # Only keep relevant columns
     df = df[["Team", "Defence Factor"]]
