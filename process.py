@@ -313,7 +313,6 @@ def salary(defence, offence, week):
             defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
-        num_players = len(offence['Name'].tolist())
         for count, name in enumerate(offence['Name'].tolist()):
             # Use custom made simplify function to remove offending differences
             if simplify(player) == simplify(name):
@@ -425,7 +424,11 @@ def position(offence, upcoming_week):
         pos["Predicted"] = ""
         for index, row in pos.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
-            pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+            # If havent played last 3 weeks, then only use overall average
+            if pd.isnull(row["Avg Points (3 weeks)"]):
+                pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*row["Avg Points"],2)
+            else:
+                pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
 
         # Sort by descending average fantasy points
         pos = pos.sort_values(by='Predicted', ascending=False)
