@@ -662,3 +662,71 @@ def games_played(defence):
         defence.at[defence.index[defence["Team"] == team][0], "Games"] = games_played
 
     return defence
+
+def define_depth_chart(upcoming_week):
+
+    # Read in depth chart for each team
+
+    # Define the rank of the players at the position by the number of rec/game, rush/game etc.
+    # Check whether each player played for the given week by seeing if they have an entry
+    #  
+
+    # Calculate average plays per game
+
+    # Initialise the output arrays and define stats for each position
+    positions = ['QB', 'RB', 'WR', 'TE']
+    stats = ['PASS ATT', 'RUSH ATT', 'REC', 'REC']
+    pos_dicts = {
+        position : pd.DataFrame(columns=['Name', 'Team', 'Total Stat', 'Games Played'])
+        for position in positions
+    }
+
+    # Loop over each week to total the relevant stat
+    for week in range(1, upcoming_week):
+
+        # Read in all offence data
+        offence_data = pd.read_csv(os.path.join('Processed', 'PaddyPoints', 'O_Week_' + str(week) + '.csv'))
+
+        # Loop over each position and their corresponding stat
+        for position, stat in zip(positions, stats):
+
+            # Extract all rows specific to current position
+            pos_data = offence_data[offence_data['Position'] == position]
+
+            # Loop over each player in this position
+            for index, row in pos_data.iterrows():
+
+                # If the player has already played this season add to their information
+                if row.Name in list(pos_dicts[position].Name):
+                    ids = pos_dicts[position].Name == row.Name
+                    pos_dicts[position].loc[ids, ('Total Stat')] += row[stat]
+                    pos_dicts[position].loc[ids, ('Games Played')] += 1
+
+                # If the player hasn't played yet, add their information
+                else:
+                    insert_dict = {
+                        'Name' : row.Name,
+                        'Team' : row.Team,
+                        'Total Stat' : row[stat],
+                        'Games Played' : 1
+                    }
+                    pos_dicts[position] = pos_dicts[position].append(insert_dict, ignore_index=True)
+
+    # Find the average stat per player per position
+    for position in positions:
+        pos_dicts[position]['Average'] = pos_dicts[position]['Total Stat'] / pos_dicts[position]['Games Played']
+
+    # For each team print out the depth chart for each position
+    for team in list(pos_dicts['RB'].Team.unique()):
+
+        # Skip if the team name isn't legit
+        if team in [np.nan, '0']:
+            continue
+
+        # Print each position
+        for position in positions:
+            ids = pos_dicts[position].Team == team
+            out = pos_dicts[position].sort_values('Average', ascending=False).loc[ids, ('Name', 'Average')]
+            print(team, position, dict(zip(list(out.Name), [round(num, 2) for num in out.Average])))
+
+    print(len(list(pos_dicts['RB'].Team.unique())))
