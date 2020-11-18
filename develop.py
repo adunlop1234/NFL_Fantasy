@@ -32,7 +32,7 @@ def collate(upcoming_week):
 def players_output(upcoming_week):
 
     # Open summary files
-    defence, offence = process.open()
+    defence, offence = process.open_summaries()
 
     # Add opponent column
     defence, offence = process.opponent(offence, defence, upcoming_week)

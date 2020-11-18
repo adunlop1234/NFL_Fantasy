@@ -229,7 +229,7 @@ def collate_O(schedule_week, teams):
 
 
 # Open summaries
-def open():
+def open_summaries():
 
     # Open output files
     defence = pd.read_csv('Processed/Defence_Summary.csv')
@@ -642,7 +642,7 @@ def games_played(defence):
     nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
     # Replace short Team name with full name (e.g. Giants with New York Giants)
     for index, row in defence.iterrows(): 
-        for key, value in nfl_teams.items():
+        for value in nfl_teams.values():
             if row["Team"] in value:
                 defence.at[index, "Team"] = value
             if row["Team"] == "FootballTeam":
@@ -665,7 +665,12 @@ def games_played(defence):
 
 def define_depth_chart(upcoming_week):
 
-    # Read in depth chart for each team
+    """
+    Function that creates a depth chart for each team based on the number of receptions per game
+    for wide recievers and tight ends, and number of rushing attempts per game for running backs.
+    The injury status is then reviewed to check if any starters or number 2s are not playing and
+    file written to suggest players that will recieve a boost.
+    """
 
     # Define the rank of the players at the position by the number of rec/game, rush/game etc.
     # Check whether each player played for the given week by seeing if they have an entry
@@ -715,18 +720,69 @@ def define_depth_chart(upcoming_week):
     # Find the average stat per player per position
     for position in positions:
         pos_dicts[position]['Average'] = pos_dicts[position]['Total Stat'] / pos_dicts[position]['Games Played']
+        pos_dicts[position] = pos_dicts[position].sort_values(by=['Team', 'Average'], ascending = False)
 
-    # For each team print out the depth chart for each position
-    for team in list(pos_dicts['RB'].Team.unique()):
+    # Read in current injury status and report if the main or secondary player is not playing
+    injuries = pd.read_csv(os.path.join('Scraped', 'Injury_Status.csv'))
+    
+    # Open the file for the depth chart report
+    f = open("Depth_Chart_Report.txt", "w")
+
+    # Loop over each team
+    teams = list(pos_dicts['RB'].Team.unique())
+    teams.reverse()
+    for team in teams:
 
         # Skip if the team name isn't legit
         if team in [np.nan, '0']:
             continue
 
-        # Print each position
-        for position in positions:
-            ids = pos_dicts[position].Team == team
-            out = pos_dicts[position].sort_values('Average', ascending=False).loc[ids, ('Name', 'Average')]
-            print(team, position, dict(zip(list(out.Name), [round(num, 2) for num in out.Average])))
+        # Print the team of relevance
+        f.write('--------------------------------\n')
+        f.write('Injury Report for ' + team + '\n')
 
-    print(len(list(pos_dicts['RB'].Team.unique())))
+        # Extract injuries just for specific team of interest
+        team_injuries = injuries[injuries['Team'] == team]
+
+        # Loop over each position
+        for position in ['WR', 'RB', 'TE']:
+
+            # Initialise the injured players
+            injured_players = dict()
+
+            # Extract the depth chart for the current team and position
+            pos_depth_chart = pos_dicts[position][pos_dicts[position].Team == team]
+            
+            # Extract the injuries for the position of the team, only look at players who aren't playing
+            position_injuries = team_injuries[team_injuries['Position'] == position]
+            position_injuries = position_injuries[position_injuries['Status'] != 'D']
+            position_injuries = position_injuries[position_injuries['Status'] != 'Q']
+
+            # Loop over each player in the injury list to check if they're in the depth chart for current team/position
+            for player in list(position_injuries[position_injuries['Team'] == team].Name):
+                if player in list(pos_depth_chart.Name):                    
+ 
+                    # Print 
+                    #print(list(pos_depth_chart.Name), player)
+                    injured_players[list(pos_depth_chart.Name).index(player)+1] = player
+
+            if len(injured_players):
+                for rank, player in injured_players.items():
+
+                    # Inform when the starter and number 2 at the position are out and suggest number 3
+                    if rank == 1 and (2 in injured_players.keys()):
+
+                        f.write(position + str(1) + ' (' + player + ') and ' + position + str(2) + ' (' + injured_players[2] + ') are out. Consider ' + position + str(3) + ' (' + list(pos_depth_chart.Name)[2] + ').\n')
+
+                    # Inform when the starter is out and suggest number 2
+                    elif rank == 1 and (2 not in injured_players.keys()):
+
+                        f.write(position + str(1) + ' (' + player + ') is out. Consider ' + position + str(2) + ' (' + list(pos_depth_chart.Name)[1] + ').\n')
+
+                    # Inform when the number 2 is out and expect the starter to get more targets
+                    elif rank == 2 and (1 not in injured_players.keys()):
+
+                        f.write(position + str(2) + ' (' + player + ') is out. Consider ' + position + str(1) + ' (' + list(pos_depth_chart.Name)[0] + ') as they should have more attempts/targets.\n')
+    
+    # Close the file
+    f.close()
