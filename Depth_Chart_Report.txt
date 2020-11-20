@@ -24,6 +24,7 @@ WR2 (Odell Beckham Jr.) is out. Consider WR1 (Jarvis Landry) as they should have
 --------------------------------
 Injury Report for DAL
 QB1 (Dak Prescott) is out. Consider QB2 (Garrett Gilbert).
+QB1 (Dak Prescott) is out. The MIN defence will get a boost.
 TE2 (Blake Jarwin) is out. Consider TE1 (Dalton Schultz) as they should have more attempts/targets.
 --------------------------------
 Injury Report for DEN
@@ -60,6 +61,7 @@ WR2 (Julian Edelman) is out. Consider WR1 (Jakobi Meyers) as they should have mo
 --------------------------------
 Injury Report for NO
 QB1 (Drew Brees) is out. Consider QB2 (Jameis Winston).
+QB1 (Drew Brees) is out. The ATL defence will get a boost.
 --------------------------------
 Injury Report for NYG
 RB2 (Saquon Barkley) is out. Consider RB1 (Devonta Freeman) as they should have more attempts/targets.
@@ -67,6 +69,7 @@ TE2 (Kaden Smith) is out. Consider TE1 (Evan Engram) as they should have more at
 --------------------------------
 Injury Report for NYJ
 QB1 (Sam Darnold) is out. Consider QB2 (Joe Flacco).
+QB1 (Sam Darnold) is out. The LAC defence will get a boost.
 TE2 (Trevon Wesco) is out. Consider TE1 (Chris Herndon) as they should have more attempts/targets.
 --------------------------------
 Injury Report for PHI

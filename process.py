@@ -735,6 +735,9 @@ def define_depth_chart(upcoming_week):
     # Read in current injury status and report if the main or secondary player is not playing
     injuries = pd.read_csv(os.path.join('Scraped', 'Injury_Status.csv'))
     
+    # Read in the schedule to determine defence boosts
+    schedule = pd.read_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(upcoming_week) + '.csv'))
+
     # Open the file for the depth chart report
     f = open("Depth_Chart_Report.txt", "w")
 
@@ -770,10 +773,7 @@ def define_depth_chart(upcoming_week):
 
             # Loop over each player in the injury list to check if they're in the depth chart for current team/position
             for player in list(position_injuries[position_injuries['Team'] == team].Name):
-                if player in list(pos_depth_chart.Name):                    
- 
-                    # Print 
-                    #print(list(pos_depth_chart.Name), player)
+                if player in list(pos_depth_chart.Name):
                     injured_players[list(pos_depth_chart.Name).index(player)+1] = player
 
             if len(injured_players):
@@ -794,5 +794,17 @@ def define_depth_chart(upcoming_week):
 
                         f.write(position + str(2) + ' (' + player + ') is out. Consider ' + position + str(1) + ' (' + list(pos_depth_chart.Name)[0] + ') as they should have more attempts/targets.\n')
     
+                    # If the QB is out suggest picking the defence
+                    if position == 'QB' and rank == 1:
+                        
+                        if (schedule['Home'] == team).any():
+                            opponent = schedule.loc[schedule['Home'] == team, ('Away')]
+                        elif (schedule['Away'] == team).any():
+                            opponent = schedule.loc[schedule['Away'] == team, ('Home')]
+                        else:
+                            continue
+                        
+                        f.write('QB1 (' + player + ') is out. The ' + str(opponent.values[0]) + ' defence will get a boost.\n')
+
     # Close the file
     f.close()
