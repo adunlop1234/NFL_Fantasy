@@ -1,15 +1,15 @@
 {
     "QB": {
-        "1": "Teddy Bridgewater ",
-        "2": "Will Grier ",
-        "3": "P.J. Walker ",
+        "1": "Teddy Bridgewater",
+        "2": "P.J. Walker ",
+        "3": "Will Grier ",
         "4": "- "
     },
     "RB": {
         "1": "Christian McCaffrey",
         "2": "Mike Davis ",
-        "3": "Trenton Cannon ",
-        "4": "Rodney Smith "
+        "3": "Rodney Smith ",
+        "4": "Trenton Cannon "
     },
     "WR1": {
         "1": "Robby Anderson ",
@@ -31,7 +31,7 @@
     },
     "TE": {
         "1": "Ian Thomas ",
-        "2": "Chris Manhertz ",
+        "2": "Chris Manhertz",
         "3": "Colin Thompson ",
         "4": "- "
     }

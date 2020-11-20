@@ -1,15 +1,15 @@
 {
     "QB": {
-        "1": "Kyler Murray ",
+        "1": "Kyler Murray",
         "2": "Chris Streveler ",
-        "3": "Brett Hundley ",
+        "3": "Brett Hundley",
         "4": "- "
     },
     "RB": {
-        "1": "Kenyan Drake",
+        "1": "Kenyan Drake ",
         "2": "Chase Edmonds ",
         "3": "Jonathan Ward ",
-        "4": "Eno Benjamin "
+        "4": "Eno Benjamin"
     },
     "WR1": {
         "1": "DeAndre Hopkins ",
@@ -19,7 +19,7 @@
     },
     "WR2": {
         "1": "Christian Kirk ",
-        "2": "KeeSean Johnson ",
+        "2": "KeeSean Johnson",
         "3": "- ",
         "4": "- "
     },
@@ -30,9 +30,9 @@
         "4": "- "
     },
     "TE": {
-        "1": "Maxx Williams",
-        "2": "Darrell Daniels ",
+        "1": "Maxx Williams ",
+        "2": "Darrell Daniels",
         "3": "Dan Arnold ",
-        "4": "- "
+        "4": "Evan Baylis "
     }
 }

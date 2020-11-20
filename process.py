@@ -8,6 +8,7 @@ import itertools
 from scraper import scrape_depth_charts_injuries
 import sys, os
 from collections import Counter
+from progress.bar import IncrementalBar 
 
 # Calculate and add Paddy Points columns to offence and defence
 def paddy_points(week):
@@ -686,6 +687,9 @@ def define_depth_chart(upcoming_week):
         for position in positions
     }
 
+    # Detail progress for depth chart
+    bar = IncrementalBar('Defining Depth Chart', max = upcoming_week-1, suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
     # Loop over each week to total the relevant stat
     for week in range(1, upcoming_week):
 
@@ -717,6 +721,12 @@ def define_depth_chart(upcoming_week):
                     }
                     pos_dicts[position] = pos_dicts[position].append(insert_dict, ignore_index=True)
 
+        # Update progress
+        bar.next()
+
+    # Finish progress
+    bar.finish()
+
     # Find the average stat per player per position
     for position in positions:
         pos_dicts[position]['Average'] = pos_dicts[position]['Total Stat'] / pos_dicts[position]['Games Played']
@@ -745,7 +755,7 @@ def define_depth_chart(upcoming_week):
         team_injuries = injuries[injuries['Team'] == team]
 
         # Loop over each position
-        for position in ['WR', 'RB', 'TE']:
+        for position in ['QB', 'WR', 'RB', 'TE']:
 
             # Initialise the injured players
             injured_players = dict()

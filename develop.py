@@ -67,10 +67,6 @@ def main():
     # Set upcoming_week
     upcoming_week = int(sys.argv[1])
 
-    # Check depth chart
-    process.define_depth_chart(upcoming_week)
-    sys.exit()
-
     # Add Paddy Points column if not already
     paddy_column(upcoming_week)
 
@@ -91,6 +87,9 @@ def main():
 
     # Produce the output for each player type (QB WR RB TE DEF)
     players_output(upcoming_week)
+
+    # Check depth chart
+    process.define_depth_chart(upcoming_week)
 
 
 

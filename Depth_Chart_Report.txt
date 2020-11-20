@@ -1,38 +1,38 @@
 --------------------------------
 Injury Report for ARI
+TE2 (Darrell Daniels) is out. Consider TE1 (Dan Arnold) as they should have more attempts/targets.
 --------------------------------
 Injury Report for ATL
-WR2 (Calvin Ridley) is out. Consider WR1 (Julio Jones) as they should have more attempts/targets.
 --------------------------------
 Injury Report for BAL
+TE2 (Nick Boyle) is out. Consider TE1 (Mark Andrews) as they should have more attempts/targets.
 --------------------------------
 Injury Report for BUF
-TE1 (Tyler Kroft) is out. Consider TE2 (Dawson Knox).
 --------------------------------
 Injury Report for CAR
 RB1 (Christian McCaffrey) is out. Consider RB2 (Mike Davis).
 --------------------------------
 Injury Report for CHI
+QB2 (Mitchell Trubisky) is out. Consider QB1 (Nick Foles) as they should have more attempts/targets.
 RB1 (David Montgomery) is out. Consider RB2 (Tarik Cohen).
 --------------------------------
 Injury Report for CIN
-RB1 (Joe Mixon) is out. Consider RB2 (Giovani Bernard).
 TE1 (C.J. Uzomah) is out. Consider TE2 (Drew Sample).
 --------------------------------
 Injury Report for CLE
 WR2 (Odell Beckham Jr.) is out. Consider WR1 (Jarvis Landry) as they should have more attempts/targets.
 --------------------------------
 Injury Report for DAL
+QB1 (Dak Prescott) is out. Consider QB2 (Garrett Gilbert).
 TE2 (Blake Jarwin) is out. Consider TE1 (Dalton Schultz) as they should have more attempts/targets.
 --------------------------------
 Injury Report for DEN
 TE2 (Albert Okwuegbunam) is out. Consider TE1 (Noah Fant) as they should have more attempts/targets.
 --------------------------------
 Injury Report for DET
-WR1 (Kenny Golladay) is out. Consider WR2 (Danny Amendola).
+RB2 (D'Andre Swift) is out. Consider RB1 (Adrian Peterson) as they should have more attempts/targets.
 --------------------------------
 Injury Report for GB
-WR2 (Allen Lazard) is out. Consider WR1 (Davante Adams) as they should have more attempts/targets.
 --------------------------------
 Injury Report for HOU
 --------------------------------
@@ -42,7 +42,6 @@ Injury Report for JAX
 TE2 (James O'Shaughnessy) is out. Consider TE1 (Tyler Eifert) as they should have more attempts/targets.
 --------------------------------
 Injury Report for KC
-WR2 (Sammy Watkins) is out. Consider WR1 (Tyreek Hill) as they should have more attempts/targets.
 --------------------------------
 Injury Report for LAC
 RB1 (Austin Ekeler) is out. Consider RB2 (Joshua Kelley).
@@ -60,11 +59,14 @@ Injury Report for NE
 WR2 (Julian Edelman) is out. Consider WR1 (Jakobi Meyers) as they should have more attempts/targets.
 --------------------------------
 Injury Report for NO
+QB1 (Drew Brees) is out. Consider QB2 (Jameis Winston).
 --------------------------------
 Injury Report for NYG
 RB2 (Saquon Barkley) is out. Consider RB1 (Devonta Freeman) as they should have more attempts/targets.
+TE2 (Kaden Smith) is out. Consider TE1 (Evan Engram) as they should have more attempts/targets.
 --------------------------------
 Injury Report for NYJ
+QB1 (Sam Darnold) is out. Consider QB2 (Joe Flacco).
 TE2 (Trevon Wesco) is out. Consider TE1 (Chris Herndon) as they should have more attempts/targets.
 --------------------------------
 Injury Report for PHI
@@ -74,9 +76,12 @@ Injury Report for PIT
 TE2 (Vance McDonald) is out. Consider TE1 (Eric Ebron) as they should have more attempts/targets.
 --------------------------------
 Injury Report for SEA
-RB1 (Chris Carson) and RB2 (Carlos Hyde) are out. Consider RB3 (DeeJay Dallas).
+RB1 (Chris Carson) is out. Consider RB2 (Carlos Hyde).
 --------------------------------
 Injury Report for SF
+QB2 (Jimmy Garoppolo) is out. Consider QB1 (Nick Mullens) as they should have more attempts/targets.
+RB1 (Raheem Mostert) is out. Consider RB2 (Jerick McKinnon).
+TE1 (George Kittle) is out. Consider TE2 (Jordan Reed).
 --------------------------------
 Injury Report for TB
 --------------------------------

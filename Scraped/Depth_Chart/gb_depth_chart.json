@@ -8,31 +8,31 @@
     "RB": {
         "1": "Aaron Jones ",
         "2": "Jamaal Williams ",
-        "3": "Tyler Ervin ",
+        "3": "Tyler Ervin",
         "4": "AJ Dillon"
     },
     "WR1": {
         "1": "Davante Adams ",
-        "2": "Malik Taylor ",
-        "3": "Allen Lazard",
-        "4": "- "
-    },
-    "WR2": {
-        "1": "Marquez Valdes-Scantling ",
-        "2": "Darrius Shepherd",
+        "2": "Equanimeous St. Brown",
         "3": "Devin Funchess",
         "4": "- "
     },
+    "WR2": {
+        "1": "Allen Lazard",
+        "2": "Malik Taylor ",
+        "3": "- ",
+        "4": "- "
+    },
     "WR3": {
-        "1": "Equanimeous St. Brown",
-        "2": "Juwann Winfree ",
+        "1": "Marquez Valdes-Scantling ",
+        "2": "Darrius Shepherd ",
         "3": "- ",
         "4": "- "
     },
     "TE": {
         "1": "Robert Tonyan",
         "2": "Jace Sternberger ",
-        "3": "Marcedes Lewis ",
+        "3": "Marcedes Lewis",
         "4": "Josiah Deguara"
     }
 }

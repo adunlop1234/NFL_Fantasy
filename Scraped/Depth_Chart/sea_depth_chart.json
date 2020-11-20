@@ -7,19 +7,19 @@
     },
     "RB": {
         "1": "Chris Carson",
-        "2": "Carlos Hyde",
-        "3": "Travis Homer ",
-        "4": "DeeJay Dallas "
+        "2": "Carlos Hyde ",
+        "3": "DeeJay Dallas ",
+        "4": "Travis Homer"
     },
     "WR1": {
         "1": "Tyler Lockett ",
-        "2": "Freddie Swain",
+        "2": "Freddie Swain ",
         "3": "Josh Gordon",
         "4": "- "
     },
     "WR2": {
         "1": "DK Metcalf ",
-        "2": "Penny Hart",
+        "2": "Penny Hart ",
         "3": "- ",
         "4": "- "
     },
@@ -30,9 +30,9 @@
         "4": "- "
     },
     "TE": {
-        "1": "Greg Olsen ",
+        "1": "Greg Olsen",
         "2": "Will Dissly ",
         "3": "Jacob Hollister ",
-        "4": "Colby Parkinson "
+        "4": "Colby Parkinson"
     }
 }
