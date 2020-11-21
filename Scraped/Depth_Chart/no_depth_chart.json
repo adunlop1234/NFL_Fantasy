@@ -1,12 +1,12 @@
 {
     "QB": {
-        "1": "Drew Brees",
-        "2": "Taysom Hill ",
-        "3": "Jameis Winston ",
-        "4": "- "
+        "1": "Taysom Hill ",
+        "2": "Jameis Winston ",
+        "3": "Trevor Siemian ",
+        "4": "Drew Brees"
     },
     "RB": {
-        "1": "Alvin Kamara",
+        "1": "Alvin Kamara ",
         "2": "Latavius Murray ",
         "3": "Dwayne Washington",
         "4": "Ty Montgomery "
@@ -24,7 +24,7 @@
         "4": "- "
     },
     "WR3": {
-        "1": "Tre'Quan Smith",
+        "1": "Tre'Quan Smith ",
         "2": "Bennie Fowler",
         "3": "- ",
         "4": "- "

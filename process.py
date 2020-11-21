@@ -745,14 +745,11 @@ def define_depth_chart(upcoming_week):
     teams = list(pos_dicts['RB'].Team.unique())
     teams.reverse()
     for team in teams:
+        team_name_written = False
 
         # Skip if the team name isn't legit
         if team in [np.nan, '0']:
             continue
-
-        # Print the team of relevance
-        f.write('--------------------------------\n')
-        f.write('Injury Report for ' + team + '\n')
 
         # Extract injuries just for specific team of interest
         team_injuries = injuries[injuries['Team'] == team]
@@ -782,20 +779,36 @@ def define_depth_chart(upcoming_week):
                     # Inform when the starter and number 2 at the position are out and suggest number 3
                     if rank == 1 and (2 in injured_players.keys()):
 
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
+
                         f.write(position + str(1) + ' (' + player + ') and ' + position + str(2) + ' (' + injured_players[2] + ') are out. Consider ' + position + str(3) + ' (' + list(pos_depth_chart.Name)[2] + ').\n')
 
                     # Inform when the starter is out and suggest number 2
                     elif rank == 1 and (2 not in injured_players.keys()):
+
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
 
                         f.write(position + str(1) + ' (' + player + ') is out. Consider ' + position + str(2) + ' (' + list(pos_depth_chart.Name)[1] + ').\n')
 
                     # Inform when the number 2 is out and expect the starter to get more targets
                     elif rank == 2 and (1 not in injured_players.keys()):
 
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
+
                         f.write(position + str(2) + ' (' + player + ') is out. Consider ' + position + str(1) + ' (' + list(pos_depth_chart.Name)[0] + ') as they should have more attempts/targets.\n')
     
                     # If the QB is out suggest picking the defence
                     if position == 'QB' and rank == 1:
+
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
                         
                         if (schedule['Home'] == team).any():
                             opponent = schedule.loc[schedule['Home'] == team, ('Away')]
@@ -808,3 +821,12 @@ def define_depth_chart(upcoming_week):
 
     # Close the file
     f.close()
+
+
+def team_name_depth_chart(f, team):
+    ''' Adds team name to depth chart output file'''
+
+    # Print the team of relevance
+    f.write('--------------------------------\n')
+    f.write('Injury Report for ' + team + '\n')
+
