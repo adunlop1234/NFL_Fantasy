@@ -739,7 +739,7 @@ def define_depth_chart(upcoming_week):
     schedule = pd.read_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(upcoming_week) + '.csv'))
 
     # Open the file for the depth chart report
-    f = open("Depth_Chart_Report.txt", "w")
+    f = open("Depth_Chart_Report.md", "w")
 
     # Loop over each team
     teams = list(pos_dicts['RB'].Team.unique())
@@ -783,7 +783,7 @@ def define_depth_chart(upcoming_week):
                             team_name_depth_chart(f, team)
                             team_name_written = True
 
-                        f.write(position + str(1) + ' (' + player + ') and ' + position + str(2) + ' (' + injured_players[2] + ') are out. Consider ' + position + str(3) + ' (' + list(pos_depth_chart.Name)[2] + ').\n')
+                        f.write('\n' + position + str(1) + ' (<span style="color:#E74C3C">**' + player + '**</span>) and ' + position + str(2) + ' (<span style="color:#E74C3C">**' + injured_players[2] + '**</span>) are out. Consider ' + position + str(3) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[2] + '**</span>).\n')
 
                     # Inform when the starter is out and suggest number 2
                     elif rank == 1 and (2 not in injured_players.keys()):
@@ -792,7 +792,7 @@ def define_depth_chart(upcoming_week):
                             team_name_depth_chart(f, team)
                             team_name_written = True
 
-                        f.write(position + str(1) + ' (' + player + ') is out. Consider ' + position + str(2) + ' (' + list(pos_depth_chart.Name)[1] + ').\n')
+                        f.write('\n' + position + str(1) + ' (<span style="color:#E74C3C">**' + player + '**</span>) is out. Consider ' + position + str(2) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[1] + '**</span>).\n')
 
                     # Inform when the number 2 is out and expect the starter to get more targets
                     elif rank == 2 and (1 not in injured_players.keys()):
@@ -801,7 +801,7 @@ def define_depth_chart(upcoming_week):
                             team_name_depth_chart(f, team)
                             team_name_written = True
 
-                        f.write(position + str(2) + ' (' + player + ') is out. Consider ' + position + str(1) + ' (' + list(pos_depth_chart.Name)[0] + ') as they should have more attempts/targets.\n')
+                        f.write('\n' + position + str(2) + ' (<span style="color:#E74C3C">**' + player + '**</span>) is out. Consider ' + position + str(1) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[0] + '**</span>) as they should have more attempts/targets.\n')
     
                     # If the QB is out suggest picking the defence
                     if position == 'QB' and rank == 1:
@@ -817,7 +817,7 @@ def define_depth_chart(upcoming_week):
                         else:
                             continue
                         
-                        f.write('QB1 (' + player + ') is out. The ' + str(opponent.values[0]) + ' defence will get a boost.\n')
+                        f.write('\n' + 'QB1 (<span style="color:#E74C3C">**' + player + '**</span>) is out. The <span style="color:#27AE60">**' + str(opponent.values[0]) + '**</span> defence will get a boost.\n')
 
     # Close the file
     f.close()
@@ -827,6 +827,5 @@ def team_name_depth_chart(f, team):
     ''' Adds team name to depth chart output file'''
 
     # Print the team of relevance
-    f.write('--------------------------------\n')
-    f.write('Injury Report for ' + team + '\n')
+    f.write('## Injury Report for ' + team + '\n')
 
