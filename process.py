@@ -8,6 +8,7 @@ import itertools
 from scraper import scrape_depth_charts_injuries
 import sys, os
 from collections import Counter
+from progress.bar import IncrementalBar 
 
 # Calculate and add Paddy Points columns to offence and defence
 def paddy_points(week):
@@ -229,7 +230,7 @@ def collate_O(schedule_week, teams):
 
 
 # Open summaries
-def open():
+def open_summaries():
 
     # Open output files
     defence = pd.read_csv('Processed/Defence_Summary.csv')
@@ -642,7 +643,7 @@ def games_played(defence):
     nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
     # Replace short Team name with full name (e.g. Giants with New York Giants)
     for index, row in defence.iterrows(): 
-        for key, value in nfl_teams.items():
+        for value in nfl_teams.values():
             if row["Team"] in value:
                 defence.at[index, "Team"] = value
             if row["Team"] == "FootballTeam":
@@ -662,3 +663,169 @@ def games_played(defence):
         defence.at[defence.index[defence["Team"] == team][0], "Games"] = games_played
 
     return defence
+
+def define_depth_chart(upcoming_week):
+
+    """
+    Function that creates a depth chart for each team based on the number of receptions per game
+    for wide recievers and tight ends, and number of rushing attempts per game for running backs.
+    The injury status is then reviewed to check if any starters or number 2s are not playing and
+    file written to suggest players that will recieve a boost.
+    """
+
+    # Define the rank of the players at the position by the number of rec/game, rush/game etc.
+    # Check whether each player played for the given week by seeing if they have an entry
+    #  
+
+    # Calculate average plays per game
+
+    # Initialise the output arrays and define stats for each position
+    positions = ['QB', 'RB', 'WR', 'TE']
+    stats = ['PASS ATT', 'RUSH ATT', 'REC', 'REC']
+    pos_dicts = {
+        position : pd.DataFrame(columns=['Name', 'Team', 'Total Stat', 'Games Played'])
+        for position in positions
+    }
+
+    # Detail progress for depth chart
+    bar = IncrementalBar('Defining Depth Chart', max = upcoming_week-1, suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
+
+    # Loop over each week to total the relevant stat
+    for week in range(1, upcoming_week):
+
+        # Read in all offence data
+        offence_data = pd.read_csv(os.path.join('Processed', 'PaddyPoints', 'O_Week_' + str(week) + '.csv'))
+
+        # Loop over each position and their corresponding stat
+        for position, stat in zip(positions, stats):
+
+            # Extract all rows specific to current position
+            pos_data = offence_data[offence_data['Position'] == position]
+
+            # Loop over each player in this position
+            for index, row in pos_data.iterrows():
+
+                # If the player has already played this season add to their information
+                if row.Name in list(pos_dicts[position].Name):
+                    ids = pos_dicts[position].Name == row.Name
+                    pos_dicts[position].loc[ids, ('Total Stat')] += row[stat]
+                    pos_dicts[position].loc[ids, ('Games Played')] += 1
+
+                # If the player hasn't played yet, add their information
+                else:
+                    insert_dict = {
+                        'Name' : row.Name,
+                        'Team' : row.Team,
+                        'Total Stat' : row[stat],
+                        'Games Played' : 1
+                    }
+                    pos_dicts[position] = pos_dicts[position].append(insert_dict, ignore_index=True)
+
+        # Update progress
+        bar.next()
+
+    # Finish progress
+    bar.finish()
+
+    # Find the average stat per player per position
+    for position in positions:
+        pos_dicts[position]['Average'] = pos_dicts[position]['Total Stat'] / pos_dicts[position]['Games Played']
+        pos_dicts[position] = pos_dicts[position].sort_values(by=['Team', 'Average'], ascending = False)
+
+    # Read in current injury status and report if the main or secondary player is not playing
+    injuries = pd.read_csv(os.path.join('Scraped', 'Injury_Status.csv'))
+    
+    # Read in the schedule to determine defence boosts
+    schedule = pd.read_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(upcoming_week) + '.csv'))
+
+    # Open the file for the depth chart report
+    f = open("Depth_Chart_Report.md", "w")
+
+    # Loop over each team
+    teams = list(pos_dicts['RB'].Team.unique())
+    teams.reverse()
+    for team in teams:
+        team_name_written = False
+
+        # Skip if the team name isn't legit
+        if team in [np.nan, '0']:
+            continue
+
+        # Extract injuries just for specific team of interest
+        team_injuries = injuries[injuries['Team'] == team]
+
+        # Loop over each position
+        for position in ['QB', 'WR', 'RB', 'TE']:
+
+            # Initialise the injured players
+            injured_players = dict()
+
+            # Extract the depth chart for the current team and position
+            pos_depth_chart = pos_dicts[position][pos_dicts[position].Team == team]
+            
+            # Extract the injuries for the position of the team, only look at players who aren't playing
+            position_injuries = team_injuries[team_injuries['Position'] == position]
+            position_injuries = position_injuries[position_injuries['Status'] != 'D']
+            position_injuries = position_injuries[position_injuries['Status'] != 'Q']
+
+            # Loop over each player in the injury list to check if they're in the depth chart for current team/position
+            for player in list(position_injuries[position_injuries['Team'] == team].Name):
+                if player in list(pos_depth_chart.Name):
+                    injured_players[list(pos_depth_chart.Name).index(player)+1] = player
+
+            if len(injured_players):
+                for rank, player in injured_players.items():
+
+                    # Inform when the starter and number 2 at the position are out and suggest number 3
+                    if rank == 1 and (2 in injured_players.keys()):
+
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
+
+                        f.write('\n' + position + str(1) + ' (<span style="color:#E74C3C">**' + player + '**</span>) and ' + position + str(2) + ' (<span style="color:#E74C3C">**' + injured_players[2] + '**</span>) are out. Consider ' + position + str(3) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[2] + '**</span>).\n')
+
+                    # Inform when the starter is out and suggest number 2
+                    elif rank == 1 and (2 not in injured_players.keys()):
+
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
+
+                        f.write('\n' + position + str(1) + ' (<span style="color:#E74C3C">**' + player + '**</span>) is out. Consider ' + position + str(2) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[1] + '**</span>).\n')
+
+                    # Inform when the number 2 is out and expect the starter to get more targets
+                    elif rank == 2 and (1 not in injured_players.keys()):
+
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
+
+                        f.write('\n' + position + str(2) + ' (<span style="color:#E74C3C">**' + player + '**</span>) is out. Consider ' + position + str(1) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[0] + '**</span>) as they should have more attempts/targets.\n')
+    
+                    # If the QB is out suggest picking the defence
+                    if position == 'QB' and rank == 1:
+
+                        if not team_name_written:
+                            team_name_depth_chart(f, team)
+                            team_name_written = True
+                        
+                        if (schedule['Home'] == team).any():
+                            opponent = schedule.loc[schedule['Home'] == team, ('Away')]
+                        elif (schedule['Away'] == team).any():
+                            opponent = schedule.loc[schedule['Away'] == team, ('Home')]
+                        else:
+                            continue
+                        
+                        f.write('\n' + 'QB1 (<span style="color:#E74C3C">**' + player + '**</span>) is out. The <span style="color:#27AE60">**' + str(opponent.values[0]) + '**</span> defence will get a boost.\n')
+
+    # Close the file
+    f.close()
+
+
+def team_name_depth_chart(f, team):
+    ''' Adds team name to depth chart output file'''
+
+    # Print the team of relevance
+    f.write('## Injury Report for ' + team + '\n')
+
