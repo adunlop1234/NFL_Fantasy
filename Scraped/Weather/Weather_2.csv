@@ -1,0 +1,17 @@
+,Home,Away,Temp (C),Forecast,Wind (mph)
+0,CLE,CIN,17.8,Clear,6
+1,TEN,JAX,22.8,Clear,5
+2,TB,CAR,30.6,Humid and Mostly Cloudy,14
+3,PIT,DEN,17.8,Clear,2
+4,PHI,LAR,16.7,Clear,8
+5,NYJ,SF,16.1,Clear,9
+6,MIA,BUF,31.7,Humid and Partly Cloudy,7
+7,IND,MIN,n/a,DOME,10
+8,GB,DET,19.4,Clear,11
+9,DAL,ATL,22.8,Clear,7
+10,CHI,NYG,18.3,Clear,9
+11,ARI,WSH,n/a,DOME,3
+12,LAC,KC,n/a,DOME,6
+13,HOU,BAL,23.3,Rain,15
+14,SEA,NE,20.0,Partly Cloudy,3
+15,LV,NO,n/a,DOME,13

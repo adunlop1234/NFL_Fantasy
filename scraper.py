@@ -784,3 +784,99 @@ def games_played():
     df.to_csv(os.path.join('Scraped','Data_NFL','games_played.csv'))
 
 
+def scrape_weather(week):
+
+    # Get full name (from reference file)
+    ref = pd.read_csv('References/teams.csv')
+    # Create dictionary of {New York Giants : NYG, etc.}
+    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
+
+    # Define the URL for NFL weather site
+    URL = 'http://www.nflweather.com/en/week/2020/week-' + str(week)
+
+    # Create the request
+    page = requests.get(URL, allow_redirects=True)
+
+    # Parse the html using soup
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    # Get all table rows
+    rows = soup.find_all('tr')
+
+    # Create list to store Dict of weather data
+    weather = []
+    weather_row = {
+        "Home" : "",
+        "Away" : "",
+        "Temp (C)" : "",
+        "Forecast" : "",
+        "Wind (mph)" : ""
+    }
+
+
+    # Iterate over each row 
+    for row in rows[1:]:
+
+        # Get list of table data in given row
+        items = row.find_all('td', class_="text-center")
+
+        # Get home and away teams
+        home = items[1].getText().strip() if items[1].getText().strip() != "Redskins" else "Washington"
+        away = items[0].getText().strip() if items[0].getText().strip() != "Redskins" else "Washington"
+        
+        # Replace with short version team name
+        for key in nfl_teams.keys():
+            if home in key:
+                home = nfl_teams[key]
+            if away in key:
+                away = nfl_teams[key]
+            
+        # Get forecast
+        forecast = items[5].getText().strip()
+        temp_c = "n/a"
+        if forecast != "DOME":
+            # Get temperature in farenheit
+            temp_f = int(re.findall('[0-9]+', forecast)[0])
+            # Convert to celsius
+            temp_c = round((temp_f - 32) * 5/9, 1)
+
+            # Remove temperature from forecast
+            forecast = re.sub(r'^\W*\w+\W*', '', forecast)
+            
+        # Get wind
+        wind = items[6].getText().strip()
+        # Keep only wind speed
+        wind = re.findall('[0-9]+', wind)[0]
+
+        weather_row["Home"] = home
+        weather_row["Away"] = away
+        weather_row["Forecast"] = forecast
+        weather_row["Temp (C)"] = temp_c
+        weather_row["Wind (mph)"] = wind
+
+        weather.append(weather_row.copy())
+
+
+    # Now write weather report
+    df = pd.DataFrame(columns=weather[0].keys())
+    for w in weather:
+        df = df.append(w, ignore_index=True)
+
+    # Save entire weather data 
+    df.to_csv(os.path.join('Scraped', 'Weather', 'Weather_' + str(week) + '.csv'))
+
+    # Now produce a filtered weather report for our use
+    df = df[df.Forecast != "DOME"]
+    df = df.astype({"Wind (mph)" : 'int64'})
+    df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
+
+    f = open("Weather_Report.md", "w")
+    f.write("## Weather Report \n")
+    f.write(df.to_markdown())
+    f.close()
+
+
+
+    
+    
+
