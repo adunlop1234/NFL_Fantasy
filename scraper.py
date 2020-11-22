@@ -868,9 +868,8 @@ def scrape_weather(week):
     # Now produce a filtered weather report for our use
     df = df[df.Forecast != "DOME"]
     df = df.astype({"Wind (mph)" : 'int64'})
-    print(df)
-    df = df[(df["Wind (mph)"] >= 10) & (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
-    print(df)
+    df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
+
 
     # Save diltered weather report 
     df.to_csv('Weather_Report.csv')

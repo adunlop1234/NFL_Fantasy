@@ -1,14 +1,14 @@
 ,Home,Away,Temp (C),Forecast,Wind (mph)
 0,SEA,ARI,8.3,Partly Cloudy,9
-1,WSH,CIN,12.2,Overcast,7
+1,WSH,CIN,12.8,Overcast,7
 2,NO,ATL,n/a,DOME,5
 3,JAX,PIT,22.8,Partly Cloudy,7
 4,HOU,NE,22.2,Partly Cloudy,3
-5,CLE,PHI,5.6,Possible Light Rain,10
+5,CLE,PHI,5.6,Rain,10
 6,CAR,DET,15.6,Overcast,2
-7,BAL,TEN,10.6,Overcast,7
+7,BAL,TEN,11.1,Overcast,7
 8,LAC,NYJ,n/a,DOME,5
-9,DEN,MIA,8.3,Clear,5
+9,DEN,MIA,8.3,Clear,4
 10,IND,GB,n/a,DOME,12
 11,MIN,DAL,n/a,DOME,10
 12,LV,KC,n/a,DOME,2
