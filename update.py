@@ -56,6 +56,9 @@ def main():
     # Set upcoming_week
     upcoming_week = int(sys.argv[1])
 
+    # Get weather
+    scraper.scrape_weather(upcoming_week)
+
     # Update player data 
     update_player_data(upcoming_week)
 

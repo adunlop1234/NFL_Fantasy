@@ -75,6 +75,9 @@ def main():
 
     # Ensure injuries up-to-date
     scraper.scrape_depth_charts_injuries()
+
+    # Get weather
+    scraper.scrape_weather(upcoming_week)
     
     # Update Factors
     print("WARNING: Currenly using hard-coded coefficients for calculation of factors")
