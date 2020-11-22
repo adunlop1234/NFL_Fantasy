@@ -276,8 +276,8 @@ def opponent(offence, defence, upcoming_week):
 def average_pts(defence, offence):
 
     # Only keep 'Week i' columns 
-    columns_D = sorted([s for s in list(defence) if "Week " in s])
-    columns_O = sorted([s for s in list(offence) if "Week " in s])
+    columns_D = [s for s in list(defence) if "Week " in s]
+    columns_O = [s for s in list(offence) if "Week " in s]
 
     # Add average points column
     # Defence
