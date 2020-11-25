@@ -1,2 +1,8 @@
 .vscode/settings.json
 __pycache__
+Output/
+Processed/
+Scraped/
+Fantasy_Team.lp
+Weather_Report.md
+Depth_Chart_Report.md
