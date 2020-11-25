@@ -285,7 +285,21 @@ def average_pts(defence, offence):
     defence["Avg Points (3 weeks)"] = defence.loc[:, columns_D[-3:]].mean(axis=1).round(1)
     # Offence
     offence["Avg Points"] = offence.loc[:, columns_O].replace('', np.NaN).mean(axis=1).round(1)
-    offence["Avg Points (3 weeks)"] = offence.loc[:, columns_O[-3:]].replace('', np.NaN).mean(axis=1).round(1)
+    # Need to calculate as average of last 3 weeks PLAYED
+    offence["Avg Points (3 weeks)"] = ""
+    for index, row in offence.iterrows():
+        total = 0
+        count = 0
+        # Iterate over weeks, most recent first
+        for week in reversed(columns_O):
+            # If blank week (didnt play) continue
+            if pd.isna(row[week]):
+                continue
+            total += row[week]
+            count +=1
+            if count == 3:
+                offence.at[index,"Avg Points (3 weeks)"] = round((total/count),1)
+                break
 
     return (defence, offence)
 
@@ -426,7 +440,7 @@ def position(offence, upcoming_week):
         for index, row in pos.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
             # If havent played last 3 weeks, then only use overall average
-            if pd.isnull(row["Avg Points (3 weeks)"]):
+            if pd.isnull(row["Avg Points (3 weeks)"]) or row["Avg Points (3 weeks)"] == "":
                 pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*row["Avg Points"],2)
             else:
                 pos.at[index, "Predicted"] = round(predict_O(row.Opp, position)*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
