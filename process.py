@@ -25,25 +25,28 @@ def paddy_points(week):
     # Calculate Paddy Power points and add column
 
     # DEFENCE
+    # Remove teams that were on bye (otherwise will erroneously score 10 points)
+    teams_played = not_bye(week)
+    defence = defence[defence["Name"].isin(teams_played.values())]
     # Add Paddy Points column (all but Points Allowed points)
     defence = defence.assign(Paddy=defence["Sacks"] + 2*defence["Saf"] +
-                             2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"])
+                             2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"] + 6*defence["Def Ret TD"])
     #  Now add Points Allowed points
-    for i in range(0, len(defence.index)):
-        if defence["Pts Allowed"][i] == 0:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 10
-        elif defence["Pts Allowed"][i] <= 6:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 7
-        elif defence["Pts Allowed"][i] <= 13:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 4
-        elif defence["Pts Allowed"][i] <= 20:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 1
-        elif defence["Pts Allowed"][i] <= 27:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] + 0
-        elif defence["Pts Allowed"][i] <= 34:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 1
+    for index, row in defence.iterrows():
+        if row["Pts Allowed"] == 0:
+            defence.at[index, "Paddy"] += 10
+        elif row["Pts Allowed"] <= 6:
+            defence.at[index, "Paddy"] += 7
+        elif row["Pts Allowed"] <= 13:
+            defence.at[index, "Paddy"] += 4
+        elif row["Pts Allowed"] <= 20:
+            defence.at[index, "Paddy"] += 1
+        elif row["Pts Allowed"] <= 27:
+            defence.at[index, "Paddy"] += 0
+        elif row["Pts Allowed"] <= 34:
+            defence.at[index, "Paddy"] -= 1
         else:
-            defence.iloc[i, defence.columns.get_loc("Paddy")] = defence.iloc[i, defence.columns.get_loc("Paddy")] - 4
+            defence.at[index, "Paddy"] -= 4
 
     # OFFENCE
     # Drop players who did not play given week
@@ -106,6 +109,23 @@ def eligable_teams(week):
     sched = sched[(sched['Day'] == "Sun")] #| (sched['Day'] == "Mon")]
     
     # Return list of eligable teams
+    teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
+
+    # Return dictionary of eligable teams in format {NYG: New York Giants, etc.}
+    return {key: nfl_teams[key] for key in teams}
+
+# Find all teams NOT on bye week
+def not_bye(week):
+
+    # Need to get full name (from reference file)
+    ref = pd.read_csv('References/teams.csv')
+    # Create dictionary of {NYG: New York Giants, etc.}
+    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
+
+    # Read in schedule for week
+    sched = pd.read_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
+
+    # Return list of teams not on bye
     teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
 
     # Return dictionary of eligable teams in format {NYG: New York Giants, etc.}
