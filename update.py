@@ -33,7 +33,7 @@ def update_player_data(upcoming_week):
 def salary(upcoming_week):
 
     # Check not already been scraped
-    if "FD_Salary_Week_" + str(upcoming_week) + ".csv" not in os.listdir("Scraped/Statistics"):
+    if "FD_Salary_Week_" + str(upcoming_week) + ".csv" not in os.listdir("Scraped/Salary"):
         # Scrape the salary data for the upcoming week    
         scraper.scrape_salary()
 

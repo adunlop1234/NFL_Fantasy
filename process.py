@@ -322,7 +322,7 @@ def average_pts(defence, offence):
 def salary(defence, offence, week):
 
     # Create dicitonary of {players/teams : salary} for upcoming week's salary scraped data
-    sal = pd.read_csv('Scraped/Statistics/FD_Salary_Week_' + str(week) + '.csv')
+    sal = pd.read_csv('Scraped/Salary/FD_Salary_Week_' + str(week) + '.csv')
     salary = pd.Series(sal.Salary.values, index=sal.Name).to_dict()
 
     # Create dictionary of {New York Giants : NYG, etc.}
