@@ -870,7 +870,7 @@ def scrape_weather(week):
     df = df.astype({"Wind (mph)" : 'int64'})
     df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
 
-    f = open("Weather_Report.md", "w")
+    f = open("Output/Reports/Weather_Report.md", "w")
     f.write("## Weather Report \n")
     f.write(df.to_markdown())
     f.close()

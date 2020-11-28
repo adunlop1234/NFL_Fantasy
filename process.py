@@ -768,7 +768,7 @@ def define_depth_chart(upcoming_week):
     schedule = pd.read_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(upcoming_week) + '.csv'))
 
     # Open the file for the depth chart report
-    f = open("Depth_Chart_Report.md", "w")
+    f = open("Output/Reports/Depth_Chart_Report.md", "w")
 
     # Loop over each team
     teams = list(pos_dicts['RB'].Team.unique())
