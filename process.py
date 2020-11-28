@@ -377,7 +377,7 @@ def injury(offence):
 def predict_D(defence):
 
     # Open defence_defence factors
-    factors = pd.read_csv("Processed/Defence_Defence_Factors.csv")
+    factors = pd.read_csv("Processed/Choosing_Defence_Factors.csv")
     # Reformat as dict {Team : Factor}
     fact = pd.Series(factors["Defence Factor"].values,index=factors.Team).to_dict()
 
@@ -661,7 +661,7 @@ def defence_defence_factors(c_DD, schedule_week):
     df["Defence Factor"] = df["Defence Factor"] ** (0.5)
     
     # Save Defence with factors
-    df.to_csv("Processed/Defence_Defence_Factors.csv")
+    df.to_csv("Processed/Choosing_Defence_Factors.csv")
 
     
 # Add column based on games played
