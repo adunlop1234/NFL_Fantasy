@@ -1,17 +1,17 @@
 ,Home,Away,Temp (C),Forecast,Wind (mph)
 0,DET,HOU,n/a,DOME,10
-1,DAL,WSH,21.1,Clear,9
-2,PIT,BAL,11.7,Overcast,5
-3,NYJ,MIA,10.0,Clear,3
-4,NE,ARI,8.3,Clear,5
-5,MIN,CAR,n/a,DOME,11
-6,JAX,CLE,19.4,Possible Light Rain,4
-7,IND,TEN,n/a,DOME,4
-8,CIN,NYG,7.8,Partly Cloudy,4
-9,BUF,LAC,7.2,Clear,5
-10,ATL,LV,n/a,DOME,9
+1,DAL,WSH,21.7,Clear,9
+2,NYJ,MIA,10.0,Clear,4
+3,NE,ARI,10.0,Clear,5
+4,MIN,CAR,n/a,DOME,17
+5,JAX,CLE,21.7,Mostly Cloudy,5
+6,IND,TEN,n/a,DOME,4
+7,CIN,NYG,5.0,Mostly Cloudy,3
+8,BUF,LAC,7.8,Clear,11
+9,ATL,LV,n/a,DOME,8
+10,PIT,BAL,8.3,Clear,4
 11,LAR,SF,n/a,DOME,3
-12,DEN,NO,5.6,Clear,3
-13,TB,KC,26.1,Overcast,11
-14,GB,CHI,1.7,Overcast,12
-15,PHI,SEA,16.1,Light Rain and Windy,14
+12,DEN,NO,2.8,Clear,3
+13,TB,KC,26.1,Mostly Cloudy,8
+14,GB,CHI,0.6,Mostly Cloudy,13
+15,PHI,SEA,17.8,Possible Light Rain,13
