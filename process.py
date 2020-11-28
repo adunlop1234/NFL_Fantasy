@@ -15,8 +15,8 @@ import statistics
 def paddy_points(week):
 
     # Read csv into a dataframe
-    defence = pd.read_csv('Scraped/Statistics/D_Week_' + str(week) + '.csv')
-    offence = pd.read_csv('Scraped/Data_NFL/O_Week_' + str(week) + '.csv')
+    defence = pd.read_csv('Scraped/NFL_Fantasy/D_Week_' + str(week) + '.csv')
+    offence = pd.read_csv('Scraped/NFL_Logs/O_Week_' + str(week) + '.csv')
 
     # For defence only, replace '-' with 0
     defence = defence.replace('-', 0)
@@ -55,7 +55,7 @@ def paddy_points(week):
     # Need to add in '2pt' and 'Ret TD' columns using original scraper (from Fantasy NFL rather than player logs)
     # Inexplicably the scraped data from log is missing some player's teams. Take this from Fantasy NFL
     # Open 'fantasy scraped' datasets
-    offence_fantasy = pd.read_csv('Scraped/Statistics/O_Week_' + str(week) + '.csv')
+    offence_fantasy = pd.read_csv('Scraped/NFL_Fantasy/O_Week_' + str(week) + '.csv')
     # Put missing data into dict
     temp1 = [x if x not in '-' else 0 for x in offence_fantasy["Ret TD"].tolist()]
     temp2 = [x if x not in '-' else 0 for x in offence_fantasy["Ret TD"].tolist()]
@@ -165,7 +165,7 @@ def O_filtered(week, teams, schedule_week):
 
     # Read Offence data for week prior to schedule week (needed for correct team for filtering)
     # * ASSUMPTION: Player at same team as previous week
-    offence_sched = pd.read_csv('Scraped/Statistics/O_Week_' + str(schedule_week-1) + '.csv')
+    offence_sched = pd.read_csv('Scraped/NFL_Fantasy/O_Week_' + str(schedule_week-1) + '.csv')
     # Need to reassign LA as LAR
     offence_sched = offence_sched.replace(to_replace=r'\bLA\b', value='LAR', regex=True)
 
@@ -209,7 +209,7 @@ def collate_D(schedule_week, teams):
 def collate_O(schedule_week, teams):
     
     # Read in fantasy data scraped from previous week
-    df = pd.read_csv("Scraped/Statistics/O_Week_" + str(schedule_week-1) + ".csv")
+    df = pd.read_csv("Scraped/NFL_Fantasy/O_Week_" + str(schedule_week-1) + ".csv")
 
     # Create list of names which appear more than once (no significant players, so just going to ignore these people)
     cnt = Counter(df["Name"].tolist())
@@ -435,7 +435,7 @@ def position(offence, upcoming_week):
     positions = {'QB' : [], 'WR' : [], 'RB' : [], 'TE' : []}
 
     # Open latest scraped offence data
-    latest_O = pd.read_csv('Scraped/Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
+    latest_O = pd.read_csv('Scraped/NFL_Fantasy/O_Week_' + str(upcoming_week-1) + '.csv')
 
     for index, row in latest_O.iterrows():
         positions[row.Position].append(row.Name)
@@ -494,7 +494,7 @@ stats = {"pass_yds" : 235, "pass_yds_att" : 7.2, "pass_td" : 1.6, "rush_yds" : 1
 def defence_factors(c_D):
 
     # Read in Defence_Total
-    df = pd.read_csv("Scraped/Data_NFL/Defence_Total.csv")
+    df = pd.read_csv("Scraped/NFL_Logs/Defence_Total.csv")
     # Add games played column
     df = games_played(df)
 
@@ -520,7 +520,7 @@ def defence_factors(c_D):
 def offence_factors(c_O):
 
     # Read in Offence_Total
-    df = pd.read_csv("Scraped/Data_NFL/Offence_Total.csv")
+    df = pd.read_csv("Scraped/NFL_Logs/Offence_Total.csv")
     # Add games played column
     df = games_played(df)
 
@@ -544,9 +544,9 @@ def offence_factors(c_O):
 def defence_defence_factors(c_DD, schedule_week):
 
     # Read in Offence_Total
-    off = pd.read_csv("Scraped/Data_NFL/Offence_Total.csv")
+    off = pd.read_csv("Scraped/NFL_Logs/Offence_Total.csv")
     # Read in Defence_Total
-    defe = pd.read_csv("Scraped/Data_NFL/Defence_Total.csv")
+    defe = pd.read_csv("Scraped/NFL_Logs/Defence_Total.csv")
     # Read in Offence factors
     off_f = pd.read_csv("Processed/Offence_Factors.csv")
     # Read in Defence factors
@@ -554,7 +554,7 @@ def defence_defence_factors(c_DD, schedule_week):
 
     # Add no. games played column
     # Open games_played.csv
-    games = pd.read_csv("Scraped/Data_NFL/games_played.csv")
+    games = pd.read_csv("Scraped/NFL_Logs/games_played.csv")
     games.columns = ["Team", "Games"]
     # Only keep last part name (e.g. New York Giants -> Giants)
     for index, row in games.iterrows():
@@ -679,7 +679,7 @@ def games_played(defence):
                 defence.at[index, "Team"] = "Washington Football Team"
 
     # Open games_played.csv
-    games = pd.read_csv("Scraped/Data_NFL/games_played.csv")
+    games = pd.read_csv("Scraped/NFL_Logs/games_played.csv")
     games.columns = ["Team", "Games"]
 
     # Create dictionary {Team : Games played, ...}

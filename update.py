@@ -19,13 +19,13 @@ def update_player_data(upcoming_week):
         for position in positions:
 
             # Scraped from NFL Fantasy website
-            if position + "_Week_" + str(week) + ".csv" not in os.listdir("Scraped/Statistics"):
+            if position + "_Week_" + str(week) + ".csv" not in os.listdir("Scraped/NFL_Fantasy"):
 
                 # Scrape missing week
                 scraper.scrape_player_data(week, position)
 
     # Unfortunately scraped data from NFL Stats website must be completely scraped each time
-    if "O_Week_" + str(upcoming_week-1) + ".csv" not in os.listdir("Scraped/Data_NFL"):
+    if "O_Week_" + str(upcoming_week-1) + ".csv" not in os.listdir("Scraped/NFL_Logs"):
         scraper.scrape_offence_players()
 
 
