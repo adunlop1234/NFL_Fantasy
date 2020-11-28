@@ -1,7 +1,6 @@
 ## Weather Report 
-|    | Home   | Away   |   Temp (C) | Forecast             |   Wind (mph) |
-|---:|:-------|:-------|-----------:|:---------------------|-------------:|
-|  6 | JAX    | CLE    |       19.4 | Possible Light Rain  |            4 |
-| 13 | TB     | KC     |       26.1 | Overcast             |           11 |
-| 14 | GB     | CHI    |        1.7 | Overcast             |           12 |
-| 15 | PHI    | SEA    |       16.1 | Light Rain and Windy |           14 |
+|    | Home   | Away   |   Temp (C) | Forecast            |   Wind (mph) |
+|---:|:-------|:-------|-----------:|:--------------------|-------------:|
+|  8 | BUF    | LAC    |        7.8 | Clear               |           11 |
+| 14 | GB     | CHI    |        0.6 | Mostly Cloudy       |           13 |
+| 15 | PHI    | SEA    |       17.8 | Possible Light Rain |           13 |
