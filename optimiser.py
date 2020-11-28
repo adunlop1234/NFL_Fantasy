@@ -100,7 +100,7 @@ def optimiser(data_in):
     prob += (RB_const + WR_const + TE_const == TE_min + WR_min + RB_min + 1)
 
     # Write the problem
-    prob.writeLP('Fantasy_Team.lp')
+    prob.writeLP('Processed/Fantasy_Team.lp')
 
     # Solve the problem
     optimisation_result = prob.solve(pulp.PULP_CBC_CMD(msg=0))
