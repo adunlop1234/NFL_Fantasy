@@ -341,7 +341,7 @@ def scrape_salary():
     df = df.sort_values(by='Salary', ascending=False)
 
     # Write csv output file
-    df.to_csv(os.path.join('Scraped', 'Statistics', 'FD_Salary_Week_' + str(week) + '.csv'))
+    df.to_csv(os.path.join('Scraped', 'Salary', 'FD_Salary_Week_' + str(week) + '.csv'))
 
     return df
 
