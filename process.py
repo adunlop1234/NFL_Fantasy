@@ -9,6 +9,7 @@ from scraper import scrape_depth_charts_injuries
 import sys, os
 from collections import Counter
 from progress.bar import IncrementalBar 
+import statistics
 
 # Calculate and add Paddy Points columns to offence and defence
 def paddy_points(week):
@@ -287,19 +288,13 @@ def average_pts(defence, offence):
     offence["Avg Points"] = offence.loc[:, columns_O].replace('', np.NaN).mean(axis=1).round(1)
     # Need to calculate as average of last 3 weeks PLAYED
     offence["Avg Points (3 weeks)"] = ""
-    for index, row in offence.iterrows():
-        total = 0
-        count = 0
-        # Iterate over weeks, most recent first
-        for week in reversed(columns_O):
-            # If blank week (didnt play) continue
-            if pd.isna(row[week]):
-                continue
-            total += row[week]
-            count +=1
-            if count == 3:
-                offence.at[index,"Avg Points (3 weeks)"] = round((total/count),1)
-                break
+    for index, row in offence[columns_O].iterrows():
+        # Note: if played fewer than 3 games, this will just take average of games played
+        try:
+            offence.at[index,"Avg Points (3 weeks)"] = round(statistics.mean(list(filter(lambda x: (x != None) and (not pd.isna(x)), list(row)))[-3:]), 1)
+        # Played no games
+        except statistics.StatisticsError:
+            continue
 
     return (defence, offence)
 
