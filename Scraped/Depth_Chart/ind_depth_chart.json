@@ -1,26 +1,26 @@
 {
     "QB": {
-        "1": "Philip Rivers ",
+        "1": "Philip Rivers",
         "2": "Jacoby Brissett ",
         "3": "Jacob Eason ",
         "4": "- "
     },
     "RB": {
         "1": "Jonathan Taylor ",
-        "2": "Jordan Wilkins ",
-        "3": "Nyheim Hines ",
+        "2": "Nyheim Hines ",
+        "3": "Jordan Wilkins ",
         "4": "Marlon Mack"
     },
     "WR1": {
         "1": "T.Y. Hilton ",
         "2": "Marcus Johnson ",
-        "3": "Parris Campbell",
+        "3": "Ashton Dulin",
         "4": "- "
     },
     "WR2": {
         "1": "Michael Pittman Jr. ",
         "2": "DeMichael Harris ",
-        "3": "Ashton Dulin",
+        "3": "Parris Campbell",
         "4": "- "
     },
     "WR3": {
@@ -30,8 +30,8 @@
         "4": "- "
     },
     "TE": {
-        "1": "Trey Burton ",
-        "2": "Jack Doyle",
+        "1": "Jack Doyle ",
+        "2": "Trey Burton ",
         "3": "Mo Alie-Cox ",
         "4": "Noah Togiai"
     }
