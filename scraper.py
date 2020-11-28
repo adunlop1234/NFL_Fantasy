@@ -12,6 +12,9 @@ import datetime
 import json
 from progress.bar import IncrementalBar 
 
+# Create dictionary of {New York Giants : NYG, etc.} for reference in functions
+nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
+
 
 def scrape_player_data(week, player_type):
 
@@ -325,6 +328,10 @@ def scrape_salary():
         name = player_info.find('a', href=re.compile(r'/nfl/')).getText()
         team = re.split(' |\)|\(', player_info.find('small').getText())[1]
         position = re.split(' |\)|\(', player_info.find('small').getText())[-2]
+
+        # If name is a team (e.g. New York Giants), replace with abreviation which is in team column
+        if name in nfl_teams.values():
+            name = team
 
         # Get salary info
         salary = row.find('td', class_=re.compile('salary'))['data-salary']
@@ -785,11 +792,6 @@ def games_played():
 
 
 def scrape_weather(week):
-
-    # Get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-    # Create dictionary of {New York Giants : NYG, etc.}
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
 
     # Define the URL for NFL weather site
     URL = 'http://www.nflweather.com/en/week/2020/week-' + str(week)

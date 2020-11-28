@@ -325,10 +325,6 @@ def salary(defence, offence, week):
     sal = pd.read_csv('Scraped/Salary/FD_Salary_Week_' + str(week) + '.csv')
     salary = pd.Series(sal.Salary.values, index=sal.Name).to_dict()
 
-    # Create dictionary of {New York Giants : NYG, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
-
     # Add Salary column to datatables
     defence["Salary"] = ""
     offence["Salary"] = ""
@@ -336,9 +332,6 @@ def salary(defence, offence, week):
     for player, salary in salary.items():
 
         # Defence
-        # Swap full name for short name
-        if player in nfl_teams.keys():
-            player = nfl_teams[player]
         if not defence.loc[defence['Team'] == player].empty:
             defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
@@ -348,9 +341,7 @@ def salary(defence, offence, week):
             if simplify(player) == simplify(name):
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
                 break
-        
-
-    
+          
     return (defence, offence)
 
 # Add injury status column
