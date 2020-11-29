@@ -9,7 +9,7 @@
 7,Damiere Byrd,WR,NE,-,-,-,11,-,6,132,1,-,-,-,,26.30
 8,Cooper Kupp,WR,LAR,-,-,-,-,-,11,145,-,-,-,-,,25.50
 9,Dalvin Cook,RB,MIN,-,-,-,115,1,5,45,-,-,-,-,,25.00
-10,Taysom Hill,QB,NO,233,-,-,51,2,-,-,-,-,-,-,,24.42
+10,Taysom Hill,QB,NO,233,-,-,49,2,-,-,-,-,-,-,,24.22
 11,Davante Adams,WR,GB,-,-,-,-,-,7,106,1,-,-,-,,23.60
 12,Diontae Johnson,WR,PIT,-,-,-,-,-,12,111,-,-,-,-,,23.10
 13,Jared Goff,QB,LAR,376,3,2,-,-,-,-,-,-,-,-,,23.04
@@ -349,7 +349,7 @@
 347,Odell Beckham Jr.,WR,CLE,-,-,-,-,-,-,-,-,-,-,-,,0.00
 348,Reggie Begelton,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 349,Josh Bellamy,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-350,Levante Bellamy,RB,DEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
+350,Levante Bellamy,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 351,Eno Benjamin,RB,ARI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 352,Travis Benjamin,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 353,Kurt Benkert,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -753,7 +753,7 @@
 751,Gardner Minshew,QB,JAX,-,-,-,-,-,-,-,-,-,-,-,,0.00
 752,Bryant Mitchell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 753,Dillon Mitchell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-754,Steven Mitchell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+754,Steven Mitchell,WR,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 755,Joe Mixon,RB,CIN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 756,Taquan Mizzell,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 757,Sean Modster,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -813,7 +813,7 @@
 811,Devin Phelps,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 812,Cam Phillips,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 813,John Phillips,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-814,Scottie Phillips,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+814,Scottie Phillips,RB,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 815,Artavis Pierce,RB,CHI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 816,De'Mornay Pierson-El,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 817,Jared Pinkney,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -855,7 +855,7 @@
 853,Brett Rypien,QB,DEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 854,Deebo Samuel,WR,SF,-,-,-,-,-,-,-,-,-,-,-,,0.00
 855,Jaylen Samuels,RB,PIT,-,-,-,-,-,-,-,-,-,-,-,,0.00
-856,Mohamed Sanu,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+856,Mohamed Sanu,WR,DET,-,-,-,-,-,-,-,-,-,-,-,,0.00
 857,Charles Scarff,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 858,Jordan Scarlett,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 859,Matt Schaub,QB,ATL,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -935,8 +935,8 @@
 933,Jeff Thomas,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 934,Mike Thomas,WR,CIN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 935,DeAndre Thompkins,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-936,Chris Thompson,RB,JAX,-,-,-,-,-,-,-,-,-,-,-,,0.00
-937,Chris Thompson,WR,SF,-,-,-,-,-,-,-,-,-,-,-,,0.00
+936,Chris Thompson,WR,SF,-,-,-,-,-,-,-,-,-,-,-,,0.00
+937,Chris Thompson,RB,JAX,-,-,-,-,-,-,-,-,-,-,-,,0.00
 938,Cody Thompson,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 939,Darwin Thompson,RB,KC,-,-,-,-,-,-,-,-,-,-,-,,0.00
 940,Mark Thompson,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00

@@ -1,33 +1,29 @@
 ,Unnamed: 0,Name,Position,Sacks,Def INT,Fum Rec,Saf,Def TD,Def 2pt Ret,Def Ret TD,Pts Allowed,Points Total,Paddy
-0,0,Las Vegas Raiders,DEF,2,4,1,0,0,0,0,12,16.0,16
-1,1,New Orleans Saints,DEF,2,2,2,0,0,0,0,13,14.0,14
-2,2,Los Angeles Rams,DEF,6,2,1,0,0,0,0,16,13.0,13
-3,3,Chicago Bears,DEF,1,1,1,0,0,0,1,19,12.0,6
-4,4,Pittsburgh Steelers,DEF,4,0,2,0,0,0,0,10,12.0,12
-5,5,Jacksonville Jaguars,DEF,1,1,1,0,0,0,1,24,11.0,5
-6,6,Minnesota Vikings,DEF,2,1,1,0,0,0,0,13,10.0,10
-7,7,Indianapolis Colts,DEF,1,0,0,0,1,0,0,17,8.0,8
-8,8,San Francisco 49ers,DEF,3,0,2,0,0,0,0,27,7.0,7
-9,9,Buffalo Bills,DEF,3,1,1,0,0,0,0,32,6.0,6
-10,10,Cleveland Browns,DEF,2,0,0,0,0,0,0,7,6.0,6
-11,11,Green Bay Packers,DEF,3,1,0,0,0,0,0,20,6.0,6
-12,12,Tampa Bay Buccaneers,DEF,3,1,0,0,0,0,0,23,5.0,5
-13,13,New England Patriots,DEF,2,1,0,0,0,0,0,17,5.0,5
-14,14,Seattle Seahawks,DEF,3,0,1,0,0,0,0,23,5.0,5
-15,15,Houston Texans,DEF,1,0,0,0,0,0,0,10,5.0,5
-16,16,Miami Dolphins,DEF,2,1,0,0,0,0,0,21,4.0,4
-17,17,New York Giants,DEF,3,0,0,0,0,0,0,17,4.0,4
-18,18,Detroit Lions,DEF,2,0,1,0,0,0,0,27,4.0,4
-19,19,Arizona Cardinals,DEF,0,2,0,0,0,0,0,30,3.0,3
-20,20,Philadelphia Eagles,DEF,3,0,0,0,0,0,0,27,3.0,3
-21,21,Los Angeles Chargers,DEF,0,0,1,0,0,0,0,29,1.0,1
-22,22,Baltimore Ravens,DEF,1,0,0,0,0,0,0,23,1.0,1
-23,23,Washington Football Team,DEF,1,0,0,0,0,0,0,30,0.0,0
-24,24,Tennessee Titans,DEF,1,0,0,0,0,0,0,34,0.0,0
-25,25,Carolina Panthers,DEF,1,0,1,0,0,0,0,46,-1.0,-1
-26,26,Cincinnati Bengals,DEF,0,0,0,0,0,0,0,36,-4.0,-4
-27,27,Denver Broncos,DEF,0,0,0,0,0,0,0,37,-4.0,-4
-28,28,Kansas City Chiefs,DEF,0,0,0,0,0,0,0,0,0.0,10
-29,29,Dallas Cowboys,DEF,0,0,0,0,0,0,0,0,0.0,10
-30,30,Atlanta Falcons,DEF,0,0,0,0,0,0,0,0,0.0,10
-31,31,New York Jets,DEF,0,0,0,0,0,0,0,0,0.0,10
+0,0,LV,DEF,2,4,1,0,0,0,0,12,16.0,16
+1,1,NO,DEF,2,2,2,0,0,0,0,13,14.0,14
+2,2,LAR,DEF,6,2,1,0,0,0,0,16,13.0,13
+3,3,CHI,DEF,1,1,1,0,0,0,1,19,12.0,12
+4,4,PIT,DEF,4,0,2,0,0,0,0,10,12.0,12
+5,5,JAX,DEF,1,1,1,0,0,0,1,24,11.0,11
+6,6,MIN,DEF,2,1,1,0,0,0,0,13,10.0,10
+7,7,IND,DEF,1,0,0,0,1,0,0,17,8.0,8
+8,8,SF,DEF,3,0,2,0,0,0,0,27,7.0,7
+9,9,BUF,DEF,3,1,1,0,0,0,0,32,6.0,6
+10,10,CLE,DEF,2,0,0,0,0,0,0,7,6.0,6
+11,11,GB,DEF,3,1,0,0,0,0,0,20,6.0,6
+12,12,TB,DEF,3,1,0,0,0,0,0,23,5.0,5
+13,13,NE,DEF,2,1,0,0,0,0,0,17,5.0,5
+14,14,SEA,DEF,3,0,1,0,0,0,0,23,5.0,5
+15,15,HOU,DEF,1,0,0,0,0,0,0,10,5.0,5
+16,16,MIA,DEF,2,1,0,0,0,0,0,21,4.0,4
+17,17,NYG,DEF,3,0,0,0,0,0,0,17,4.0,4
+18,18,DET,DEF,2,0,1,0,0,0,0,27,4.0,4
+19,19,ARI,DEF,0,2,0,0,0,0,0,30,3.0,3
+20,20,PHI,DEF,3,0,0,0,0,0,0,27,3.0,3
+21,21,LAC,DEF,0,0,1,0,0,0,0,29,1.0,1
+22,22,BAL,DEF,1,0,0,0,0,0,0,23,1.0,1
+23,23,WSH,DEF,1,0,0,0,0,0,0,30,0.0,0
+24,24,TEN,DEF,1,0,0,0,0,0,0,34,0.0,0
+25,25,CAR,DEF,1,0,1,0,0,0,0,46,-1.0,-1
+26,26,CIN,DEF,0,0,0,0,0,0,0,36,-4.0,-4
+27,27,DEN,DEF,0,0,0,0,0,0,0,37,-4.0,-4

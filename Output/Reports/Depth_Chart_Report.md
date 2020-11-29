@@ -10,6 +10,9 @@ QB1 (<span style="color:#E74C3C">**Lamar Jackson**</span>) is out. The <span sty
 RB2 (<span style="color:#E74C3C">**J.K. Dobbins**</span>) is out. Consider RB1 (<span style="color:#27AE60">**Gus Edwards**</span>) as they should have more attempts/targets.
 
 TE2 (<span style="color:#E74C3C">**Nick Boyle**</span>) is out. Consider TE1 (<span style="color:#27AE60">**Mark Andrews**</span>) as they should have more attempts/targets.
+## Injury Report for CAR
+
+RB1 (<span style="color:#E74C3C">**Christian McCaffrey**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Mike Davis**</span>).
 ## Injury Report for CIN
 
 QB1 (<span style="color:#E74C3C">**Joe Burrow**</span>) is out. Consider QB2 (<span style="color:#27AE60">**Ryan Finley**</span>).
@@ -37,12 +40,13 @@ TE2 (<span style="color:#E74C3C">**Albert Okwuegbunam**</span>) is out. Consider
 ## Injury Report for DET
 
 WR1 (<span style="color:#E74C3C">**Kenny Golladay**</span>) is out. Consider WR2 (<span style="color:#27AE60">**Marvin Jones**</span>).
+## Injury Report for IND
+
+RB1 (<span style="color:#E74C3C">**Jonathan Taylor**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Jordan Wilkins**</span>).
 ## Injury Report for JAX
 
 TE2 (<span style="color:#E74C3C">**James O'Shaughnessy**</span>) is out. Consider TE1 (<span style="color:#27AE60">**Tyler Eifert**</span>) as they should have more attempts/targets.
 ## Injury Report for LAC
-
-RB1 (<span style="color:#E74C3C">**Austin Ekeler**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Joshua Kelley**</span>).
 
 TE2 (<span style="color:#E74C3C">**Virgil Green**</span>) is out. Consider TE1 (<span style="color:#27AE60">**Hunter Henry**</span>) as they should have more attempts/targets.
 ## Injury Report for MIA
@@ -70,6 +74,9 @@ RB2 (<span style="color:#E74C3C">**La'Mical Perine**</span>) is out. Consider RB
 ## Injury Report for PHI
 
 TE1 (<span style="color:#E74C3C">**Zach Ertz**</span>) is out. Consider TE2 (<span style="color:#27AE60">**Dallas Goedert**</span>).
+## Injury Report for PIT
+
+RB1 (<span style="color:#E74C3C">**James Conner**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Benny Snell**</span>).
 ## Injury Report for SEA
 
 TE1 (<span style="color:#E74C3C">**Greg Olsen**</span>) is out. Consider TE2 (<span style="color:#27AE60">**Jacob Hollister**</span>).
@@ -78,7 +85,5 @@ TE1 (<span style="color:#E74C3C">**Greg Olsen**</span>) is out. Consider TE2 (<s
 QB2 (<span style="color:#E74C3C">**Jimmy Garoppolo**</span>) is out. Consider QB1 (<span style="color:#27AE60">**Nick Mullens**</span>) as they should have more attempts/targets.
 
 WR2 (<span style="color:#E74C3C">**Brandon Aiyuk**</span>) is out. Consider WR1 (<span style="color:#27AE60">**Richie James**</span>) as they should have more attempts/targets.
-
-RB1 (<span style="color:#E74C3C">**Raheem Mostert**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Jerick McKinnon**</span>).
 
 TE1 (<span style="color:#E74C3C">**George Kittle**</span>) is out. Consider TE2 (<span style="color:#27AE60">**Jordan Reed**</span>).

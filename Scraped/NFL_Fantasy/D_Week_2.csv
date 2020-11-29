@@ -1,33 +1,33 @@
 ,Name,Position,Sacks,Def INT,Fum Rec,Saf,Def TD,Def 2pt Ret,Def Ret TD,Pts Allowed,Points Total
-0,Indianapolis Colts,DEF,3,3,-,1,-,-,-,11,15.00
-1,Baltimore Ravens,DEF,4,1,1,-,1,-,-,16,15.00
-2,Tampa Bay Buccaneers,DEF,5,2,2,-,-,-,-,17,14.00
-3,Pittsburgh Steelers,DEF,7,1,1,1,-,-,-,21,13.00
-4,Chicago Bears,DEF,4,1,1,-,-,-,-,13,12.00
-5,Green Bay Packers,DEF,4,1,-,-,1,-,-,21,12.00
-6,Arizona Cardinals,DEF,4,-,2,-,-,-,-,15,9.00
-7,New York Giants,DEF,4,2,-,-,-,-,-,17,9.00
-8,Los Angeles Rams,DEF,-,2,1,-,-,-,-,19,7.00
-9,New England Patriots,DEF,2,1,-,-,1,-,-,35,6.00
-10,San Francisco 49ers,DEF,1,-,-,-,-,-,-,13,5.00
-11,Denver Broncos,DEF,1,1,1,-,-,-,-,24,5.00
-12,Kansas City Chiefs,DEF,2,1,-,-,-,-,-,20,5.00
-13,Tennessee Titans,DEF,2,2,-,-,-,-,-,30,5.00
-14,Cleveland Browns,DEF,3,-,1,-,-,-,-,30,4.00
-15,Washington Football Team,DEF,3,1,-,-,-,-,-,30,4.00
-16,New York Jets,DEF,3,1,-,-,-,-,-,31,4.00
-17,New Orleans Saints,DEF,3,-,1,-,-,-,-,34,4.00
-18,Houston Texans,DEF,4,-,-,-,-,-,-,27,4.00
-19,Minnesota Vikings,DEF,2,1,-,-,-,-,-,26,4.00
-20,Atlanta Falcons,DEF,1,-,3,-,-,-,-,40,3.00
-21,Carolina Panthers,DEF,-,1,1,-,-,-,-,31,3.00
-22,Seattle Seahawks,DEF,1,1,-,-,-,-,-,24,3.00
-23,Buffalo Bills,DEF,3,-,-,-,-,-,-,28,2.00
-24,Miami Dolphins,DEF,1,-,1,-,-,-,-,31,2.00
-25,Las Vegas Raiders,DEF,-,1,-,-,-,-,-,24,2.00
-26,Los Angeles Chargers,DEF,1,-,-,-,-,-,-,23,1.00
-27,Jacksonville Jaguars,DEF,1,-,-,-,-,-,-,33,0.00
-28,Philadelphia Eagles,DEF,1,-,1,-,-,-,-,37,-1.00
-29,Cincinnati Bengals,DEF,-,1,-,-,-,-,-,35,-2.00
-30,Dallas Cowboys,DEF,1,-,-,-,-,-,-,39,-3.00
-31,Detroit Lions,DEF,1,-,-,-,-,-,-,36,-3.00
+0,IND,DEF,3,3,-,1,-,-,-,11,15.00
+1,BAL,DEF,4,1,1,-,1,-,-,16,15.00
+2,TB,DEF,5,2,2,-,-,-,-,17,14.00
+3,PIT,DEF,7,1,1,1,-,-,-,21,13.00
+4,CHI,DEF,4,1,1,-,-,-,-,13,12.00
+5,GB,DEF,4,1,-,-,1,-,-,21,12.00
+6,ARI,DEF,4,-,2,-,-,-,-,15,9.00
+7,NYG,DEF,4,2,-,-,-,-,-,17,9.00
+8,LAR,DEF,-,2,1,-,-,-,-,19,7.00
+9,NE,DEF,2,1,-,-,1,-,-,35,6.00
+10,SF,DEF,1,-,-,-,-,-,-,13,5.00
+11,DEN,DEF,1,1,1,-,-,-,-,24,5.00
+12,KC,DEF,2,1,-,-,-,-,-,20,5.00
+13,TEN,DEF,2,2,-,-,-,-,-,30,5.00
+14,CLE,DEF,3,-,1,-,-,-,-,30,4.00
+15,WSH,DEF,3,1,-,-,-,-,-,30,4.00
+16,NYJ,DEF,3,1,-,-,-,-,-,31,4.00
+17,NO,DEF,3,-,1,-,-,-,-,34,4.00
+18,HOU,DEF,4,-,-,-,-,-,-,27,4.00
+19,MIN,DEF,2,1,-,-,-,-,-,26,4.00
+20,ATL,DEF,1,-,3,-,-,-,-,40,3.00
+21,CAR,DEF,-,1,1,-,-,-,-,31,3.00
+22,SEA,DEF,1,1,-,-,-,-,-,24,3.00
+23,BUF,DEF,3,-,-,-,-,-,-,28,2.00
+24,MIA,DEF,1,-,1,-,-,-,-,31,2.00
+25,LV,DEF,-,1,-,-,-,-,-,24,2.00
+26,LAC,DEF,1,-,-,-,-,-,-,23,1.00
+27,JAX,DEF,1,-,-,-,-,-,-,33,0.00
+28,PHI,DEF,1,-,1,-,-,-,-,37,-1.00
+29,CIN,DEF,-,1,-,-,-,-,-,35,-2.00
+30,DAL,DEF,1,-,-,-,-,-,-,39,-3.00
+31,DET,DEF,1,-,-,-,-,-,-,36,-3.00

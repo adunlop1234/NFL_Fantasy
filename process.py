@@ -28,7 +28,7 @@ def paddy_points(week):
     # DEFENCE
     # Remove teams that were on bye (otherwise will erroneously score 10 points)
     teams_played = not_bye(week)
-    defence = defence[defence["Name"].isin(teams_played.values())]
+    defence = defence[defence["Name"].isin(teams_played)]
     # Add Paddy Points column (all but Points Allowed points)
     defence = defence.assign(Paddy=defence["Sacks"] + 2*defence["Saf"] +
                              2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"] + 6*defence["Def Ret TD"])
@@ -98,11 +98,6 @@ def paddy_points(week):
 # Find the teams playing in eligable games
 def eligable_teams(week):
 
-    # Need to get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-    # Create dictionary of {NYG: New York Giants, etc.}
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-
     # Read in schedule for week
     sched = pd.read_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
 
@@ -110,27 +105,17 @@ def eligable_teams(week):
     sched = sched[(sched['Day'] == "Sun")] #| (sched['Day'] == "Mon")]
     
     # Return list of eligable teams
-    teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
-
-    # Return dictionary of eligable teams in format {NYG: New York Giants, etc.}
-    return {key: nfl_teams[key] for key in teams}
+    return [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
 
 # Find all teams NOT on bye week
 def not_bye(week):
-
-    # Need to get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-    # Create dictionary of {NYG: New York Giants, etc.}
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
 
     # Read in schedule for week
     sched = pd.read_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
 
     # Return list of teams not on bye
-    teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
+    return [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
 
-    # Return dictionary of eligable teams in format {NYG: New York Giants, etc.}
-    return {key: nfl_teams[key] for key in teams}
 
 
 # Filter defence data by eligable teams   
@@ -140,21 +125,10 @@ def D_filtered(week, teams):
     defence = pd.read_csv('Processed/PaddyPoints/D_Week_' + str(week) + '.csv')
 
     # Filter for eligable teams
-    defence = defence[defence["Name"].isin(list(teams.values()))]
+    defence = defence[defence["Name"].isin(teams)]
 
     # Create dict of week's teams and paddy points
-    points_temp = {row["Name"] : row["Paddy"] for index, row in defence.iterrows()}
-
-    # Replace full name keys with abbrev keys
-    # Need to get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-
-    # Create dictionary of {New York Giants: NYG, etc.}
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
-
-    # Return dictionary of teams and paddy points for this week
-    return {nfl_teams[key] : value for key, value in points_temp.items()}
-    
+    return {row["Name"] : row["Paddy"] for index, row in defence.iterrows()}    
     
 
 # Filter offence data by eligable teams   
@@ -170,7 +144,7 @@ def O_filtered(week, teams, schedule_week):
     offence_sched = offence_sched.replace(to_replace=r'\bLA\b', value='LAR', regex=True)
 
     # Find eligable players (based on team)
-    offence_sched = offence_sched[offence_sched["Team"].isin(list(teams.keys()))]
+    offence_sched = offence_sched[offence_sched["Team"].isin(list(teams))]
     players = offence_sched["Name"].tolist()
 
     # Filter for eligable players
@@ -186,7 +160,7 @@ def O_filtered(week, teams, schedule_week):
 def collate_D(schedule_week, teams):
 
     # Create dictionary to store list of each week's paddy points for each team
-    D_weeks_pp = {key : [] for key in sorted(list(teams.keys()))}
+    D_weeks_pp = {key : [] for key in sorted(teams)}
     
     # Append Paddy Points for each week
     for i in range(1, schedule_week):
@@ -217,9 +191,6 @@ def collate_O(schedule_week, teams):
 
     # Create dictionary with players' teams
     play_team = dict(zip(df["Name"].tolist(), df["Team"].tolist()))
-    for name, team in play_team.items():
-        if team == "LA":
-            play_team[name] = "LAR"
     
     # Create dictionary to store list of each week's paddy points for each eligable player
     O_weeks_pp = {name : ['']*(schedule_week-1) for name, team in play_team.items() if team in teams}
@@ -372,17 +343,13 @@ def predict_D(defence):
     # Reformat as dict {Team : Factor}
     fact = pd.Series(factors["Defence Factor"].values,index=factors.Team).to_dict()
 
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-
     # Add Predicted Fantasy Points column
     defence["Predicted"] = ""
 
     # Add column to defence
     for index, row in defence.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
-            defence.at[index, "Predicted"] = round(fact[nfl_teams[row["Team"]]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+            defence.at[index, "Predicted"] = round(fact[row["Team"]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
 
     # Sort by descending average fantasy points
     defence = defence.sort_values(by='Predicted', ascending=False)
@@ -396,14 +363,10 @@ def predict_O(opp, position):
 
     # Open defence factors
     factors = pd.read_csv("Processed/Defence_Factors.csv")
-    
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
 
     # Get row for given team
     try:
-        row = factors.loc[factors["Team"] == nfl_teams[opp]]
+        row = factors.loc[factors["Team"] == opp]
     except KeyError:
         # This is caused by different players of same name (e.g. Ryan Griffin) not being filtered by eligable teams because one is playing and one is not
         return 0
@@ -544,26 +507,11 @@ def defence_defence_factors(c_DD, schedule_week):
     defe_f = pd.read_csv("Processed/Defence_Factors.csv")
 
     # Add no. games played column
-    # Open games_played.csv
-    games = pd.read_csv("Scraped/NFL_Logs/games_played.csv")
-    games.columns = ["Team", "Games"]
-    # Only keep last part name (e.g. New York Giants -> Giants)
-    for index, row in games.iterrows():
-        if row["Team"] == "Washington Football Team":
-            games.at[index, "Team"] = "FootballTeam"
-            continue
-        games.at[index, "Team"] = row["Team"].split()[-1]
-    # Create dictionary {Team : Games played, ...}
-    games_ = pd.Series(games.Games.values,index=games.Team).to_dict()
-    # Add extra column to defence with games played
-    off.insert(loc=1, column = "Games", value="")
-    defe.insert(loc=1, column = "Games", value="")
-    for team, games_played in games_.items():
-        off.at[off.index[off["Team"] == team][0], "Games"] = games_played
-        defe.at[defe.index[defe["Team"] == team][0], "Games"] = games_played
+    off = games_played(off)
+    defe = games_played(defe)
 
     # Get list of eligable games
-    eligable_games = list(eligable_teams(schedule_week).values())
+    eligable_games = eligable_teams(schedule_week)
     
     # Only keep eligable teams
     off = off[off_f.Team.isin(eligable_games)]
@@ -576,14 +524,6 @@ def defence_defence_factors(c_DD, schedule_week):
     sched = sched[["Home", "Away"]]
     # Create list of games
     sched = sched.values.tolist()
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-    # Substitue schedule with full team name
-    sched_ = []
-    for game in sched:
-        sched_.append([nfl_teams.get(item, item) for item in game])
-    sched = sched_
 
     # Add column of opponent
     defe_f["Opponent"] = ""
@@ -656,18 +596,7 @@ def defence_defence_factors(c_DD, schedule_week):
 
     
 # Add column based on games played
-def games_played(defence):
-
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-    # Replace short Team name with full name (e.g. Giants with New York Giants)
-    for index, row in defence.iterrows(): 
-        for value in nfl_teams.values():
-            if row["Team"] in value:
-                defence.at[index, "Team"] = value
-            if row["Team"] == "FootballTeam":
-                defence.at[index, "Team"] = "Washington Football Team"
+def games_played(df):
 
     # Open games_played.csv
     games = pd.read_csv("Scraped/NFL_Logs/games_played.csv")
@@ -676,13 +605,13 @@ def games_played(defence):
     # Create dictionary {Team : Games played, ...}
     games_ = pd.Series(games.Games.values,index=games.Team).to_dict()
 
-    # Add extra column to defence with games played
-    defence.insert(loc=1, column = "Games", value="")
+    # Add extra column to df with games played
+    df.insert(loc=1, column = "Games", value="")
 
     for team, games_played in games_.items():
-        defence.at[defence.index[defence["Team"] == team][0], "Games"] = games_played
+        df.at[df.index[df["Team"] == team][0], "Games"] = games_played
 
-    return defence
+    return df
 
 def define_depth_chart(upcoming_week):
 

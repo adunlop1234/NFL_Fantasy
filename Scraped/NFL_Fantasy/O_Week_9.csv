@@ -45,7 +45,7 @@
 43,J.D. McKissic,RB,WSH,-,-,-,17,-,9,65,-,-,-,-,,17.20
 44,David Moore,WR,SEA,-,-,-,-,-,4,71,1,-,-,-,,17.10
 45,Gabriel Davis,WR,BUF,-,-,-,-,-,4,70,1,-,-,-,,17.00
-46,Kalen Ballage,RB,,-,-,-,69,1,2,15,-,-,-,-,,16.40
+46,Kalen Ballage,RB,LAC,-,-,-,69,1,2,15,-,-,-,-,,16.40
 47,Julio Jones,WR,ATL,-,-,-,-,-,5,54,1,-,-,-,,16.40
 48,Preston Williams,WR,MIA,-,-,-,-,-,4,60,1,-,-,-,,16.00
 49,Alvin Kamara,RB,NO,-,-,-,40,1,5,9,-,-,-,-,,15.90
@@ -134,12 +134,12 @@
 132,Brandon Powell,WR,ATL,-,-,-,4,-,1,9,1,-,-,-,,8.30
 133,Ross Dwelley,TE,SF,-,-,-,-,-,3,52,-,-,-,-,,8.20
 134,Mack Hollins,WR,MIA,-,-,-,-,-,1,11,1,-,-,-,,8.10
-135,Alfred Morris,RB,,-,-,-,67,-,1,4,-,-,-,-,,8.10
+135,Alfred Morris,RB,NYG,-,-,-,67,-,1,4,-,-,-,-,,8.10
 136,Tyler Lockett,WR,SEA,-,-,-,-,-,4,40,-,-,-,-,,8.00
 137,Cordarrelle Patterson,WR,CHI,-,-,-,13,-,4,27,-,-,-,-,,8.00
 138,Hunter Renfrow,WR,LV,-,-,-,-,-,2,60,-,-,-,-,,8.00
 139,Frank Gore,RB,NYJ,-,-,-,46,-,2,13,-,-,-,-,,7.90
-140,Jordan Howard,RB,MIA,-,-,-,19,1,-,-,-,-,-,-,,7.90
+140,Jordan Howard,RB,,-,-,-,19,1,-,-,-,-,-,-,,7.90
 141,Mecole Hardman,WR,KC,-,-,-,-,-,3,48,-,-,-,-,,7.80
 142,Chris Thompson,RB,JAX,-,-,-,3,-,4,35,-,-,-,-,,7.80
 143,Willie Snead,WR,BAL,-,-,-,-,-,4,37,-,-,-,-,,7.70
@@ -276,7 +276,7 @@
 274,Jacoby Brissett,QB,IND,-,-,-,-,-,-,-,-,-,-,-,,0.00
 275,Pharaoh Brown,TE,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 276,Derek Carrier,TE,LV,-,-,-,-,-,-,-,-,-,-,-,,0.00
-277,DeAndre Carter,WR,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
+277,DeAndre Carter,WR,CHI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 278,Dan Chisena,WR,MIN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 279,Tyrie Cleveland,WR,DEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 280,Pharoh Cooper,WR,CAR,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -304,7 +304,7 @@
 302,Matthew Slater,WR,NE,-,-,-,-,-,-,-,-,-,-,-,,0.00
 303,Freddie Swain,WR,SEA,-,-,-,-,-,-,-,-,-,-,-,,0.00
 304,Tyrod Taylor,QB,LAC,-,-,-,-,-,-,-,-,-,-,-,,0.00
-305,Eric Tomlinson,TE,NYG,-,-,-,-,-,-,-,-,-,-,-,,0.00
+305,Eric Tomlinson,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 306,Austin Walter,RB,SF,-,-,-,-,-,-,-,-,-,-,-,,0.00
 307,Jonathan Ward,RB,ARI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 308,Tim Boyle,QB,GB,-,-,-,-1,-,-,-,-,-,-,-,,-0.10
@@ -312,14 +312,14 @@
 310,Blaine Gabbert,QB,TB,-,-,-,-1,-,-,-,-,-,-,-,,-0.10
 311,K.J. Hill,WR,LAC,-,-,-,-,-,-,-,-,-,-,-,,-2.00
 312,Jerell Adams,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-313,Josh Adams,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+313,Josh Adams,RB,NYJ,-,-,-,-,-,-,-,-,-,-,-,,0.00
 314,Rodney Adams,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 315,Bralon Addison,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 316,Quincy Adeboyejo,WR,NE,-,-,-,-,-,-,-,-,-,-,-,,0.00
 317,Jamal Agnew,WR,DET,-,-,-,-,-,-,-,-,-,-,-,,0.00
 318,Brandon Aiyuk,WR,SF,-,-,-,-,-,-,-,-,-,-,-,,0.00
 319,Cam Akers,RB,LAR,-,-,-,-,-,-,-,-,-,-,-,,0.00
-320,Brandon Allen,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+320,Brandon Allen,QB,CIN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 321,Geronimo Allison,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 322,Bruce Anderson,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 323,Darius Anderson,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -352,7 +352,7 @@
 350,Odell Beckham Jr.,WR,CLE,-,-,-,-,-,-,-,-,-,-,-,,0.00
 351,Reggie Begelton,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 352,Josh Bellamy,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-353,Levante Bellamy,RB,DEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
+353,Levante Bellamy,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 354,Nick Bellore,RB,SEA,-,-,-,-,-,-,-,-,-,-,-,,0.00
 355,Eno Benjamin,RB,ARI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 356,Travis Benjamin,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -406,7 +406,7 @@
 404,Lawrence Cager,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 405,Deon Cain,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 406,Raymond Calais,RB,LAR,-,-,-,-,-,-,-,-,-,-,-,,0.00
-407,Antonio Callaway,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+407,Antonio Callaway,WR,MIA,-,-,-,-,-,-,-,-,-,-,-,,0.00
 408,George Campbell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 409,Parris Campbell,WR,IND,-,-,-,-,-,-,-,-,-,-,-,,0.00
 410,Trenton Cannon,RB,CAR,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -434,7 +434,7 @@
 432,Case Cookus,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 433,Cody Core,WR,NYG,-,-,-,-,-,-,-,-,-,-,-,,0.00
 434,Jeff Cotton,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-435,Nathan Cottrell,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+435,Nathan Cottrell,RB,JAX,-,-,-,-,-,-,-,-,-,-,-,,0.00
 436,Isaiah Coulter,WR,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 437,Keke Coutee,WR,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 438,Chandler Cox,RB,MIA,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -552,7 +552,7 @@
 550,Brandon Greene,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 551,Jermaine Gresham,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 552,Will Grier,QB,CAR,-,-,-,-,-,-,-,-,-,-,-,,0.00
-553,Garrett Griffin,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+553,Garrett Griffin,TE,NO,-,-,-,-,-,-,-,-,-,-,-,,0.00
 554,Ryan Griffin,QB,TB,-,-,-,-,-,-,-,-,-,-,-,,0.00
 555,Robert Griffin III,QB,BAL,-,-,-,-,-,-,-,-,-,-,-,,0.00
 556,Nakie Griffin-Stewart,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -617,7 +617,7 @@
 615,Buddy Howell,RB,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 616,Brian Hoyer,QB,NE,-,-,-,-,-,-,-,-,-,-,-,,0.00
 617,Tanner Hudson,TE,TB,-,-,-,-,-,-,-,-,-,-,-,,0.00
-618,Tommy Hudson,TE,TEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
+618,Tommy Hudson,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 619,Lil'Jordan Humphrey,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 620,Adam Humphries,WR,TEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 621,Brett Hundley,QB,ARI,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -754,7 +754,7 @@
 752,Gardner Minshew,QB,JAX,-,-,-,-,-,-,-,-,-,-,-,,0.00
 753,Bryant Mitchell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 754,Dillon Mitchell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-755,Steven Mitchell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+755,Steven Mitchell,WR,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 756,Joe Mixon,RB,CIN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 757,Taquan Mizzell,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 758,Sean Modster,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -809,7 +809,7 @@
 807,Devin Phelps,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 808,Cam Phillips,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 809,John Phillips,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-810,Scottie Phillips,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+810,Scottie Phillips,RB,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 811,Artavis Pierce,RB,CHI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 812,De'Mornay Pierson-El,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 813,Jared Pinkney,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -819,10 +819,10 @@
 817,Troymaine Pope,RB,LAC,-,-,-,-,-,-,-,-,-,-,-,,0.00
 818,Dak Prescott,QB,DAL,-,-,-,-,-,-,-,-,-,-,-,,0.00
 819,Byron Pringle,WR,KC,-,-,-,-,-,-,-,-,-,-,-,,0.00
-820,C.J. Prosise,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+820,C.J. Prosise,RB,HOU,-,-,-,-,-,-,-,-,-,-,-,,0.00
 821,MyCole Pruitt,TE,TEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
 822,Trey Quinn,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-823,Kevin Rader,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+823,Kevin Rader,TE,PIT,-,-,-,-,-,-,-,-,-,-,-,,0.00
 824,Damion Ratley,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 825,Anthony Ratliff-Williams,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 826,Dax Raymond,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -856,8 +856,8 @@
 854,Deebo Samuel,WR,SF,-,-,-,-,-,-,-,-,-,-,-,,0.00
 855,Jaylen Samuels,RB,PIT,-,-,-,-,-,-,-,-,-,-,-,,0.00
 856,Miles Sanders,RB,PHI,-,-,-,-,-,-,-,-,-,-,-,,0.00
-857,Mohamed Sanu,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-858,Eric Saubert,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+857,Mohamed Sanu,WR,DET,-,-,-,-,-,-,-,-,-,-,-,,0.00
+858,Eric Saubert,TE,JAX,-,-,-,-,-,-,-,-,-,-,-,,0.00
 859,Bo Scarbrough,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 860,Charles Scarff,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 861,Jordan Scarlett,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -878,7 +878,7 @@
 876,Trent Sherfield,WR,ARI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 877,Anthony Sherman,RB,KC,-,-,-,-,-,-,-,-,-,-,-,,0.00
 878,Kyle Shurmur,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-879,Trevor Siemian,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+879,Trevor Siemian,QB,NO,-,-,-,-,-,-,-,-,-,-,-,,0.00
 880,David Sills,WR,NYG,-,-,-,-,-,-,-,-,-,-,-,,0.00
 881,Tyler Simmons,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 882,Matt Simms,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -893,7 +893,7 @@
 891,Jeff Smith,WR,NYJ,-,-,-,-,-,-,-,-,-,-,-,,0.00
 892,Lee Smith,TE,BUF,-,-,-,-,-,-,-,-,-,-,-,,0.00
 893,Rod Smith,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
-894,Rodney Smith,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+894,Rodney Smith,RB,CAR,-,-,-,-,-,-,-,-,-,-,-,,0.00
 895,Vyncint Smith,WR,NYJ,-,-,-,-,-,-,-,-,-,-,-,,0.00
 896,Matt Sokol,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 897,Diontae Spencer,WR,DEN,-,-,-,-,-,-,-,-,-,-,-,,0.00
@@ -943,7 +943,7 @@
 941,Clayton Thorson,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 942,Nick Tiano,QB,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 943,Noah Togiai,TE,IND,-,-,-,-,-,-,-,-,-,-,-,,0.00
-944,Ross Travis,TE,,-,-,-,-,-,-,-,-,-,-,-,,0.00
+944,Ross Travis,TE,NYJ,-,-,-,-,-,-,-,-,-,-,-,,0.00
 945,Laquon Treadwell,WR,,-,-,-,-,-,-,-,-,-,-,-,,0.00
 946,Mitchell Trubisky,QB,CHI,-,-,-,-,-,-,-,-,-,-,-,,0.00
 947,De'Lance Turner,RB,,-,-,-,-,-,-,-,-,-,-,-,,0.00

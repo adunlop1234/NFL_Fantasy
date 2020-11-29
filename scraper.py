@@ -13,6 +13,7 @@ import json
 from progress.bar import IncrementalBar 
 
 # Create dictionary of {New York Giants : NYG, etc.} for reference in functions
+ref = pd.read_csv('References/teams.csv')
 nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
 
 
@@ -65,7 +66,11 @@ def scrape_player_data(week, player_type):
             data_out = dict()
 
             # Name
-            data_out['Name'] = row.find('a').getText()
+            if player_type == 'D':
+                # Convert to abrev form
+                data_out['Name'] = nfl_teams[row.find('a').getText()]
+            else:
+                data_out['Name'] = row.find('a').getText()
 
             # Position and Team
             positionTeam = row.find('em').getText().split(' - ')
@@ -329,8 +334,12 @@ def scrape_salary():
         team = re.split(' |\)|\(', player_info.find('small').getText())[1]
         position = re.split(' |\)|\(', player_info.find('small').getText())[-2]
 
+        # Replace WAS with WSH
+        if team == "WAS":
+            team = "WSH"
+
         # If name is a team (e.g. New York Giants), replace with abreviation which is in team column
-        if name in nfl_teams.values():
+        if name in nfl_teams.keys():
             name = team
 
         # Get salary info
@@ -469,6 +478,10 @@ def scrape_offence_players():
 
         test_data = scrape_offence_player_stats(URL.replace('lamar-jackson', player_name))
         name, team, position, test_df = test_data['Player Name'], test_data['Team'], test_data['Position'], test_data['Stats']
+
+        # Replace long team name with abrevation
+        if team in nfl_teams.keys():
+            team = nfl_teams[team]
     
         # Set the index of the dataframe to be each week and add player name/team/position 
         test_df = test_df.set_index('WK')
@@ -590,6 +603,24 @@ def scrape_defence_team():
         for key, value in cols[genre].items():
             df[value] = genre_dfs[genre][key]
 
+    # Replace team names with abbreviation (e.g. Giants -> NYG)
+    # Add Team column (N.B. currently short version of team name is index)
+    df.insert(loc=0, column='Team', value="")
+    for index, row in df.iterrows():
+
+        # Loop over team names
+        for team in nfl_teams.keys():
+            if index in team:
+                df.at[index, "Team"] = nfl_teams[team]
+                continue
+
+        # Need to deal with Washington seperately
+        if index == "FootballTeam":
+            df.at[index, "Team"] = "WSH"
+
+    # Reset index to numbers
+    df = df.reset_index(drop=True)
+
     # Output the data 
     df.to_csv(os.path.join('Scraped', 'NFL_Logs', 'Defence_Total.csv'))
 
@@ -656,6 +687,24 @@ def scrape_offence_team():
     for genre in genres:
         for key, value in cols[genre].items():
             df[value] = genre_dfs[genre][key]
+
+    # Replace team names with abbreviation (e.g. Giants -> NYG)
+    # Add Team column (N.B. currently short version of team name is index)
+    df.insert(loc=0, column='Team', value="")
+    for index, row in df.iterrows():
+
+        # Loop over team names
+        for team in nfl_teams.keys():
+            if index in team:
+                df.at[index, "Team"] = nfl_teams[team]
+                continue
+
+        # Need to deal with Washington seperately
+        if index == "FootballTeam":
+            df.at[index, "Team"] = "WSH"
+
+    # Reset index to numbers
+    df = df.reset_index(drop=True)
 
     # Output the data 
     df.to_csv(os.path.join('Scraped', 'NFL_Logs', 'Offence_Total.csv'))
@@ -775,6 +824,9 @@ def games_played():
             team = items[0].find("div", class_="d3-o-club-fullname").getText().strip()
         except IndexError:
             continue
+
+        # Replace full team name with abbreviation
+        team = nfl_teams[team]
         
         # Calculate number games played (sum W, L and T)
         games = 0
