@@ -160,13 +160,13 @@ def O_filtered(week, teams, schedule_week):
 def collate_D(schedule_week, teams):
 
     # Create dictionary to store list of each week's paddy points for each team
-    D_weeks_pp = {key : [] for key in sorted(teams)}
+    D_weeks_pp = {key : [''] * (schedule_week - 1) for key in sorted(teams)}
     
     # Append Paddy Points for each week
     for i in range(1, schedule_week):
         week_i = D_filtered(i, teams)
         for team, points in week_i.items():
-            D_weeks_pp[team].append(points)
+            D_weeks_pp[team][i-1] = points
     
     # Create column names
     columns = [("Week " + str(i)) for i in range(1, schedule_week)]
