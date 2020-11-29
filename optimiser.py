@@ -10,21 +10,121 @@ import os
 import re
 from tabulate import tabulate
 
-# Define salary cap
-SALARY_CAP = 60000
+def include_players(data_in, rules, player_list_inc=None, player_list_exc=None):
 
-# Define selection limits
-QB_min = 1
-RB_min = 2
-WR_min = 3
-TE_min = 1
-DEF_min = 1
-RB_max = RB_min + 1
-WR_max = WR_min + 1
-TE_max = TE_min + 1
+    '''
+    player_list_inc - dict with key e.g.
 
-def optimiser(data_in):
+    player_list_exc = {
+        'Antonio Gibson' : 'RB',
+        'Terry McLaurin' : 'WR',
+        'Jamaal Williams' : 'RB'
+    }
+
+    player_list_inc = {
+        'Derek Carr' : 'QB',
+        'Kyler Murray' : 'QB',
+        'Chase Edmonds' : 'RB'
+    }
+    '''
+ 
+    # Initialise team array
+    team = {
+        'QB' : [],
+        'RB' : [],
+        'WR' : [],
+        'TE' : [],
+        'DEF' : []
+        }
+
+    # Hardcode players into selection
+    if player_list_inc:
+        for player, position in player_list_inc.items():
+
+            # Find location in list and check if the player is matched
+            idx = data_in[position]['Name'].str.match(player)
+
+            if idx.any():
+
+                # Check there is space
+                # Salary cap space
+                if rules['SALARY_CAP'] - data_in[position]['Salary'].loc[idx].values[0] < 0:
+                    print('WARNING: ' + player + ' cannot be added to team due to salary cap limit.')
+                    continue
+
+                elif position == 'QB' and rules['QB_min'] > 0:
+                    team[position].append(player)
+                    rules['SALARY_CAP'] -= data_in[position]['Salary'].loc[idx].values[0]
+                    rules['QB_min'] -= 1
+                    continue
+
+                elif position == 'DEF' and rules['DEF_min'] > 0:
+                    team[position].append(player)
+                    rules['SALARY_CAP'] -= data_in[position]['Salary'].loc[idx].values[0]
+                    rules['DEF_min'] -= 1
+                    continue
+
+                elif rules['Flex'] > 0 and ((position == 'RB' and rules['RB_min'] == 0) or (position == 'RB' and rules['RB_min'] == 0) or (position == 'RB' and rules['RB_min'] == 0)):
+                    team[position].append(player)
+                    rules['SALARY_CAP'] -= data_in[position]['Salary'].loc[idx].values[0]
+                    rules['Flex'] -= 1
+                    continue
+
+                elif position == 'RB' and rules['RB_min'] > 0:
+                    team[position].append(player)
+                    rules['SALARY_CAP'] -= data_in[position]['Salary'].loc[idx].values[0]
+                    rules['RB_min'] -= 1
+                    continue
+
+                elif position == 'WR' and rules['WR_min'] > 0:
+                    team[position].append(player)
+                    rules['SALARY_CAP'] -= data_in[position]['Salary'].loc[idx].values[0]
+                    rules['WR_min'] -= 1
+                    continue
+
+                elif position == 'TE' and rules['TE_min'] > 0:
+                    team[position].append(player)
+                    rules['SALARY_CAP'] -= data_in[position]['Salary'].loc[idx].values[0]
+                    rules['TE_min'] -= 1
+                    continue
+
+                else:
+                    print('WARNING: ' + player + ' cannot be added as no room left at ' + position + '.')
+                    continue
+
+            else:
+                print('WARNING: ' + player + ' cannot be matched and included in team.')
+
+    # Remove player from data list
+    if player_list_exc:
+        for player, position in player_list_exc.items():
+        
+            # Find location in list and check if the player is matched
+            idx = data_in[position]['Name'].str.match(player)
+
+            # Remove the player from the input data
+            if idx.any():
+                data_in[position]['Name'] = data_in[position]['Name'].loc[~idx] 
+                data_in[position]['Salary'] = data_in[position]['Salary'].loc[~idx] 
+                data_in[position]['Predicted'] = data_in[position]['Predicted'].loc[~idx]
+
+                # Print that the player has been removed
+                print(player + ' has been removed from the possible selections.')
+
+            else:
+                print('WARNING: ' + player + ' cannot be matched and removed.')
+        
+    print('')
+
+    return data_in, rules, team
+
+def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 'DEF' : []}):
     
+    # Create inferred rules
+    rules['RB_max'] = rules['RB_min'] + rules['Flex']
+    rules['WR_max'] = rules['WR_min'] + rules['Flex']
+    rules['TE_max'] = rules['TE_min'] + rules['Flex']
+
     # The variable we are solving for
     QB_list = [str(name) for name in data_in['QB']['Name']]
     RB_list = [str(name) for name in data_in['RB']['Name']]
@@ -64,7 +164,7 @@ def optimiser(data_in):
 
             salary_const += np.array(data_in[position]['Salary'])[i] * player_var  
     
-    prob += (salary_const <= SALARY_CAP)
+    prob += (salary_const <= rules['SALARY_CAP'])
 
     # Define number of QBs
     QB_const = ""
@@ -72,7 +172,7 @@ def optimiser(data_in):
 
         QB_const += player_var
 
-    prob += (QB_const == QB_min)
+    prob += (QB_const == rules['QB_min'])
 
     # Define number of defences
     DEF_const = ""
@@ -80,7 +180,7 @@ def optimiser(data_in):
 
         DEF_const += player_var
 
-    prob += (DEF_const == DEF_min)
+    prob += (DEF_const == rules['DEF_min'])
 
     # Define number of rb, wr, te player quantitites
     RB_const = WR_const = TE_const = ""
@@ -91,13 +191,13 @@ def optimiser(data_in):
         TE_const += te_player_var
 
     # Define number of rbs, wrs, tes and flexes
-    prob += (RB_const >= RB_min)
-    prob += (RB_const <= RB_max)
-    prob += (WR_const >= WR_min)
-    prob += (WR_const <= WR_max)
-    prob += (TE_const >= TE_min)
-    prob += (TE_const <= TE_max)
-    prob += (RB_const + WR_const + TE_const == TE_min + WR_min + RB_min + 1)
+    prob += (RB_const >= rules['RB_min'])
+    prob += (RB_const <= rules['RB_max'])
+    prob += (WR_const >= rules['WR_min'])
+    prob += (WR_const <= rules['WR_max'])
+    prob += (TE_const >= rules['TE_min'])
+    prob += (TE_const <= rules['TE_max'])
+    prob += (RB_const + WR_const + TE_const == rules['TE_min'] + rules['WR_min'] + rules['RB_min'] + rules['Flex'])
 
     # Write the problem
     prob.writeLP('Processed/Fantasy_Team.lp')
@@ -135,14 +235,23 @@ def optimiser(data_in):
         score_out += np.array(data_in[position]['Predicted'][data_in[position]['Name'] == name])[0]
 
         players[position].append(name)
+
+    # Add data for preselected players
+    for position in team.keys():
+
+        for name in team[position]:
+
+            # Add the total for score, salary
+            salary_out += np.array(data_in[position]['Salary'][data_in[position]['Name'] == name])[0]
+            score_out += np.array(data_in[position]['Predicted'][data_in[position]['Name'] == name])[0]
     
     # Assign output data structure
     data_out = {
-        'QB' : players['QB'],
-        'RB' : players['RB'],
-        'WR' : players['WR'],
-        'TE' : players['TE'],
-        'DEF' : players['DEF'],
+        'QB' : players['QB'] + team['QB'],
+        'RB' : players['RB'] + team['RB'],
+        'WR' : players['WR'] + team['WR'],
+        'TE' : players['TE'] + team['TE'],
+        'DEF' : players['DEF'] + team['DEF'],
         'Salary' : salary_out,
         'Predicted' : score_out
     }
@@ -248,18 +357,3 @@ def output_team(team, data):
     print('')
     print(tabulate(rows, headers = ['Position', 'Name', 'Salary', 'Points'], tablefmt='github'))
     print('')
-
-
-def main():
-
-    # Read in the data array
-    data_in = read_data()
-
-    # Find the optimal team
-    optimal_team = optimiser(data_in)
-
-    # Print the optimal team to the command line
-    output_team(optimal_team, data_in)
-
-if __name__ == "__main__":
-    main()
