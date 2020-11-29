@@ -5,7 +5,7 @@ Adds useful metrics and sorts output data from filter.py
 import pandas as pd
 import numpy as np
 import itertools
-from scraper import scrape_depth_charts_injuries
+from scraper import scrape_injuries
 import sys, os
 from collections import Counter
 from progress.bar import IncrementalBar 

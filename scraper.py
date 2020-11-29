@@ -378,6 +378,19 @@ def scrape_injuries():
     urls = [team['data-url'] for team in soup.find_all('option', attrs)]
     urls.insert(0, '/nfl/team/depth/_/name/ari')
 
+    # Define the output offence depth chart 
+    #! Outdated data-structure (as no longer scraping depth chart) but avoiding a re-write
+    o_positions = ['QB', 'RB', 'WR1', 'WR2', 'WR3', 'TE']
+    depth_chart = {
+        position : {
+            1 : '',
+            2 : '',
+            3 : '',
+            4 : ''
+        }
+        for position in o_positions
+    }
+
     # Create injury list
     injuries = pd.DataFrame(columns = ['Name', 'Status', 'Team'])
 

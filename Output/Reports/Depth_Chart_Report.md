@@ -7,8 +7,6 @@ QB1 (<span style="color:#E74C3C">**Lamar Jackson**</span>) is out. Consider QB2 
 
 QB1 (<span style="color:#E74C3C">**Lamar Jackson**</span>) is out. The <span style="color:#27AE60">**PIT**</span> defence will get a boost.
 
-RB2 (<span style="color:#E74C3C">**J.K. Dobbins**</span>) is out. Consider RB1 (<span style="color:#27AE60">**Gus Edwards**</span>) as they should have more attempts/targets.
-
 TE2 (<span style="color:#E74C3C">**Nick Boyle**</span>) is out. Consider TE1 (<span style="color:#27AE60">**Mark Andrews**</span>) as they should have more attempts/targets.
 ## Injury Report for CAR
 
@@ -20,11 +18,6 @@ QB1 (<span style="color:#E74C3C">**Joe Burrow**</span>) is out. Consider QB2 (<s
 QB1 (<span style="color:#E74C3C">**Joe Burrow**</span>) is out. The <span style="color:#27AE60">**NYG**</span> defence will get a boost.
 
 RB1 (<span style="color:#E74C3C">**Joe Mixon**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Giovani Bernard**</span>).
-
-TE1 (<span style="color:#E74C3C">**C.J. Uzomah**</span>) is out. Consider TE2 (<span style="color:#27AE60">**Drew Sample**</span>).
-## Injury Report for CLE
-
-WR2 (<span style="color:#E74C3C">**Odell Beckham Jr.**</span>) is out. Consider WR1 (<span style="color:#27AE60">**Jarvis Landry**</span>) as they should have more attempts/targets.
 ## Injury Report for DAL
 
 QB1 (<span style="color:#E74C3C">**Dak Prescott**</span>) is out. Consider QB2 (<span style="color:#27AE60">**Garrett Gilbert**</span>).
@@ -34,12 +27,16 @@ QB1 (<span style="color:#E74C3C">**Dak Prescott**</span>) is out. The <span styl
 TE2 (<span style="color:#E74C3C">**Blake Jarwin**</span>) is out. Consider TE1 (<span style="color:#27AE60">**Dalton Schultz**</span>) as they should have more attempts/targets.
 ## Injury Report for DEN
 
-QB2 (<span style="color:#E74C3C">**Jeff Driskel**</span>) is out. Consider QB1 (<span style="color:#27AE60">**Drew Lock**</span>) as they should have more attempts/targets.
+QB1 (<span style="color:#E74C3C">**Drew Lock**</span>) and QB2 (<span style="color:#E74C3C">**Jeff Driskel**</span>) are out. Consider QB3 (<span style="color:#27AE60">**Brett Rypien**</span>).
+
+QB1 (<span style="color:#E74C3C">**Drew Lock**</span>) is out. The <span style="color:#27AE60">**NO**</span> defence will get a boost.
 
 TE2 (<span style="color:#E74C3C">**Albert Okwuegbunam**</span>) is out. Consider TE1 (<span style="color:#27AE60">**Noah Fant**</span>) as they should have more attempts/targets.
 ## Injury Report for DET
 
 WR1 (<span style="color:#E74C3C">**Kenny Golladay**</span>) is out. Consider WR2 (<span style="color:#27AE60">**Marvin Jones**</span>).
+
+RB2 (<span style="color:#E74C3C">**D'Andre Swift**</span>) is out. Consider RB1 (<span style="color:#27AE60">**Adrian Peterson**</span>) as they should have more attempts/targets.
 ## Injury Report for IND
 
 RB1 (<span style="color:#E74C3C">**Jonathan Taylor**</span>) is out. Consider RB2 (<span style="color:#27AE60">**Jordan Wilkins**</span>).
