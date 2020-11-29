@@ -361,8 +361,8 @@ def scrape_salary():
 
     return df
 
-def scrape_depth_charts_injuries():
-    # Scrape depth chart for each team
+def scrape_injuries():
+    # Scrape injuries from depth chart for each team
 
     # Define the URL for the team in question
     URL = 'https://www.espn.com/nfl/team/depth/_/name/ari'
@@ -377,21 +377,6 @@ def scrape_depth_charts_injuries():
     attrs = {'class' : re.compile('dropdown__option'), 'data-url' : re.compile('/nfl/team/depth/_/name/')}
     urls = [team['data-url'] for team in soup.find_all('option', attrs)]
     urls.insert(0, '/nfl/team/depth/_/name/ari')
-
-    # Define the output offence depth chart
-    o_positions = ['QB', 'RB', 'WR1', 'WR2', 'WR3', 'TE']
-    depth_chart = {
-        position : {
-            1 : '',
-            2 : '',
-            3 : '',
-            4 : ''
-        }
-        for position in o_positions
-    }
-
-    # Create progress bar
-    bar = IncrementalBar('Scraping Depth Chart', max = len(urls), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
 
     # Create injury list
     injuries = pd.DataFrame(columns = ['Name', 'Status', 'Team'])
@@ -433,19 +418,9 @@ def scrape_depth_charts_injuries():
 
                         # Strip injury status from the end of the name
                         name = re.sub(r'( O| D| IR| Q| SUSP)\b', '', items[i].getText())
-                        depth_chart[position][i+1] = name
 
                     break
-            
-        # Write output file in json format
-        with open(os.path.join('Scraped', 'Depth_Chart', url.split('/')[-1] + '_depth_chart.json'), 'w') as outfile:
-            json.dump(depth_chart, outfile, indent=4)
 
-        # Loop to next team
-        bar.next()
-
-    # Close the progress bar
-    bar.finish()
 
     # Write the csv output
     injuries.to_csv(os.path.join('Scraped', 'Injury_Status.csv'))

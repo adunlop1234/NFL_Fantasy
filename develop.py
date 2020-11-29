@@ -74,7 +74,7 @@ def main():
     collate(upcoming_week)
 
     # Ensure injuries up-to-date
-    scraper.scrape_depth_charts_injuries()
+    scraper.scrape_injuries()
 
     # Get weather
     scraper.scrape_weather(upcoming_week)

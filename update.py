@@ -69,7 +69,7 @@ def main():
     scraper.scrape_offence_team()
 
     # Scrape depth chart and injuries
-    scraper.scrape_depth_charts_injuries()
+    scraper.scrape_injuries()
 
     # Scrape games played
     scraper.games_played()
