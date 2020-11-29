@@ -308,8 +308,7 @@ def salary(defence, offence, week):
 
         # Offence
         for count, name in enumerate(offence['Name'].tolist()):
-            # Use custom made simplify function to remove offending differences
-            if simplify(player) == simplify(name):
+            if player == name:
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
                 break
           
@@ -327,8 +326,7 @@ def injury(offence):
     # Populate injury column
     for name_inj in status.Name.tolist():
         for name_o in offence.Name.tolist():
-            # Use custom made simplify function to remove offending differences
-            if simplify(name_inj) == simplify(name_o):
+            if name_inj == name_o:
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
                 break
 
@@ -433,10 +431,6 @@ def position(offence, upcoming_week):
         # Remove all rows for next position
         pos = pos[0:0]
 
-# For string comparisons, remove the offending parts       
-def simplify(name):
-    # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
-    return name.replace('.','').replace('Jr','').replace('Sr','').replace('III','').replace('II','').replace('IV','').replace('V','').strip()
 
 #! FACTORS
 

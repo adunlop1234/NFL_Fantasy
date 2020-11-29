@@ -70,7 +70,7 @@ def scrape_player_data(week, player_type):
                 # Convert to abrev form
                 data_out['Name'] = nfl_teams[row.find('a').getText()]
             else:
-                data_out['Name'] = row.find('a').getText()
+                data_out['Name'] = simplify(row.find('a').getText())
 
             # Position and Team
             positionTeam = row.find('em').getText().split(' - ')
@@ -330,7 +330,7 @@ def scrape_salary():
 
         # Get all player info (name, team, position) from initial table entry
         player_info = row.find('td', style=re.compile(r'white-space'))
-        name = player_info.find('a', href=re.compile(r'/nfl/')).getText()
+        name = simplify(player_info.find('a', href=re.compile(r'/nfl/')).getText())
         team = re.split(' |\)|\(', player_info.find('small').getText())[1]
         position = re.split(' |\)|\(', player_info.find('small').getText())[-2]
 
@@ -429,7 +429,7 @@ def scrape_depth_charts_injuries():
                         if re.search(r'( O| D| IR| Q| SUSP)\b', items[i].getText()):
                             status = items[i].getText().split(' ')[-1]
                             name = ' '.join(items[i].getText().split(' ')[0:-1])
-                            injuries = injuries.append({'Name' : name, 'Team' : team, 'Position': o_positions[data_id][0:2], 'Status' : status}, ignore_index=True)
+                            injuries = injuries.append({'Name' : simplify(name), 'Team' : team, 'Position': o_positions[data_id][0:2], 'Status' : status}, ignore_index=True)
 
                         # Strip injury status from the end of the name
                         name = re.sub(r'( O| D| IR| Q| SUSP)\b', '', items[i].getText())
@@ -485,7 +485,7 @@ def scrape_offence_players():
     
         # Set the index of the dataframe to be each week and add player name/team/position 
         test_df = test_df.set_index('WK')
-        test_df['Player Name'] = name
+        test_df['Player Name'] = simplify(name)
         test_df['Position'] = position
         test_df['Team'] = team
     
@@ -558,7 +558,7 @@ def scrape_offence_player_stats(URL):
 
     # Create a return dictionary
     ret_dict = dict()
-    ret_dict['Player Name'] = name
+    ret_dict['Player Name'] = simplify(name)
     ret_dict['Team'] = team
     ret_dict['Position'] = position
     ret_dict['Stats'] = df
@@ -931,6 +931,11 @@ def scrape_weather(week):
 
 
 
-    
+# To ensure as much consistency as possible between datasets, strip offending characters      
+def simplify(name):
+    # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
+    name = name.replace('.','').replace('Jr','').replace('Sr','').replace('III','').replace('II','').replace('IV','').strip()
+    # Need to be more carful with V (e.g. Vikings -> ikings)
+    return re.sub('V$', '', name).strip()
     
 
