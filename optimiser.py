@@ -230,13 +230,16 @@ def optimiser(data_in, rules, player_list_inc = None, team={'QB' : [], 'RB' : []
     'WR' : [],
     'TE' : [],
     'DEF' : []}
-    for name in variable_names:
+    for var_name in variable_names:
 
         # Get position
-        position = name.split('_')[0]
+        position = var_name.split('_')[0]
 
-        # Get the name
-        name = re.sub(r'DEF_|QB_|RB_|WR_|TE_', '', name).replace('_', ' ')
+        # Get the name of the player from the variable
+        for player_name, player_var in selections[position].items():
+            if player_var.name == var_name:
+                name = player_name
+                break
         
         # Add the total for score, salary
         salary_out += np.array(data_in[position]['Salary'][data_in[position]['Name'] == name])[0]
