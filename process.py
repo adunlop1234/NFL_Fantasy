@@ -720,7 +720,7 @@ def define_depth_chart(upcoming_week):
                 for rank, player in injured_players.items():
 
                     # Inform when the starter and number 2 at the position are out and suggest number 3
-                    if rank == 1 and (2 in injured_players.keys()):
+                    if rank == 1 and (2 in injured_players.keys()) and (len(pos_depth_chart) > 2):
 
                         if not team_name_written:
                             team_name_depth_chart(f, team)
@@ -729,7 +729,7 @@ def define_depth_chart(upcoming_week):
                         f.write('\n' + position + str(1) + ' (<span style="color:#E74C3C">**' + player + '**</span>) and ' + position + str(2) + ' (<span style="color:#E74C3C">**' + injured_players[2] + '**</span>) are out. Consider ' + position + str(3) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[2] + '**</span>).\n')
 
                     # Inform when the starter is out and suggest number 2
-                    elif rank == 1 and (2 not in injured_players.keys()):
+                    elif rank == 1 and (2 not in injured_players.keys()) and (len(pos_depth_chart) > 1):
 
                         if not team_name_written:
                             team_name_depth_chart(f, team)
