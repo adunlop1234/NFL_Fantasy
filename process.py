@@ -684,15 +684,11 @@ def define_depth_chart(upcoming_week):
     # Open the file for the depth chart report
     f = open("Output/Reports/Depth_Chart_Report.md", "w")
 
-    # Loop over each team
-    teams = list(pos_dicts['RB'].Team.unique())
-    teams.reverse()
+    # Loop over each eligible team
+    teams = eligable_teams(upcoming_week)
+    teams.sort()
     for team in teams:
         team_name_written = False
-
-        # Skip if the team name isn't legit
-        if team in [np.nan, '0']:
-            continue
 
         # Extract injuries just for specific team of interest
         team_injuries = injuries[injuries['Team'] == team]
