@@ -768,3 +768,34 @@ def team_name_depth_chart(f, team):
     # Print the team of relevance
     f.write('## Injury Report for ' + team + '\n')
 
+
+def create_weather_report(upcoming_week):
+
+    # Load the relevant weather file
+    df = pd.read_csv(os.path.join('Scraped', 'Weather', 'Weather_' + str(upcoming_week) + '.csv'))
+
+    # Filter data, excluding domes and any adverse weather conditions
+    df = df[df.Forecast != "DOME"]
+    df = df.astype({"Wind (mph)" : 'int64'})
+    df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
+
+    # Only write report on the teams that are eligable
+    teams = eligable_teams(upcoming_week)
+    idx = list()
+    for index, row in df.iterrows():
+        if (row.Home not in teams) or (row.Away not in teams):
+            idx.append(index)
+    df = df.drop(idx)
+
+    # Open and initialise markdown file
+    f = open("Output/Reports/Weather_Report.md", "w")
+    f.write("## Weather Report \n")
+
+    # Only write file if there is something to write
+    if len(df):
+        f.write(df.to_markdown())
+    else:
+        f.write("# No games have significant adverse weather conditions this week.")
+
+    # Close file
+    f.close()
