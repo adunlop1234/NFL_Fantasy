@@ -5,3 +5,7 @@ https://athlonsports.com/fantasy/nfl-bye-weeks-fantasy-football-cheat-sheet
 
 
 Arthur did the first Defence Summary (week 6) in the middle of NFL Sunday! Binned it and started from week 7
+
+
+I believe I am training on data that are using for testing/labels. Needs more consideration.
+Also week 7 is very similar to week 8 data (e.g. mean wont change much)
