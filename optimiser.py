@@ -118,19 +118,27 @@ def include_players(data_in, rules, player_list_inc=None, player_list_exc=None):
 
     return data_in, rules, team
 
-def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 'DEF' : []}):
+def optimiser(data_in, rules, player_list_inc = None, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 'DEF' : []}):
     
     # Create inferred rules
     rules['RB_max'] = rules['RB_min'] + rules['Flex']
     rules['WR_max'] = rules['WR_min'] + rules['Flex']
     rules['TE_max'] = rules['TE_min'] + rules['Flex']
 
+    # Assemble set of the players for each position that are already included
+    inc_dict = {
+        position : set(
+        [player for player, player_position in player_list_inc.items() if player_position == position]
+        )
+        for position in team.keys()
+        }
+
     # The variable we are solving for
-    QB_list = [str(name) for name in data_in['QB']['Name']]
-    RB_list = [str(name) for name in data_in['RB']['Name']]
-    WR_list = [str(name) for name in data_in['WR']['Name']]
-    TE_list = [str(name) for name in data_in['TE']['Name']]
-    DEF_list = [str(name) for name in data_in['DEF']['Name']]
+    QB_list = [str(name) for name in data_in['QB']['Name'] if str(name) not in inc_dict['QB']]
+    RB_list = [str(name) for name in data_in['RB']['Name'] if str(name) not in inc_dict['RB']]
+    WR_list = [str(name) for name in data_in['WR']['Name'] if str(name) not in inc_dict['WR']]
+    TE_list = [str(name) for name in data_in['TE']['Name'] if str(name) not in inc_dict['TE']]
+    DEF_list = [str(name) for name in data_in['DEF']['Name'] if str(name) not in inc_dict['DEF']]
 
     selections = {}
     selections['QB'] = pulp.LpVariable.dicts('QB', QB_list, cat = 'Binary')
@@ -148,9 +156,9 @@ def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 
 
         players = selections[position]
 
-        for i, player_var in enumerate(players.values()):
+        for player_name, player_var in players.items():
             
-            total_points += np.array(data_in[position]['Predicted'])[i] * player_var  
+            total_points += np.array(data_in[position]['Predicted'])[data_in[position]['Name'] == player_name][0] * player_var  
     
     prob += total_points
 
@@ -160,9 +168,9 @@ def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 
 
         players = selections[position]
 
-        for i, player_var in enumerate(players.values()):
+        for player_name, player_var in players.items():
 
-            salary_const += np.array(data_in[position]['Salary'])[i] * player_var  
+            salary_const += np.array(data_in[position]['Salary'])[data_in[position]['Name'] == player_name][0] * player_var  
     
     prob += (salary_const <= rules['SALARY_CAP'])
 
