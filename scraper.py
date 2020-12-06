@@ -907,18 +907,6 @@ def scrape_weather(week):
     # Save entire weather data 
     df.to_csv(os.path.join('Scraped', 'Weather', 'Weather_' + str(week) + '.csv'))
 
-    # Now produce a filtered weather report for our use
-    df = df[df.Forecast != "DOME"]
-    df = df.astype({"Wind (mph)" : 'int64'})
-    df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
-
-    f = open("Output/Reports/Weather_Report.md", "w")
-    f.write("## Weather Report \n")
-    f.write(df.to_markdown())
-    f.close()
-
-
-
 # To ensure as much consistency as possible between datasets, strip offending characters      
 def simplify(name):
     # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
