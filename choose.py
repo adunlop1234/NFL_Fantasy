@@ -30,38 +30,13 @@ def main():
 
     # Define players to include/exclude
     player_list_inc = {
-        'ATL' : 'DEF'
-        #'Myles Gaskin' : 'RB',
-        #'MIA' : 'DEF'
-        #'CHI' : 'DEF',
-        #'Dalvin Cook' : 'RB',
-        #'Devontae Booker' : 'RB'
     }
 
     player_list_exc = {
 
-        'Gardner Minshew' : 'QB',
-        'Allen Robinson' : 'WR',
-        'Keelan Cole' : 'WR',
-        'ATL' : 'DEF',
-        'NO' : 'DEF',
-        #'Nyheim Hines' : 'RB',
-        'DJ Chark' : 'WR',
-        'Sterling Shepard' : 'WR',
-        #'Kirk Cousins' : 'QB',
-        'Mike Glennon' : 'QB',
-        #'Justin Herbert' : 'QB',
-        #'Philip Rivers' : 'QB',
-        'Jamaal Williams' : 'RB',
-        #'Adam Thielen' : 'WR',
-        #'Justin Jefferson' : 'WR',
-        #'Nelson Agholor' : 'WR',
-        'Dalvin Cook' : 'RB',
-
         # Permanent exclude
         'Richie James' : 'WR',
-        'Odell Beckham' : 'WR',
-        'Rex Burkhead' : 'RB'
+        'Odell Beckham' : 'WR'
     }
 
     # Read in the data array
