@@ -26,17 +26,17 @@ def main():
         'Flex' : 1
     }
 
+    # ATL for the gpp game consider 
+
     # Define players to include/exclude
     player_list_inc = {
-        'Derek Carr' : 'QB',
-        'Kyler Murray' : 'QB',
-        'Chase Edmonds' : 'RB'
     }
 
     player_list_exc = {
-        'Antonio Gibson' : 'RB',
-        'Terry McLaurin' : 'WR',
-        'Jamaal Williams' : 'RB'
+
+        # Permanent exclude
+        'Richie James' : 'WR',
+        'Odell Beckham' : 'WR'
     }
 
     # Read in the data array
@@ -46,7 +46,7 @@ def main():
     data_in, rules, team = optimiser.include_players(data_in, rules, player_list_inc, player_list_exc)
 
     # Find the optimal team
-    optimal_team = optimiser.optimiser(data_in, rules, team)
+    optimal_team = optimiser.optimiser(data_in, rules, player_list_inc, team)
 
     # Print the optimal team to the command line
     optimiser.output_team(optimal_team, data_in)

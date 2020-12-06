@@ -74,10 +74,11 @@ def main():
     collate(upcoming_week)
 
     # Ensure injuries up-to-date
-    scraper.scrape_depth_charts_injuries()
+    scraper.scrape_injuries()
 
-    # Get weather
+    # Get weather and write report
     scraper.scrape_weather(upcoming_week)
+    process.create_weather_report(upcoming_week)
     
     # Update Factors
     print("WARNING: Currenly using hard-coded coefficients for calculation of factors")

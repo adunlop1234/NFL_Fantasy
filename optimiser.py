@@ -28,6 +28,13 @@ def include_players(data_in, rules, player_list_inc=None, player_list_exc=None):
     }
     '''
  
+    # Check there are no players/teams included in both include and exclude
+    extras = set(player_list_inc.keys()) & set(player_list_exc.keys())
+    if extras:
+        for extra in extras:
+            print("ERROR: " + str(extra) + " cannot be excluded and included.")
+        raise Exception("Player included in both include and exclude lists.")
+
     # Initialise team array
     team = {
         'QB' : [],
@@ -118,19 +125,27 @@ def include_players(data_in, rules, player_list_inc=None, player_list_exc=None):
 
     return data_in, rules, team
 
-def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 'DEF' : []}):
+def optimiser(data_in, rules, player_list_inc = None, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 'DEF' : []}):
     
     # Create inferred rules
     rules['RB_max'] = rules['RB_min'] + rules['Flex']
     rules['WR_max'] = rules['WR_min'] + rules['Flex']
     rules['TE_max'] = rules['TE_min'] + rules['Flex']
 
+    # Assemble set of the players for each position that are already included
+    inc_dict = {
+        position : set(
+        [player for player, player_position in player_list_inc.items() if player_position == position]
+        )
+        for position in team.keys()
+        }
+
     # The variable we are solving for
-    QB_list = [str(name) for name in data_in['QB']['Name']]
-    RB_list = [str(name) for name in data_in['RB']['Name']]
-    WR_list = [str(name) for name in data_in['WR']['Name']]
-    TE_list = [str(name) for name in data_in['TE']['Name']]
-    DEF_list = [str(name) for name in data_in['DEF']['Name']]
+    QB_list = [str(name) for name in data_in['QB']['Name'] if str(name) not in inc_dict['QB']]
+    RB_list = [str(name) for name in data_in['RB']['Name'] if str(name) not in inc_dict['RB']]
+    WR_list = [str(name) for name in data_in['WR']['Name'] if str(name) not in inc_dict['WR']]
+    TE_list = [str(name) for name in data_in['TE']['Name'] if str(name) not in inc_dict['TE']]
+    DEF_list = [str(name) for name in data_in['DEF']['Name'] if str(name) not in inc_dict['DEF']]
 
     selections = {}
     selections['QB'] = pulp.LpVariable.dicts('QB', QB_list, cat = 'Binary')
@@ -148,9 +163,9 @@ def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 
 
         players = selections[position]
 
-        for i, player_var in enumerate(players.values()):
+        for player_name, player_var in players.items():
             
-            total_points += np.array(data_in[position]['Predicted'])[i] * player_var  
+            total_points += np.array(data_in[position]['Predicted'])[data_in[position]['Name'] == player_name][0] * player_var  
     
     prob += total_points
 
@@ -160,9 +175,9 @@ def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 
 
         players = selections[position]
 
-        for i, player_var in enumerate(players.values()):
+        for player_name, player_var in players.items():
 
-            salary_const += np.array(data_in[position]['Salary'])[i] * player_var  
+            salary_const += np.array(data_in[position]['Salary'])[data_in[position]['Name'] == player_name][0] * player_var  
     
     prob += (salary_const <= rules['SALARY_CAP'])
 
@@ -200,7 +215,7 @@ def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 
     prob += (RB_const + WR_const + TE_const == rules['TE_min'] + rules['WR_min'] + rules['RB_min'] + rules['Flex'])
 
     # Write the problem
-    prob.writeLP('Fantasy_Team.lp')
+    prob.writeLP('Processed/Fantasy_Team.lp')
 
     # Solve the problem
     optimisation_result = prob.solve(pulp.PULP_CBC_CMD(msg=0))
@@ -222,13 +237,16 @@ def optimiser(data_in, rules, team={'QB' : [], 'RB' : [], 'WR' : [], 'TE' : [], 
     'WR' : [],
     'TE' : [],
     'DEF' : []}
-    for name in variable_names:
+    for var_name in variable_names:
 
         # Get position
-        position = name.split('_')[0]
+        position = var_name.split('_')[0]
 
-        # Get the name
-        name = re.sub(r'DEF_|QB_|RB_|WR_|TE_', '', name).replace('_', ' ')
+        # Get the name of the player from the variable
+        for player_name, player_var in selections[position].items():
+            if player_var.name == var_name:
+                name = player_name
+                break
         
         # Add the total for score, salary
         salary_out += np.array(data_in[position]['Salary'][data_in[position]['Name'] == name])[0]
@@ -298,7 +316,10 @@ def read_data(week = 'Predicted'):
         # Print players with missing salary info
         for index, row in df.iterrows():
             if pd.isnull(row.Salary):
-                print(str(row.Name) + " has no salary data. They are predicted " + str(row["Predicted"]) + " points")
+                if position != 'DEF':
+                    print(str(row.Name) + " has no salary data. They are predicted " + str(row["Predicted"]) + " points")
+                else:
+                    print(str(row.Team) + " has no salary data. They are predicted " + str(row["Predicted"]) + " points")
 
         # Remove all players/teams that dont have salary data
         df = df.dropna()        

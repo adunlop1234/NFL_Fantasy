@@ -5,7 +5,7 @@ Adds useful metrics and sorts output data from filter.py
 import pandas as pd
 import numpy as np
 import itertools
-from scraper import scrape_depth_charts_injuries
+from scraper import scrape_injuries
 import sys, os
 from collections import Counter
 from progress.bar import IncrementalBar 
@@ -15,8 +15,8 @@ import statistics
 def paddy_points(week):
 
     # Read csv into a dataframe
-    defence = pd.read_csv('Scraped/Statistics/D_Week_' + str(week) + '.csv')
-    offence = pd.read_csv('Scraped/Data_NFL/O_Week_' + str(week) + '.csv')
+    defence = pd.read_csv('Scraped/NFL_Fantasy/D_Week_' + str(week) + '.csv')
+    offence = pd.read_csv('Scraped/NFL_Logs/O_Week_' + str(week) + '.csv')
 
     # For defence only, replace '-' with 0
     defence = defence.replace('-', 0)
@@ -28,7 +28,7 @@ def paddy_points(week):
     # DEFENCE
     # Remove teams that were on bye (otherwise will erroneously score 10 points)
     teams_played = not_bye(week)
-    defence = defence[defence["Name"].isin(teams_played.values())]
+    defence = defence[defence["Name"].isin(teams_played)]
     # Add Paddy Points column (all but Points Allowed points)
     defence = defence.assign(Paddy=defence["Sacks"] + 2*defence["Saf"] +
                              2*defence["Fum Rec"] + 2*defence["Def INT"] + 6*defence["Def TD"] + 6*defence["Def Ret TD"])
@@ -55,7 +55,7 @@ def paddy_points(week):
     # Need to add in '2pt' and 'Ret TD' columns using original scraper (from Fantasy NFL rather than player logs)
     # Inexplicably the scraped data from log is missing some player's teams. Take this from Fantasy NFL
     # Open 'fantasy scraped' datasets
-    offence_fantasy = pd.read_csv('Scraped/Statistics/O_Week_' + str(week) + '.csv')
+    offence_fantasy = pd.read_csv('Scraped/NFL_Fantasy/O_Week_' + str(week) + '.csv')
     # Put missing data into dict
     temp1 = [x if x not in '-' else 0 for x in offence_fantasy["Ret TD"].tolist()]
     temp2 = [x if x not in '-' else 0 for x in offence_fantasy["Ret TD"].tolist()]
@@ -98,11 +98,6 @@ def paddy_points(week):
 # Find the teams playing in eligable games
 def eligable_teams(week):
 
-    # Need to get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-    # Create dictionary of {NYG: New York Giants, etc.}
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-
     # Read in schedule for week
     sched = pd.read_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
 
@@ -110,27 +105,17 @@ def eligable_teams(week):
     sched = sched[(sched['Day'] == "Sun")] #| (sched['Day'] == "Mon")]
     
     # Return list of eligable teams
-    teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
-
-    # Return dictionary of eligable teams in format {NYG: New York Giants, etc.}
-    return {key: nfl_teams[key] for key in teams}
+    return [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
 
 # Find all teams NOT on bye week
 def not_bye(week):
-
-    # Need to get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-    # Create dictionary of {NYG: New York Giants, etc.}
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
 
     # Read in schedule for week
     sched = pd.read_csv('Scraped/Schedule/Schedule_Week_' + str(week) + '.csv')
 
     # Return list of teams not on bye
-    teams = [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
+    return [team for team in (sched["Home"].tolist() + sched["Away"].tolist())]
 
-    # Return dictionary of eligable teams in format {NYG: New York Giants, etc.}
-    return {key: nfl_teams[key] for key in teams}
 
 
 # Filter defence data by eligable teams   
@@ -140,21 +125,10 @@ def D_filtered(week, teams):
     defence = pd.read_csv('Processed/PaddyPoints/D_Week_' + str(week) + '.csv')
 
     # Filter for eligable teams
-    defence = defence[defence["Name"].isin(list(teams.values()))]
+    defence = defence[defence["Name"].isin(teams)]
 
     # Create dict of week's teams and paddy points
-    points_temp = {row["Name"] : row["Paddy"] for index, row in defence.iterrows()}
-
-    # Replace full name keys with abbrev keys
-    # Need to get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-
-    # Create dictionary of {New York Giants: NYG, etc.}
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
-
-    # Return dictionary of teams and paddy points for this week
-    return {nfl_teams[key] : value for key, value in points_temp.items()}
-    
+    return {row["Name"] : row["Paddy"] for index, row in defence.iterrows()}    
     
 
 # Filter offence data by eligable teams   
@@ -165,12 +139,12 @@ def O_filtered(week, teams, schedule_week):
 
     # Read Offence data for week prior to schedule week (needed for correct team for filtering)
     # * ASSUMPTION: Player at same team as previous week
-    offence_sched = pd.read_csv('Scraped/Statistics/O_Week_' + str(schedule_week-1) + '.csv')
+    offence_sched = pd.read_csv('Scraped/NFL_Fantasy/O_Week_' + str(schedule_week-1) + '.csv')
     # Need to reassign LA as LAR
     offence_sched = offence_sched.replace(to_replace=r'\bLA\b', value='LAR', regex=True)
 
     # Find eligable players (based on team)
-    offence_sched = offence_sched[offence_sched["Team"].isin(list(teams.keys()))]
+    offence_sched = offence_sched[offence_sched["Team"].isin(list(teams))]
     players = offence_sched["Name"].tolist()
 
     # Filter for eligable players
@@ -186,13 +160,13 @@ def O_filtered(week, teams, schedule_week):
 def collate_D(schedule_week, teams):
 
     # Create dictionary to store list of each week's paddy points for each team
-    D_weeks_pp = {key : [] for key in sorted(list(teams.keys()))}
+    D_weeks_pp = {key : [''] * (schedule_week - 1) for key in sorted(teams)}
     
     # Append Paddy Points for each week
     for i in range(1, schedule_week):
         week_i = D_filtered(i, teams)
         for team, points in week_i.items():
-            D_weeks_pp[team].append(points)
+            D_weeks_pp[team][i-1] = points
     
     # Create column names
     columns = [("Week " + str(i)) for i in range(1, schedule_week)]
@@ -209,7 +183,7 @@ def collate_D(schedule_week, teams):
 def collate_O(schedule_week, teams):
     
     # Read in fantasy data scraped from previous week
-    df = pd.read_csv("Scraped/Statistics/O_Week_" + str(schedule_week-1) + ".csv")
+    df = pd.read_csv("Scraped/NFL_Fantasy/O_Week_" + str(schedule_week-1) + ".csv")
 
     # Create list of names which appear more than once (no significant players, so just going to ignore these people)
     cnt = Counter(df["Name"].tolist())
@@ -217,9 +191,6 @@ def collate_O(schedule_week, teams):
 
     # Create dictionary with players' teams
     play_team = dict(zip(df["Name"].tolist(), df["Team"].tolist()))
-    for name, team in play_team.items():
-        if team == "LA":
-            play_team[name] = "LAR"
     
     # Create dictionary to store list of each week's paddy points for each eligable player
     O_weeks_pp = {name : ['']*(schedule_week-1) for name, team in play_team.items() if team in teams}
@@ -322,12 +293,8 @@ def average_pts(defence, offence):
 def salary(defence, offence, week):
 
     # Create dicitonary of {players/teams : salary} for upcoming week's salary scraped data
-    sal = pd.read_csv('Scraped/Statistics/FD_Salary_Week_' + str(week) + '.csv')
+    sal = pd.read_csv('Scraped/Salary/FD_Salary_Week_' + str(week) + '.csv')
     salary = pd.Series(sal.Salary.values, index=sal.Name).to_dict()
-
-    # Create dictionary of {New York Giants : NYG, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
 
     # Add Salary column to datatables
     defence["Salary"] = ""
@@ -336,21 +303,15 @@ def salary(defence, offence, week):
     for player, salary in salary.items():
 
         # Defence
-        # Swap full name for short name
-        if player in nfl_teams.keys():
-            player = nfl_teams[player]
         if not defence.loc[defence['Team'] == player].empty:
             defence.at[defence.index[defence['Team'] == player], "Salary"] = round(salary)
 
         # Offence
         for count, name in enumerate(offence['Name'].tolist()):
-            # Use custom made simplify function to remove offending differences
-            if simplify(player) == simplify(name):
+            if player == name:
                 offence.at[offence.index[offence['Name'] == name], "Salary" ] = round(salary)
                 break
-        
-
-    
+          
     return (defence, offence)
 
 # Add injury status column
@@ -365,8 +326,7 @@ def injury(offence):
     # Populate injury column
     for name_inj in status.Name.tolist():
         for name_o in offence.Name.tolist():
-            # Use custom made simplify function to remove offending differences
-            if simplify(name_inj) == simplify(name_o):
+            if name_inj == name_o:
                 offence.at[offence.index[offence['Name'] == name_o], "Injury"] = status.at[status.index[status['Name'] == name_inj].tolist()[0], "Status"]
                 break
 
@@ -377,13 +337,9 @@ def injury(offence):
 def predict_D(defence):
 
     # Open defence_defence factors
-    factors = pd.read_csv("Processed/Defence_Defence_Factors.csv")
+    factors = pd.read_csv("Processed/Choosing_Defence_Factors.csv")
     # Reformat as dict {Team : Factor}
     fact = pd.Series(factors["Defence Factor"].values,index=factors.Team).to_dict()
-
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
 
     # Add Predicted Fantasy Points column
     defence["Predicted"] = ""
@@ -391,7 +347,7 @@ def predict_D(defence):
     # Add column to defence
     for index, row in defence.iterrows(): 
             # Calculate predicted points (factor * (0.7 AvFPts + 0.3 3wAvFPts))
-            defence.at[index, "Predicted"] = round(fact[nfl_teams[row["Team"]]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
+            defence.at[index, "Predicted"] = round(fact[row["Team"]]*(0.7*row["Avg Points"] + 0.3*row["Avg Points (3 weeks)"]),2)
 
     # Sort by descending average fantasy points
     defence = defence.sort_values(by='Predicted', ascending=False)
@@ -405,14 +361,10 @@ def predict_O(opp, position):
 
     # Open defence factors
     factors = pd.read_csv("Processed/Defence_Factors.csv")
-    
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
 
     # Get row for given team
     try:
-        row = factors.loc[factors["Team"] == nfl_teams[opp]]
+        row = factors.loc[factors["Team"] == opp]
     except KeyError:
         # This is caused by different players of same name (e.g. Ryan Griffin) not being filtered by eligable teams because one is playing and one is not
         return 0
@@ -435,7 +387,7 @@ def position(offence, upcoming_week):
     positions = {'QB' : [], 'WR' : [], 'RB' : [], 'TE' : []}
 
     # Open latest scraped offence data
-    latest_O = pd.read_csv('Scraped/Statistics/O_Week_' + str(upcoming_week-1) + '.csv')
+    latest_O = pd.read_csv('Scraped/NFL_Fantasy/O_Week_' + str(upcoming_week-1) + '.csv')
 
     for index, row in latest_O.iterrows():
         positions[row.Position].append(row.Name)
@@ -479,10 +431,6 @@ def position(offence, upcoming_week):
         # Remove all rows for next position
         pos = pos[0:0]
 
-# For string comparisons, remove the offending parts       
-def simplify(name):
-    # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
-    return name.replace('.','').replace('Jr','').replace('Sr','').replace('III','').replace('II','').replace('IV','').replace('V','').strip()
 
 #! FACTORS
 
@@ -494,7 +442,7 @@ stats = {"pass_yds" : 235, "pass_yds_att" : 7.2, "pass_td" : 1.6, "rush_yds" : 1
 def defence_factors(c_D):
 
     # Read in Defence_Total
-    df = pd.read_csv("Scraped/Data_NFL/Defence_Total.csv")
+    df = pd.read_csv("Scraped/NFL_Logs/Defence_Total.csv")
     # Add games played column
     df = games_played(df)
 
@@ -520,7 +468,7 @@ def defence_factors(c_D):
 def offence_factors(c_O):
 
     # Read in Offence_Total
-    df = pd.read_csv("Scraped/Data_NFL/Offence_Total.csv")
+    df = pd.read_csv("Scraped/NFL_Logs/Offence_Total.csv")
     # Add games played column
     df = games_played(df)
 
@@ -544,35 +492,20 @@ def offence_factors(c_O):
 def defence_defence_factors(c_DD, schedule_week):
 
     # Read in Offence_Total
-    off = pd.read_csv("Scraped/Data_NFL/Offence_Total.csv")
+    off = pd.read_csv("Scraped/NFL_Logs/Offence_Total.csv")
     # Read in Defence_Total
-    defe = pd.read_csv("Scraped/Data_NFL/Defence_Total.csv")
+    defe = pd.read_csv("Scraped/NFL_Logs/Defence_Total.csv")
     # Read in Offence factors
     off_f = pd.read_csv("Processed/Offence_Factors.csv")
     # Read in Defence factors
     defe_f = pd.read_csv("Processed/Defence_Factors.csv")
 
     # Add no. games played column
-    # Open games_played.csv
-    games = pd.read_csv("Scraped/Data_NFL/games_played.csv")
-    games.columns = ["Team", "Games"]
-    # Only keep last part name (e.g. New York Giants -> Giants)
-    for index, row in games.iterrows():
-        if row["Team"] == "Washington Football Team":
-            games.at[index, "Team"] = "FootballTeam"
-            continue
-        games.at[index, "Team"] = row["Team"].split()[-1]
-    # Create dictionary {Team : Games played, ...}
-    games_ = pd.Series(games.Games.values,index=games.Team).to_dict()
-    # Add extra column to defence with games played
-    off.insert(loc=1, column = "Games", value="")
-    defe.insert(loc=1, column = "Games", value="")
-    for team, games_played in games_.items():
-        off.at[off.index[off["Team"] == team][0], "Games"] = games_played
-        defe.at[defe.index[defe["Team"] == team][0], "Games"] = games_played
+    off = games_played(off)
+    defe = games_played(defe)
 
     # Get list of eligable games
-    eligable_games = list(eligable_teams(schedule_week).values())
+    eligable_games = eligable_teams(schedule_week)
     
     # Only keep eligable teams
     off = off[off_f.Team.isin(eligable_games)]
@@ -585,14 +518,6 @@ def defence_defence_factors(c_DD, schedule_week):
     sched = sched[["Home", "Away"]]
     # Create list of games
     sched = sched.values.tolist()
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-    # Substitue schedule with full team name
-    sched_ = []
-    for game in sched:
-        sched_.append([nfl_teams.get(item, item) for item in game])
-    sched = sched_
 
     # Add column of opponent
     defe_f["Opponent"] = ""
@@ -661,37 +586,26 @@ def defence_defence_factors(c_DD, schedule_week):
     df["Defence Factor"] = df["Defence Factor"] ** (0.5)
     
     # Save Defence with factors
-    df.to_csv("Processed/Defence_Defence_Factors.csv")
+    df.to_csv("Processed/Choosing_Defence_Factors.csv")
 
     
 # Add column based on games played
-def games_played(defence):
-
-    # Create dictionary of {NYG : New York Giants, etc.}
-    ref = pd.read_csv('References/teams.csv')
-    nfl_teams = pd.Series(ref.Name.values,index=ref.Abrev).to_dict()
-    # Replace short Team name with full name (e.g. Giants with New York Giants)
-    for index, row in defence.iterrows(): 
-        for value in nfl_teams.values():
-            if row["Team"] in value:
-                defence.at[index, "Team"] = value
-            if row["Team"] == "FootballTeam":
-                defence.at[index, "Team"] = "Washington Football Team"
+def games_played(df):
 
     # Open games_played.csv
-    games = pd.read_csv("Scraped/Data_NFL/games_played.csv")
+    games = pd.read_csv("Scraped/NFL_Logs/games_played.csv")
     games.columns = ["Team", "Games"]
 
     # Create dictionary {Team : Games played, ...}
     games_ = pd.Series(games.Games.values,index=games.Team).to_dict()
 
-    # Add extra column to defence with games played
-    defence.insert(loc=1, column = "Games", value="")
+    # Add extra column to df with games played
+    df.insert(loc=1, column = "Games", value="")
 
     for team, games_played in games_.items():
-        defence.at[defence.index[defence["Team"] == team][0], "Games"] = games_played
+        df.at[df.index[df["Team"] == team][0], "Games"] = games_played
 
-    return defence
+    return df
 
 def define_depth_chart(upcoming_week):
 
@@ -768,17 +682,13 @@ def define_depth_chart(upcoming_week):
     schedule = pd.read_csv(os.path.join('Scraped', 'Schedule', 'Schedule_Week_' + str(upcoming_week) + '.csv'))
 
     # Open the file for the depth chart report
-    f = open("Depth_Chart_Report.md", "w")
+    f = open("Output/Reports/Depth_Chart_Report.md", "w")
 
-    # Loop over each team
-    teams = list(pos_dicts['RB'].Team.unique())
-    teams.reverse()
+    # Loop over each eligible team
+    teams = eligable_teams(upcoming_week)
+    teams.sort()
     for team in teams:
         team_name_written = False
-
-        # Skip if the team name isn't legit
-        if team in [np.nan, '0']:
-            continue
 
         # Extract injuries just for specific team of interest
         team_injuries = injuries[injuries['Team'] == team]
@@ -806,7 +716,7 @@ def define_depth_chart(upcoming_week):
                 for rank, player in injured_players.items():
 
                     # Inform when the starter and number 2 at the position are out and suggest number 3
-                    if rank == 1 and (2 in injured_players.keys()):
+                    if rank == 1 and (2 in injured_players.keys()) and (len(pos_depth_chart) > 2):
 
                         if not team_name_written:
                             team_name_depth_chart(f, team)
@@ -815,7 +725,7 @@ def define_depth_chart(upcoming_week):
                         f.write('\n' + position + str(1) + ' (<span style="color:#E74C3C">**' + player + '**</span>) and ' + position + str(2) + ' (<span style="color:#E74C3C">**' + injured_players[2] + '**</span>) are out. Consider ' + position + str(3) + ' (<span style="color:#27AE60">**' + list(pos_depth_chart.Name)[2] + '**</span>).\n')
 
                     # Inform when the starter is out and suggest number 2
-                    elif rank == 1 and (2 not in injured_players.keys()):
+                    elif rank == 1 and (2 not in injured_players.keys()) and (len(pos_depth_chart) > 1):
 
                         if not team_name_written:
                             team_name_depth_chart(f, team)
@@ -825,6 +735,9 @@ def define_depth_chart(upcoming_week):
 
                     # Inform when the number 2 is out and expect the starter to get more targets
                     elif rank == 2 and (1 not in injured_players.keys()):
+
+                        if position == 'TE':
+                            continue
 
                         if not team_name_written:
                             team_name_depth_chart(f, team)
@@ -858,3 +771,34 @@ def team_name_depth_chart(f, team):
     # Print the team of relevance
     f.write('## Injury Report for ' + team + '\n')
 
+
+def create_weather_report(upcoming_week):
+
+    # Load the relevant weather file
+    df = pd.read_csv(os.path.join('Scraped', 'Weather', 'Weather_' + str(upcoming_week) + '.csv'))
+
+    # Filter data, excluding domes and any adverse weather conditions
+    df = df[df.Forecast != "DOME"]
+    df = df.astype({"Wind (mph)" : 'int64'})
+    df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
+
+    # Only write report on the teams that are eligable
+    teams = eligable_teams(upcoming_week)
+    idx = list()
+    for index, row in df.iterrows():
+        if (row.Home not in teams) or (row.Away not in teams):
+            idx.append(index)
+    df = df.drop(idx)
+
+    # Open and initialise markdown file
+    f = open("Output/Reports/Weather_Report.md", "w")
+    f.write("## Weather Report \n")
+
+    # Only write file if there is something to write
+    if len(df):
+        f.write(df.to_markdown())
+    else:
+        f.write("# No games have significant adverse weather conditions this week.")
+
+    # Close file
+    f.close()

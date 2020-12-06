@@ -12,6 +12,10 @@ import datetime
 import json
 from progress.bar import IncrementalBar 
 
+# Create dictionary of {New York Giants : NYG, etc.} for reference in functions
+ref = pd.read_csv('References/teams.csv')
+nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
+
 
 def scrape_player_data(week, player_type):
 
@@ -62,7 +66,11 @@ def scrape_player_data(week, player_type):
             data_out = dict()
 
             # Name
-            data_out['Name'] = row.find('a').getText()
+            if player_type == 'D':
+                # Convert to abrev form
+                data_out['Name'] = nfl_teams[row.find('a').getText()]
+            else:
+                data_out['Name'] = simplify(row.find('a').getText())
 
             # Position and Team
             positionTeam = row.find('em').getText().split(' - ')
@@ -117,7 +125,7 @@ def scrape_player_data(week, player_type):
 
     # Create data frame with the columns define and data for the specified week and player type
     df = pd.DataFrame(list_out, columns=columns)
-    df.to_csv(os.path.join('Scraped', 'Statistics', str(player_type) + '_Week_' + str(data_in['week']) + '.csv'))
+    df.to_csv(os.path.join('Scraped', 'NFL_Fantasy', str(player_type) + '_Week_' + str(data_in['week']) + '.csv'))
 
 # Function dedicated to returning the specific stats for each position
 def return_stats(data_in, data_out, row):
@@ -322,9 +330,20 @@ def scrape_salary():
 
         # Get all player info (name, team, position) from initial table entry
         player_info = row.find('td', style=re.compile(r'white-space'))
-        name = player_info.find('a', href=re.compile(r'/nfl/')).getText()
+        name = simplify(player_info.find('a', href=re.compile(r'/nfl/')).getText())
         team = re.split(' |\)|\(', player_info.find('small').getText())[1]
         position = re.split(' |\)|\(', player_info.find('small').getText())[-2]
+
+        # Replace WAS with WSH
+        if team == "WAS":
+            team = "WSH"
+
+        elif team == "JAC":
+            team = "JAX"
+
+        # If name is a team (e.g. New York Giants), replace with abreviation which is in team column
+        if name in nfl_teams.keys():
+            name = team
 
         # Get salary info
         salary = row.find('td', class_=re.compile('salary'))['data-salary']
@@ -341,12 +360,12 @@ def scrape_salary():
     df = df.sort_values(by='Salary', ascending=False)
 
     # Write csv output file
-    df.to_csv(os.path.join('Scraped', 'Statistics', 'FD_Salary_Week_' + str(week) + '.csv'))
+    df.to_csv(os.path.join('Scraped', 'Salary', 'FD_Salary_Week_' + str(week) + '.csv'))
 
     return df
 
-def scrape_depth_charts_injuries():
-    # Scrape depth chart for each team
+def scrape_injuries():
+    # Scrape injuries from depth chart for each team
 
     # Define the URL for the team in question
     URL = 'https://www.espn.com/nfl/team/depth/_/name/ari'
@@ -362,7 +381,8 @@ def scrape_depth_charts_injuries():
     urls = [team['data-url'] for team in soup.find_all('option', attrs)]
     urls.insert(0, '/nfl/team/depth/_/name/ari')
 
-    # Define the output offence depth chart
+    # Define the output offence depth chart 
+    #! Outdated data-structure (as no longer scraping depth chart) but avoiding a re-write
     o_positions = ['QB', 'RB', 'WR1', 'WR2', 'WR3', 'TE']
     depth_chart = {
         position : {
@@ -373,9 +393,6 @@ def scrape_depth_charts_injuries():
         }
         for position in o_positions
     }
-
-    # Create progress bar
-    bar = IncrementalBar('Scraping Depth Chart', max = len(urls), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
 
     # Create injury list
     injuries = pd.DataFrame(columns = ['Name', 'Status', 'Team'])
@@ -413,23 +430,13 @@ def scrape_depth_charts_injuries():
                         if re.search(r'( O| D| IR| Q| SUSP)\b', items[i].getText()):
                             status = items[i].getText().split(' ')[-1]
                             name = ' '.join(items[i].getText().split(' ')[0:-1])
-                            injuries = injuries.append({'Name' : name, 'Team' : team, 'Position': o_positions[data_id][0:2], 'Status' : status}, ignore_index=True)
+                            injuries = injuries.append({'Name' : simplify(name), 'Team' : team, 'Position': o_positions[data_id][0:2], 'Status' : status}, ignore_index=True)
 
                         # Strip injury status from the end of the name
                         name = re.sub(r'( O| D| IR| Q| SUSP)\b', '', items[i].getText())
-                        depth_chart[position][i+1] = name
 
                     break
-            
-        # Write output file in json format
-        with open(os.path.join('Scraped', 'Depth_Chart', url.split('/')[-1] + '_depth_chart.json'), 'w') as outfile:
-            json.dump(depth_chart, outfile, indent=4)
 
-        # Loop to next team
-        bar.next()
-
-    # Close the progress bar
-    bar.finish()
 
     # Write the csv output
     injuries.to_csv(os.path.join('Scraped', 'Injury_Status.csv'))
@@ -462,10 +469,14 @@ def scrape_offence_players():
 
         test_data = scrape_offence_player_stats(URL.replace('lamar-jackson', player_name))
         name, team, position, test_df = test_data['Player Name'], test_data['Team'], test_data['Position'], test_data['Stats']
+
+        # Replace long team name with abrevation
+        if team in nfl_teams.keys():
+            team = nfl_teams[team]
     
         # Set the index of the dataframe to be each week and add player name/team/position 
         test_df = test_df.set_index('WK')
-        test_df['Player Name'] = name
+        test_df['Player Name'] = simplify(name)
         test_df['Position'] = position
         test_df['Team'] = team
     
@@ -487,7 +498,7 @@ def scrape_offence_players():
 
         # Only write file if there is data in it
         if len(week_df) > 2:
-            week_df.to_csv(os.path.join("Scraped", "Data_NFL", "O_Week_" + str(i+1) + ".csv"))
+            week_df.to_csv(os.path.join("Scraped", "NFL_Logs", "O_Week_" + str(i+1) + ".csv"))
 
 def scrape_offence_player_stats(URL):
 
@@ -538,7 +549,7 @@ def scrape_offence_player_stats(URL):
 
     # Create a return dictionary
     ret_dict = dict()
-    ret_dict['Player Name'] = name
+    ret_dict['Player Name'] = simplify(name)
     ret_dict['Team'] = team
     ret_dict['Position'] = position
     ret_dict['Stats'] = df
@@ -583,8 +594,26 @@ def scrape_defence_team():
         for key, value in cols[genre].items():
             df[value] = genre_dfs[genre][key]
 
+    # Replace team names with abbreviation (e.g. Giants -> NYG)
+    # Add Team column (N.B. currently short version of team name is index)
+    df.insert(loc=0, column='Team', value="")
+    for index, row in df.iterrows():
+
+        # Loop over team names
+        for team in nfl_teams.keys():
+            if index in team:
+                df.at[index, "Team"] = nfl_teams[team]
+                continue
+
+        # Need to deal with Washington seperately
+        if index == "FootballTeam":
+            df.at[index, "Team"] = "WSH"
+
+    # Reset index to numbers
+    df = df.reset_index(drop=True)
+
     # Output the data 
-    df.to_csv(os.path.join('Scraped', 'Data_NFL', 'Defence_Total.csv'))
+    df.to_csv(os.path.join('Scraped', 'NFL_Logs', 'Defence_Total.csv'))
 
 
 def scrape_defence_team_stats(URL):
@@ -650,8 +679,26 @@ def scrape_offence_team():
         for key, value in cols[genre].items():
             df[value] = genre_dfs[genre][key]
 
+    # Replace team names with abbreviation (e.g. Giants -> NYG)
+    # Add Team column (N.B. currently short version of team name is index)
+    df.insert(loc=0, column='Team', value="")
+    for index, row in df.iterrows():
+
+        # Loop over team names
+        for team in nfl_teams.keys():
+            if index in team:
+                df.at[index, "Team"] = nfl_teams[team]
+                continue
+
+        # Need to deal with Washington seperately
+        if index == "FootballTeam":
+            df.at[index, "Team"] = "WSH"
+
+    # Reset index to numbers
+    df = df.reset_index(drop=True)
+
     # Output the data 
-    df.to_csv(os.path.join('Scraped', 'Data_NFL', 'Offence_Total.csv'))
+    df.to_csv(os.path.join('Scraped', 'NFL_Logs', 'Offence_Total.csv'))
 
 
 def scrape_offence_team_stats(URL):
@@ -768,6 +815,9 @@ def games_played():
             team = items[0].find("div", class_="d3-o-club-fullname").getText().strip()
         except IndexError:
             continue
+
+        # Replace full team name with abbreviation
+        team = nfl_teams[team]
         
         # Calculate number games played (sum W, L and T)
         games = 0
@@ -781,15 +831,10 @@ def games_played():
     df = pd.DataFrame.from_dict(games_played, orient='index')
 
     # Save as csv
-    df.to_csv(os.path.join('Scraped','Data_NFL','games_played.csv'))
+    df.to_csv(os.path.join('Scraped','NFL_Logs','games_played.csv'))
 
 
 def scrape_weather(week):
-
-    # Get full name (from reference file)
-    ref = pd.read_csv('References/teams.csv')
-    # Create dictionary of {New York Giants : NYG, etc.}
-    nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
 
     # Define the URL for NFL weather site
     URL = 'http://www.nflweather.com/en/week/2020/week-' + str(week)
@@ -865,18 +910,11 @@ def scrape_weather(week):
     # Save entire weather data 
     df.to_csv(os.path.join('Scraped', 'Weather', 'Weather_' + str(week) + '.csv'))
 
-    # Now produce a filtered weather report for our use
-    df = df[df.Forecast != "DOME"]
-    df = df.astype({"Wind (mph)" : 'int64'})
-    df = df[(df["Wind (mph)"] >= 10) | (~df.Forecast.isin(["Partly Cloudy", "Overcast", "Clear", "Mostly Cloudy"]))]
-
-    f = open("Weather_Report.md", "w")
-    f.write("## Weather Report \n")
-    f.write(df.to_markdown())
-    f.close()
-
-
-
-    
+# To ensure as much consistency as possible between datasets, strip offending characters      
+def simplify(name):
+    # Need to strip big to small (e.g. strip III before II otherwise doesnt work)
+    name = name.replace('.','').replace('Jr','').replace('Sr','').replace('III','').replace('II','').replace('IV','').strip()
+    # Need to be more carful with V (e.g. Vikings -> ikings)
+    return re.sub('V$', '', name).strip()
     
 
