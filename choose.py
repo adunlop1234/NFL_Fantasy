@@ -26,21 +26,42 @@ def main():
         'Flex' : 1
     }
 
+    # ATL for the gpp game consider 
+
     # Define players to include/exclude
     player_list_inc = {
-        'Derek Carr' : 'QB',
-        'Kyler Murray' : 'QB',
-        'Austin Ekeler' : 'RB'
+        'ATL' : 'DEF'
+        #'Myles Gaskin' : 'RB',
+        #'MIA' : 'DEF'
+        #'CHI' : 'DEF',
+        #'Dalvin Cook' : 'RB',
+        #'Devontae Booker' : 'RB'
     }
 
     player_list_exc = {
-        'Antonio Gibson' : 'RB',
-        'Terry McLaurin' : 'WR',
+
+        'Gardner Minshew' : 'QB',
+        'Allen Robinson' : 'WR',
+        'Keelan Cole' : 'WR',
+        'ATL' : 'DEF',
+        'NO' : 'DEF',
+        #'Nyheim Hines' : 'RB',
+        'DJ Chark' : 'WR',
+        'Sterling Shepard' : 'WR',
+        #'Kirk Cousins' : 'QB',
+        'Mike Glennon' : 'QB',
+        #'Justin Herbert' : 'QB',
+        #'Philip Rivers' : 'QB',
         'Jamaal Williams' : 'RB',
+        #'Adam Thielen' : 'WR',
+        #'Justin Jefferson' : 'WR',
+        #'Nelson Agholor' : 'WR',
         'Dalvin Cook' : 'RB',
 
         # Permanent exclude
-        'Richie James' : 'WR'
+        'Richie James' : 'WR',
+        'Odell Beckham' : 'WR',
+        'Rex Burkhead' : 'RB'
     }
 
     # Read in the data array

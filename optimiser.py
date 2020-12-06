@@ -28,6 +28,13 @@ def include_players(data_in, rules, player_list_inc=None, player_list_exc=None):
     }
     '''
  
+    # Check there are no players/teams included in both include and exclude
+    extras = set(player_list_inc.keys()) & set(player_list_exc.keys())
+    if extras:
+        for extra in extras:
+            print("ERROR: " + str(extra) + " cannot be excluded and included.")
+        raise Exception("Player included in both include and exclude lists.")
+
     # Initialise team array
     team = {
         'QB' : [],

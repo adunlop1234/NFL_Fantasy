@@ -736,6 +736,9 @@ def define_depth_chart(upcoming_week):
                     # Inform when the number 2 is out and expect the starter to get more targets
                     elif rank == 2 and (1 not in injured_players.keys()):
 
+                        if position == 'TE':
+                            continue
+
                         if not team_name_written:
                             team_name_depth_chart(f, team)
                             team_name_written = True

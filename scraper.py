@@ -338,6 +338,9 @@ def scrape_salary():
         if team == "WAS":
             team = "WSH"
 
+        elif team == "JAC":
+            team = "JAX"
+
         # If name is a team (e.g. New York Giants), replace with abreviation which is in team column
         if name in nfl_teams.keys():
             name = team
