@@ -4,6 +4,9 @@ sys.path.insert(1,'C:\\Users\\benja\\OneDrive\\Documents\\GitHub\\NFL_Fantasy')
 import pandas as pd 
 import process
 
+
+latest_week = 11
+
 # Open summary files
 defence, offence = process.open_summaries()
 
@@ -16,26 +19,29 @@ for index, row in latest_O.iterrows():
 # Only keep RBs
 offence = offence.loc[offence["Name"].isin(positions['RB'])].reset_index(drop=True)
 
-#offence_ = offence.drop(['Name', 'Team'], axis=1)
-#print(offence_.apply(pd.DataFrame.describe, axis=1))
-
 # Create dataframe to store all data for neural net
-columns = ['Name', 'max', 'min', 'mean', 'std', 'D Pass Yds/Game', 'D Pass Yds/Att', 'D Pass TDs/Game', 'D Rush Yds/Game', 'D Rush YPC', 'D Rush TDs/Game']
+columns = ['Name', 'max', 'min', 'mean', 'std', 'D Pass Yds/Game', 'D Pass Yds/Att', 'D Pass TDs/Game', 'D Rush Yds/Game', 'D Rush YPC', 'D Rush TDs/Game', 'Label']
 
 # Create list to store dataframe from each week
 data = []
 
 # Loop over weeks
-for week in range(7, 12):
+for week in range(7, latest_week):
 
     # Transform offence for given 'week':
     # Add opponent for that week (ignore defence below)
     defence_week, offence_week = process.opponent(offence.copy(), defence.copy(), week+1)
-    columns_week = ['Name', 'Team', 'Opp'] + ['Week ' + str(j) for j in range(1, week+1)]
+    columns_week = ['Name', 'Team', 'Opp'] + ['Week ' + str(j) for j in range(1, week+2)]
     offence_week = offence_week[columns_week]
+    
+    # Rename Week+1 as Label
+    offence_week = offence_week.rename(columns={'Week ' + str(week+1) : 'Label'})
+
+    # Drop rows where players dont play following week
+    offence_week = offence_week[offence_week["Label"].notna()]
 
     # Calculate statistics on the columns and add them as columns
-    stats = offence_week.drop(['Name', 'Team', 'Opp'], axis=1).apply(pd.DataFrame.describe, axis=1).drop(['25%', '50%', '75%'], axis=1)
+    stats = offence_week.drop(['Name', 'Team', 'Opp', 'Label'], axis=1).apply(pd.DataFrame.describe, axis=1).drop(['25%', '50%', '75%'], axis=1)
 
     # Add stats columns to offence_week
     offence_week = pd.concat([offence_week, stats], axis=1)
