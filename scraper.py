@@ -812,7 +812,7 @@ def games_played():
         items = row.find_all('td')
         # Check a 'team row' (e.g. not header row)
         try:
-            team = items[0].find("div", class_="d3-o-club-fullname").getText().strip()
+            team = items[0].find("div", class_="d3-o-club-fullname").getText().strip().rstrip("xyz*").strip()
         except IndexError:
             continue
 
