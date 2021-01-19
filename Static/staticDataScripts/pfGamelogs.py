@@ -71,6 +71,12 @@ for index, df_row in df.iterrows():
 
 bar.finish()
 
+# Map team abbreviations
+ref = pd.read_csv(os.path.join('References','abrev.csv'))
+abrevs = pd.Series(ref.abrev.values,index=ref.pfr).to_dict()
+df = df.replace({'team' : abrevs, 'opp' : abrevs})
+
+
 # Create a dataframe from data dict
 df = pd.DataFrame.from_dict(data)
 

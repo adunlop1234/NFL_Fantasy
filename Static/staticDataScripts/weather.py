@@ -64,7 +64,7 @@ def scrape_weather(year, week, weather, nfl_teams):
 
 
 # Create dictionary of {New York Giants : NYG, etc.} for reference in functions
-ref = pd.read_csv('References/teams.csv')
+ref = pd.read_csv(os.path.join('References','teams.csv'))
 nfl_teams = pd.Series(ref.Abrev.values,index=ref.Name).to_dict()
 
 # Define a dictionary to store weather data
