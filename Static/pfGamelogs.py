@@ -10,7 +10,7 @@ YEARS = [2015,2016,2017,2018,2019,2020]
 DATA_STATS = ['game_date', 'game_num', 'week_num', 'team', 'game_location', 'opp', 'game_result', 'pass_cmp', 'pass_att', 'pass_cmp_perc', 'pass_yds', 'pass_td', 'pass_int', 'pass_sacked', 'pass_yds_per_att', 'rush_att', 'rush_yds', 'rush_yds_per_att', 'rush_td', 'targets', 'rec', 'rec_yds', 'rec_yds_per_rec', 'rec_td', 'catch_pct', 'rec_yds_per_tgt', 'fumbles']
 
 # Read in players of interest
-df = pd.read_csv(os.path.join('Static','staticDataScripts','staticData','filteredPlayers.csv'))
+df = pd.read_csv(os.path.join('Static','staticData','filteredPlayers.csv'))
 
 # Create progress bar
 bar = IncrementalBar('Scraping Player Gamelogs', max = len(df), suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
@@ -80,7 +80,7 @@ df = df.replace({'team' : abrevs, 'opp' : abrevs})
 # Create a dataframe from data dict
 df = pd.DataFrame.from_dict(data)
 
-df.to_csv(os.path.join("Static", "staticDataScripts", "staticData", "playersGamelogs.csv"))
+df.to_csv(os.path.join("Static", "staticData", "playersGamelogs.csv"))
         
 
     

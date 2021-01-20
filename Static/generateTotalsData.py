@@ -8,7 +8,7 @@ def_dict = {column : [] for column in columns}
 off_dict = {column : [] for column in columns}
 
 # Use offensive gamelogs to calculate defense data
-df = pd.read_csv(os.path.join("Static", "staticDataScripts", "staticData", "playersGamelogs.csv"))
+df = pd.read_csv(os.path.join("Static", "staticData", "playersGamelogs.csv"))
 
 # Create new column to allow for iteration
 df['helper_id'] = df['game_date'] + df['opp']
@@ -71,5 +71,5 @@ for id in set(df['helper_id']):
 defence = pd.DataFrame.from_dict(def_dict).sort_values(['team', 'game_date']).reset_index(drop=True)
 offence = pd.DataFrame.from_dict(off_dict).sort_values(['team', 'game_date']).reset_index(drop=True)
 
-defence.to_csv(os.path.join("Static", "staticDataScripts", "staticData", "defenceData.csv"))
-offence.to_csv(os.path.join("Static", "staticDataScripts", "staticData", "offenceData.csv"))
+defence.to_csv(os.path.join("Static", "staticData", "defenceData.csv"))
+offence.to_csv(os.path.join("Static", "staticData", "offenceData.csv"))

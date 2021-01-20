@@ -80,4 +80,4 @@ for year in range(2021-number_years, 2021):
 bar.finish()
 
 # Save weather
-pd.DataFrame.from_dict(weather).to_csv(os.path.join('Static','staticDataScripts','staticData','weather.csv'))
+pd.DataFrame.from_dict(weather).to_csv(os.path.join('Static','staticData','weather.csv'))

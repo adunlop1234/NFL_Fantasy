@@ -7,7 +7,7 @@ import os
 bar = IncrementalBar('Getting Player Names', max = 26, suffix = '%(percent).1f%% Complete - Estimated Time Remaining: %(eta)ds')
 
 
-with open(os.path.join('Static', 'staticDataScripts', 'staticData','players.csv'),'w') as f:
+with open(os.path.join('Static', 'staticData','players.csv'),'w') as f:
 
     f.write('name,id,position,start,end\n')
 
