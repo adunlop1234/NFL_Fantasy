@@ -2,7 +2,7 @@ A neural net will be constructed to predict passing yards by a QB.
 
 The following features will be used:
 * QB stats for each past 6 weeks (P1, P2, P3 with P2 being 2 weeks previous etc.):
-    - home or away
+    - home or away (or BYE)
     - pass_cmp
     - pass_att
     - LABEL: **pass_yds**
@@ -13,7 +13,7 @@ The following features will be used:
     - rush_yds
     - rush_td
 * Defence against stats for each past 6 weeks (D1, D2, D3 etc.)
-    - home or away
+    - home or away (or BYE)
     - pass_cmp
     - pass_att
     - pass_yds
