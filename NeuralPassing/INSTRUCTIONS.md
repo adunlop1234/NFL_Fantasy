@@ -1,3 +1,6 @@
+features.py -> creates csv of feature inputs
+
+
 A neural net will be constructed to predict passing yards by a QB.
 
 The following features will be used:
