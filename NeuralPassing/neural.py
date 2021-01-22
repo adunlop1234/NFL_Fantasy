@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # HYPERPARMETERS
 random_state = 1
-l2_regularisation = 80
+l2_regularisation = 500
 learning_rate = 0.001
 epochs = 100
 batch_size = 10
@@ -77,8 +77,9 @@ plot_loss(history)
 
 
 # Evaluate neural network performance
-y_predict = model.predict(X_test)
+y_predict = model.predict(X_test).flatten()
 plt.scatter(y_test, y_predict)
+plt.plot(np.unique(y_test), np.poly1d(np.polyfit(y_test, y_predict, 1))(np.unique(y_test)))
 plt.plot([0, 500], [0, 500])
 plt.xlabel('Actual')
 plt.ylabel('Predict')
