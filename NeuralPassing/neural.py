@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # HYPERPARMETERS
 random_state = 1
-l1_regularisation = 0.25
+l1_regularisation = 0.3
 learning_rate = 0.001
 epochs = 100
 batch_size = 10
@@ -25,8 +25,11 @@ df = df[columns]
 # Convert Home, Away, BYE to one-hot
 df = pd.get_dummies(df)
 
-# Fill any Nans with 0
+# Fill any Nans with 0 (very rare occurence, just Jalen Hurts for 2 games)
 df = df.fillna(0)
+
+# Only keep games with Label_pass_yds > 50 (e.g. eliminate Taysom Hills and injuries)
+df = df[df.Label_pass_yds >= 50]
 
 # Get features and labels
 X = df[[column for column in df.columns.values if column != 'Label_pass_yds']].to_numpy()
@@ -56,7 +59,6 @@ model = tf.keras.models.Sequential([
 # Compile neural network
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-    # Use mean absolute error as less sensitive to outliers than mean squared error
     loss="mean_absolute_error"
 )
 
@@ -64,12 +66,13 @@ model.compile(
 history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split = 0.2)
 
 def plot_loss(history):
-  plt.plot(history.history['loss'], label='loss')
-  plt.plot(history.history['val_loss'], label='val_loss')
-  plt.xlabel('Epoch')
-  plt.ylabel('Error')
-  plt.legend()
-  plt.show()
+    plt.plot(history.history['loss'], label='loss')
+    plt.plot(history.history['val_loss'], label='val_loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Error')
+    plt.ylim([0,150])
+    plt.legend()
+    plt.show()
 
 plot_loss(history)
 
@@ -82,5 +85,4 @@ plt.xlabel('Actual')
 plt.ylabel('Predict')
 plt.xlim([0,500])
 plt.ylim([0,500])
-plt.legend()
 plt.show()
