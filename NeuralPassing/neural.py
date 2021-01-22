@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # HYPERPARMETERS
 random_state = 1
-l1_regularisation = 0.3
+l2_regularisation = 80
 learning_rate = 0.001
 epochs = 100
 batch_size = 10
@@ -48,9 +48,9 @@ model = tf.keras.models.Sequential([
     # Normalisation layer
     normalizer,
     # Add a first hidden layer
-    tf.keras.layers.Dense(40, activation="relu", kernel_regularizer=tf.keras.regularizers.l1(l1_regularisation)),
+    tf.keras.layers.Dense(40, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(l2_regularisation)),
     # Add a second hidden layer
-    tf.keras.layers.Dense(10, activation="relu", kernel_regularizer=tf.keras.regularizers.l1(l1_regularisation)),
+    tf.keras.layers.Dense(10, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(l2_regularisation)),
     # Add an output layer
     tf.keras.layers.Dense(1)
 
@@ -59,7 +59,7 @@ model = tf.keras.models.Sequential([
 # Compile neural network
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-    loss="mean_absolute_error"
+    loss="mean_squared_error"
 )
 
 # Fit model on training data
@@ -70,7 +70,6 @@ def plot_loss(history):
     plt.plot(history.history['val_loss'], label='val_loss')
     plt.xlabel('Epoch')
     plt.ylabel('Error')
-    plt.ylim([0,150])
     plt.legend()
     plt.show()
 
