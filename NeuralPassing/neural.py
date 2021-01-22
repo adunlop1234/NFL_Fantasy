@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import numpy as np
-#import tensorflow as tf
+import tensorflow as tf
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -28,13 +28,18 @@ df = df.fillna(0)
 # Only keep games with Label_pass_yds > 50 (e.g. eliminate Taysom Hills and injuries)
 df = df[df.Label_pass_yds >= 50]
 
+# Remove QBs who have missed 3 or more of their last 6 games
+pass_columns = [x for x in columns if ('pass_yds' in x) and ('P' in x)]
+df_temp = df[pass_columns]
+df = df[(df_temp == 0).sum(axis=1) < 3]
+
 # Get features and labels
 X = df[[column for column in df.columns.values if column != 'Label_pass_yds']].to_numpy()
 y = np.array(df.Label_pass_yds)
 
 # Split into training, validating and testing set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
-"""
+
 # Use a normalisation layer to normalise the features
 normalizer = tf.keras.layers.experimental.preprocessing.Normalization()
 normalizer.adapt(np.array(X_train))
@@ -84,4 +89,3 @@ plt.ylabel('Predict')
 plt.xlim([0,500])
 plt.ylim([0,500])
 plt.show()
-"""
