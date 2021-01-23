@@ -29,12 +29,12 @@ df = pd.get_dummies(df)
 df = df.fillna(0)
 
 # Only keep games with Label_pass_yds > 50 (e.g. eliminate Taysom Hills and injuries)
-df = df[df.Label_pass_yds >= 50]
+df = df[df.Label_pass_yds >= 100]
 
 # Remove QBs who have missed 3 or more of their last 6 games
 pass_columns = [x for x in columns if ('pass_yds' in x) and ('P' in x)]
 df_temp = df[pass_columns]
-df = df[(df_temp == 0).sum(axis=1) < 3]
+df = df[(df_temp <= 100).sum(axis=1) < 3]
 
 # Get features and labels
 X = df[[column for column in df.columns.values if column != 'Label_pass_yds']].to_numpy()
@@ -42,24 +42,41 @@ y = np.array(df.Label_pass_yds)
 
 # Split into training, validating and testing set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
-from sklearn.ensemble import RandomForestRegressor
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25, random_state=random_state)
+
+from xgboost import XGBRegressor
 from sklearn.metrics import mean_absolute_error
 
 
-n_trees = 200
-forest_model = RandomForestRegressor(random_state=1, n_estimators=n_trees)
-forest_model.fit(X_train, y_train)
-y_predict = forest_model.predict(X_test)
-print(str(n_trees) + ':   ', mean_absolute_error(y_test, y_predict))
+model = XGBRegressor(n_estimators=2000, learning_rate=0.01)
+model.fit(X_train, y_train, 
+             early_stopping_rounds=5, 
+             eval_set=[(X_val, y_val)], 
+             verbose=False)
 
-plt.scatter(y_test, y_predict)
-plt.plot(np.unique(y_test), np.poly1d(np.polyfit(y_test, y_predict, 1))(np.unique(y_test)))
-plt.plot([0, 500], [0, 500])
-plt.xlabel('Actual')
-plt.ylabel('Predict')
-plt.xlim([0,500])
-plt.ylim([0,500])
+y_predict = model.predict(X_train)
+print(mean_absolute_error(y_train, y_predict))
+fig, ax = plt.subplots(nrows=2, ncols=2)
+
+ax[0,0].scatter(y_train, model.predict(X_train))
+ax[0,1].scatter(y_val, model.predict(X_val))
+ax[1,0].scatter(y_test, model.predict(X_test))
+ax[0,0].plot(np.unique(y_train), np.poly1d(np.polyfit(y_train, model.predict(X_train), 1))(np.unique(y_train)))
+ax[0,1].plot(np.unique(y_val), np.poly1d(np.polyfit(y_val, model.predict(X_val), 1))(np.unique(y_val)))
+ax[1,0].plot(np.unique(y_test), np.poly1d(np.polyfit(y_test, model.predict(X_test), 1))(np.unique(y_test)))
+ax[0,0].title.set_text('Train')
+ax[0,1].title.set_text('Validate')
+ax[1,0].title.set_text('Test')
+
+for a in ax.flatten():
+    a.set_xlabel('Actual')
+    a.set_ylabel('Predict')
+    a.plot([0, 500], [0, 500])
+    a.set_xlim([0,500])
+    a.set_ylim([0,500])
+
 plt.show()
+
 
 '''
 # Use a normalisation layer to normalise the features
