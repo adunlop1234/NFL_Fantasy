@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -17,10 +17,13 @@ batch_size = 10
 
 # Open raw features
 df = pd.read_csv(os.path.join('NeuralPassing','Data','qbPassingFeatures.csv'), index_col=0)
-column_types = ['pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_sacked', 'rush_att', 'rush_yds', 'rush_td', 'Label_pass_yds']
+column_types = ['pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_sacked', 'rush_att', 'rush_yds', 'rush_td', 'home_game', 'Label_pass_yds']
 # Get feature columns
 columns = [column for column in df.columns.values if len([i for i in column_types if i in column]) > 0]
 df = df[columns]
+
+# Convert Home, Away, BYE to one-hot
+df = pd.get_dummies(df)
 
 # Fill any Nans with 0 (very rare occurence, just Jalen Hurts for 2 games)
 df = df.fillna(0)
@@ -39,7 +42,26 @@ y = np.array(df.Label_pass_yds)
 
 # Split into training, validating and testing set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error
 
+
+n_trees = 200
+forest_model = RandomForestRegressor(random_state=1, n_estimators=n_trees)
+forest_model.fit(X_train, y_train)
+y_predict = forest_model.predict(X_test)
+print(str(n_trees) + ':   ', mean_absolute_error(y_test, y_predict))
+
+plt.scatter(y_test, y_predict)
+plt.plot(np.unique(y_test), np.poly1d(np.polyfit(y_test, y_predict, 1))(np.unique(y_test)))
+plt.plot([0, 500], [0, 500])
+plt.xlabel('Actual')
+plt.ylabel('Predict')
+plt.xlim([0,500])
+plt.ylim([0,500])
+plt.show()
+
+'''
 # Use a normalisation layer to normalise the features
 normalizer = tf.keras.layers.experimental.preprocessing.Normalization()
 normalizer.adapt(np.array(X_train))
@@ -89,3 +111,4 @@ plt.ylabel('Predict')
 plt.xlim([0,500])
 plt.ylim([0,500])
 plt.show()
+'''
