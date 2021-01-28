@@ -1,7 +1,7 @@
 import pandas as pd
 import os
-
-print('REMEMBER THIS IS QB SPECIFIC')
+import statistics
+import numpy as np
 
 ### Create dictionaries to store data
 
@@ -101,21 +101,31 @@ for season in [15, 16, 17, 18, 19, 20]:
 
 ### Create labelled features DataFrame
 
-# Define feature columns ('name', 'week', 'season' are for checking purposes only)
-columns = ['name', 'week', 'season']
+# Define multi-index feature columns ('name', 'week', 'season' are for checking purposes only)
+columns = [('','name'), ('','week'), ('','season')]
+# Begin with player data (seperate loops for desired column order)
 for preceeding in range(1,7):
-    for item in ['P', 'D']:
-        for feature in features_D.keys():
-            columns.append(item + str(preceeding) + '_' + feature)
-    for feature in features_O.keys():
-        columns.append('O' + str(preceeding) + '_' + feature)
-# Add label column
-columns.append('Label_pass_yds')
+    for feature in [f for f in features_P.keys() if f != 'team']:
+        columns.append(('QB', feature + '_' + str(preceeding)))
+# Remaining offence data
+for preceeding in range(1,7):
+    for feature in [f for f in features_O.keys() if f != 'opp']:
+        columns.append(('Offence', feature + '_' + str(preceeding)))
+# Previous defence data
+for preceeding in range(1,7):
+    for feature in [f for f in features_D.keys() if f != 'home_game']:
+        columns.append(('Defence_prev_mean', feature + '_' + str(preceeding)))
+# Upcoming defence data
+for feature in [f for f in features_D.keys() if f != 'home_game']:
+        columns.append(('Defence_upcom_mean', feature + '_upcoming'))
+columns.append(('Label','pass_yds'))
 
-# Create dictionary to store feature values
-features = {column : [] for column in columns}
+# Create multi-index column DataFrame
+features = pd.DataFrame(columns=pd.MultiIndex.from_tuples(columns))
 
-
+# Loop over each season
+c = 0
+null_count = 0
 # Loop over each season
 for season, season_dict in player_data.items():
 
@@ -126,31 +136,72 @@ for season, season_dict in player_data.items():
         for week in range(7,17):
 
             # Check if QB didn't play week
-            if player_data[season][qb][week]['team'] == 0:
+            if player_data[season][qb][week]['pass_yds'] == 0:
                 continue
-            
-            features['name'].append(qb)
-            features['week'].append(week)
-            features['season'].append(season)
+
+            # Add data for ease of checking
+            features.loc[c, ('','name')] = qb
+            features.loc[c, ('','week')] = week
+            features.loc[c, ('','season')] = season
 
             # Add label
-            features['Label_pass_yds'].append(player_data[season][qb][week]['pass_yds'])          
+            features.loc[c, ('Label','pass_yds')] = player_data[season][qb][week]['pass_yds']
+
+            team = player_data[season][qb][week]['team']
+
 
             # Loop over preceeding weeks
             for preceeding in range(1,7):
 
                 # Populate player features
-                for feature in set(features_P.keys()) - set(['team']):
-                    features['P' + str(preceeding) + '_' + feature].append(player_data[season][qb][week-preceeding][feature])
+                for feature in [f for f in features_P.keys() if f != 'team']:
+                    features.loc[c, ('QB', feature + '_' + str(preceeding))] = player_data[season][qb][week-preceeding][feature]
 
-                # Populate defence and offence features
-                team = player_data[season][qb][week]['team']
-                for feature in features_D.keys():
-                    features['D' + str(preceeding) + '_' + feature].append(team_data[season][team][week-preceeding]['D'][feature])
-                for feature in features_O.keys():
-                    features['O' + str(preceeding) + '_' + feature].append(team_data[season][team][week-preceeding]['O'][feature])
-
-
+                # Populate offence features
+                for feature in [f for f in features_O.keys() if f != 'opp']:
+                    features.loc[c, ('Offence', feature + '_' + str(preceeding))] = team_data[season][team][week-preceeding]['O'][feature]
                 
+                # Populate previous games defence features
+                opp = team_data[season][team][week-preceeding]['O']['opp']
+                # Check if week-preceeding was bye week
+                if opp == 0:
+                    for feature in [f for f in features_D.keys() if f != 'home_game']:
+                        features.loc[c, ('Defence_prev_mean', feature + '_' + str(preceeding))] = 0
+                else:
+                    f_D = {f : [] for f in features_D.keys() if f != 'home_game'}
+                    # Calculate mean value for 6 weeks previous to upcoming week
+                    for week_i in range(1,7):
+                        # Check if BYE
+                        if team_data[season][opp][week-week_i]['D']['rush_yds'] == 0:
+                            continue
+                        for f in f_D.keys():
+                            f_D[f].append(team_data[season][opp][week-week_i]['D'][f])
+                    for feature in [f for f in features_D.keys() if f != 'home_game']:
+                        features.loc[c, ('Defence_prev_mean', feature + '_' + str(preceeding))] = statistics.mean(f_D[feature])
+
+
+            # Populate upcoming defence mean features
+            # Populate previous games defence features
+            opp = team_data[season][team][week]['O']['opp']
+            f_D = {f : [] for f in features_D.keys() if f != 'home_game'}
+            # Calculate mean value for 6 weeks previous to upcoming week
+            for week_i in range(1,7):
+                # Check if BYE
+                if team_data[season][opp][week-week_i]['D']['rush_yds'] == 0:
+                    continue
+                for f in f_D.keys():
+                    f_D[f].append(team_data[season][opp][week-week_i]['D'][f])
+            for feature in [f for f in features_D.keys() if f != 'home_game']:
+                features.loc[c, ('Defence_upcom_mean', feature + '_upcoming')] = statistics.mean(f_D[feature])
+
+            # Check for null values
+            if features.loc[c].isnull().values.any():
+                null_count += 1
+                features.loc[c] = np.nan
+            else:
+                c += 1
+
+print(str(null_count) + ' rows were removed due to containing NULL values')
+
 # Save features as DataFrame
-pd.DataFrame.from_dict(features).to_csv(os.path.join('NeuralPassing','Data','qbPassingFeatures.csv'))
+features.to_csv(os.path.join('NeuralPassing','Data','qbPassingFeatures.csv'))
