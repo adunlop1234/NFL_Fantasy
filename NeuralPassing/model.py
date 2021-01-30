@@ -52,24 +52,22 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.
 
 from sklearn.model_selection import learning_curve
 
-fig, ax = plt.subplots(1, 1, figsize=(16, 6))
-fig.subplots_adjust(left=0.0625, right=0.95, wspace=0.1)
+
 
 i=1
 N, train_lc, val_lc = learning_curve(XGBRegressor(n_estimators=2000, learning_rate=0.01),
                                         X_train, y_train, cv=7,
-                                        train_sizes=np.linspace(0.3, 1, 5))
+                                        train_sizes=np.linspace(0.3, 1, 1))
 
-ax[i].plot(N, np.mean(train_lc, 1), color='blue', label='training score')
-ax[i].plot(N, np.mean(val_lc, 1), color='red', label='validation score')
-ax[i].hlines(np.mean([train_lc[-1], val_lc[-1]]), N[0], N[-1],
+plt.plot(N, np.mean(train_lc, 1), color='blue', label='training score')
+plt.plot(N, np.mean(val_lc, 1), color='red', label='validation score')
+plt.hlines(np.mean([train_lc[-1], val_lc[-1]]), N[0], N[-1],
                 color='gray', linestyle='dashed')
 
-ax[i].set_ylim(0, 1)
-ax[i].set_xlim(N[0], N[-1])
-ax[i].set_xlabel('training size')
-ax[i].set_ylabel('score')
-ax[i].legend(loc='best')
+plt.xlabel('training size')
+plt.ylabel('score')
+plt.legend(loc='best')
+plt.show()
 
 """
 model = XGBRegressor(n_estimators=2000, learning_rate=0.01)

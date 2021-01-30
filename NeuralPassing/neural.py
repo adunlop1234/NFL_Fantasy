@@ -47,7 +47,9 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_absolute_error
 
-
+print(X_train)
+print(X_train.shape)
+quit()
 model = XGBRegressor(n_estimators=2000, learning_rate=0.01)
 model.fit(X_train, y_train, 
              early_stopping_rounds=5, 

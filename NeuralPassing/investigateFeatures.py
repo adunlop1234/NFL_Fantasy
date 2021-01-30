@@ -9,29 +9,31 @@ import numpy as np
 from sklearn import datasets, linear_model
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
+# HYPERPARMETERS
+random_state = 1
+l1_regularisation = 1.5
+learning_rate = 0.0007
+epochs = 300
+batch_size = 10
+
 # Open raw features
-df = pd.read_csv(os.path.join('NeuralPassing','Data','qbPassingFeatures.csv'), index_col=0)
-column_types = ['pass_cmp', 'pass_att', 'pass_yds', 'pass_td', 'pass_int', 'pass_sacked', 'rush_att', 'rush_yds', 'rush_td', 'home_game', 'Label_pass_yds']
-# Get feature columns
-columns = [column for column in df.columns.values if len([i for i in column_types if i in column]) > 0]
-df = df[columns]
+df = pd.read_csv(os.path.join('NeuralPassing','Data','qbPassingFeatures.csv'), index_col=0, header=[0,1])
 
-# Convert Home, Away, BYE to one-hot
-df = pd.get_dummies(df)
-
-# Fill any Nans with 0 (very rare occurence, just Jalen Hurts for 2 games)
-df = df.fillna(0)
+# Only keep feature columns (i.e. not name, week, season)
+df = df.loc[:,df.columns.get_level_values(0).isin(['QB','Offence','Defence_prev_mean','Defence_upcom_mean','Label'])]
 
 # Only keep games with Label_pass_yds > 50 (e.g. eliminate Taysom Hills and injuries)
-df = df[df.Label_pass_yds >= 100]
+df = df[df['Label','pass_yds'] > 50]
 
-# Remove QBs who have missed 3 or more of their last 6 games (or low scores)
-pass_columns = [x for x in columns if ('pass_yds' in x) and ('P' in x)]
-df_temp = df[pass_columns]
-df = df[(df_temp <= 100).sum(axis=1) < 3]
+# Remove QBs who have missed 3 or more of their last 6 games (defined by fewer than 50 pass yards)
+pass_columns = [('QB', 'pass_yds_' + str(i)) for i in range(1,7)]
+df = df[(df[pass_columns] <= 50).sum(axis=1) < 3]
 
-# Linear Regression of passing yards vs historic mean
-labels = np.array(list(df['Label_pass_yds']))
+# Drop non-numeric columns
+OH_cols = list((df.dtypes == 'object')[(df.dtypes == 'object')].index)
+df = df.drop(OH_cols, axis=1)
+
+labels = np.array(df['Label','pass_yds'])
 
 # Create dictionary to store regression results
 regress = {'feature' : [], 'coef' : [], 'R2' : []}
@@ -54,6 +56,10 @@ df_reg = pd.DataFrame.from_dict(regress)
 df_reg = df_reg[df_reg.R2 > 0.001]
 df_reg = df_reg.sort_values(by=['coef'], ascending=False)
 
-a=1
-    
+a=1 
 
+def plot1(regr, x, labels):
+
+    plt.scatter(x, labels)
+    plt.plot(x,regr.predict(x))
+    plt.show()
