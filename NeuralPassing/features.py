@@ -171,13 +171,13 @@ for season, season_dict in player_data.items():
                 # Check if week-preceeding was bye week
                 if opp == 0:
                     for feature in [f for f in features_D.keys() if f != 'home_game']:
-                        features.loc[c, ('Defence_prev_mean', feature + '_' + str(preceeding))] = 0
+                        features.loc[c, ('Defence_prev_mean', feature + '_' + str(preceeding))] = nan
                 else:
                     f_D = {f : [] for f in features_D.keys() if f != 'home_game'}
                     # Calculate mean value for 6 weeks previous to upcoming week
                     for week_i in range(1,7):
                         # Check if BYE
-                        if team_data[season][opp][week-week_i]['D']['rush_yds'] == 0:
+                        if pd.isna(team_data[season][opp][week-week_i]['D']['rush_yds']):
                             continue
                         for f in f_D.keys():
                             f_D[f].append(team_data[season][opp][week-week_i]['D'][f])
@@ -191,7 +191,7 @@ for season, season_dict in player_data.items():
             # Calculate mean value for 6 weeks previous to upcoming week
             for week_i in range(1,7):
                 # Check if BYE
-                if team_data[season][opp][week-week_i]['D']['rush_yds'] == 0:
+                if pd.isna(team_data[season][opp][week-week_i]['D']['rush_yds']):
                     continue
                 for f in f_D.keys():
                     f_D[f].append(team_data[season][opp][week-week_i]['D'][f])
