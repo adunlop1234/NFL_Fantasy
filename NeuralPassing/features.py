@@ -203,7 +203,6 @@ for season, season_dict in player_data.items():
 # Fill missing values (due to BYE weeks) with mean values
 for column in features.columns:
     features.loc[:,column] = features.loc[:,column].astype(float, errors='ignore')
-features = features.fillna(features.mean())
 
 # Save features as DataFrame
 features.to_csv(os.path.join('NeuralPassing','Data','qbPassingFeatures.csv'))
